@@ -1,0 +1,7 @@
+# Ignore compiled files, logs, and cache
+*.swp
+*.bak
+*.log
+.cache/
+session/
+lazy-lock.json

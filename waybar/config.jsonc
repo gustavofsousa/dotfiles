@@ -1,0 +1,14 @@
+{
+    "layer": "top",
+    "height": 27,
+    "modules-left": ["sway/workspaces", "sway/mode"],
+    "modules-center": ["clock"],
+    "modules-right": ["memory", "custom/bar_status"],
+    "custom/bar_status": {
+        "exec": "~/.config/waybar/scripts/bar_status.sh",
+        "interval": 5,
+        "format": "{}",
+        "tooltip": true
+    }
+}
+
