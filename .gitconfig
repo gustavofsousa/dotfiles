@@ -1,0 +1,24 @@
+[user]
+	email = gfsousa42@gmail.com
+	name = gustavofsousa
+[init]
+    defaultBranch = main
+
+[core]
+    editor = nvim
+
+[help]
+    autocorrect = 1
+
+[color]
+    ui = auto
+
+[rerere]
+    enabled = true
+
+[credential]
+    helper = cache --timeout=3600
+
+[diff]
+    colorMoved = default
+

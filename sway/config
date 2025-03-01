@@ -13,8 +13,11 @@ set $left h
 set $down j
 set $up k
 set $right l
+
 # Your preferred terminal emulator
-set $term foot
+set $term alacritty
+#set $term alacritty --config-file /etc/alacritty/alacritty.toml
+
 # Your preferred application launcher
 # Note: pass the final command to swaymsg so that the resulting window can be opened
 # on the original workspace that the command was run on.
@@ -79,7 +82,7 @@ output * bg /usr/share/backgrounds/sway/Sway_Wallpaper_Blue_1920x1080.png fill
     bindsym $mod+Return exec $term
 
     # Kill focused window
-    bindsym $mod+Shift+q kill
+    bindsym $mod+q kill
 
     # Start your launcher
     bindsym $mod+d exec $menu
@@ -92,7 +95,7 @@ output * bg /usr/share/backgrounds/sway/Sway_Wallpaper_Blue_1920x1080.png fill
     floating_modifier $mod normal
 
     # Reload the configuration file
-    bindsym $mod+Shift+c reload
+    bindsym $mod+Shift+r reload
 
     # Exit sway (logs you out of your Wayland session)
     bindsym $mod+Shift+e exec swaynag -t warning -m 'You pressed the exit shortcut. Do you really want to exit sway? This will end your Wayland session.' -B 'Yes, exit sway' 'swaymsg exit'
@@ -155,6 +158,8 @@ output * bg /usr/share/backgrounds/sway/Sway_Wallpaper_Blue_1920x1080.png fill
     # respectively.
     bindsym $mod+b splith
     bindsym $mod+v splitv
+    #bindsym $mod+t exec ~/.config/sway/toggle_split.sh
+
 
     # Switch the current container between different layout styles
     bindsym $mod+s layout stacking
@@ -235,3 +240,5 @@ input "2362:597:SYNA3602:00_093A:0255_Touchpad" {
 	drag_lock enabled
 	pointer_accel 0.4
 	}
+
+
