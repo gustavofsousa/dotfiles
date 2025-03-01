@@ -62,7 +62,7 @@ require("lazy").setup({
         view = {
           width = 30,
           side = 'left',
-          auto_resize = true,
+--auto_resize = true,
         },
         renderer = {
           highlight_git = true,
@@ -105,5 +105,12 @@ require("lazy").setup({
 
 })
 
+-- Enable relative and absolute line numbers
+vim.opt.relativenumber = true
+vim.opt.number = true
 
+-- Enable and set the width of the sign column
+vim.opt.numberwidth = 5
+vim.opt.signcolumn = "yes"
+vim.opt.signcolumn = "auto:5"
 
