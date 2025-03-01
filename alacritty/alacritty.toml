@@ -8,3 +8,7 @@ style = "Regular"
 [window]
 opacity = 0.75
 
+[general]
+import = [
+    "~/.config/alacritty/themes/tokyo-night.toml"
+]
