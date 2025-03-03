@@ -241,4 +241,7 @@ input "2362:597:SYNA3602:00_093A:0255_Touchpad" {
 	pointer_accel 0.4
 	}
 
+bindsym $mod+n exec --no-startup-id alacritty -t nm_tui_win -e "nmtui"
+for_window [title="nm_tui_win"] floating enable
+
 
