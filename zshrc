@@ -39,3 +39,4 @@ zstyle ':completion:*:kill:*' command 'ps -u $USER -o pid,%cpu,tty,cputime,cmd'
 alias lg="lazygit"
 alias wifi='swaymsg exec "alacritty -t nm_tui_win -e nmtui"'
 alias gnome='gnome-shell --nested'
+alias please='sudo'
