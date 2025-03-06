@@ -21,7 +21,8 @@ set $term alacritty
 # Your preferred application launcher
 # Note: pass the final command to swaymsg so that the resulting window can be opened
 # on the original workspace that the command was run on.
-set $menu dmenu_path | wmenu | xargs swaymsg exec --
+#set $menu dmenu_path | wmenu | xargs swaymsg exec --
+set $menu rofi -show drun | xargs swaymsg exec --
 
 include /etc/sway/config-vars.d/*
 
@@ -29,10 +30,15 @@ include /etc/sway/config-vars.d/*
 for_window [app_id=".*"] border pixel 3
 gaps inner 7
 
+client.focused #ff0000 #285577 #ffffff #2e9ef4 #285577
+client.focused_inactive #333333 #444444 #bbbbbb #555555 #444444
+client.unfocused #222222 #333333 #888888 #444444 #333333
+client.urgent #ff0000 #550000 #ffffff #ff0000 #550000
+
 ### Output configuration
 #
 # Default wallpaper (more resolutions are available in /usr/share/backgrounds/sway/)
-output * bg /usr/share/backgrounds/sway/Sway_Wallpaper_Blue_1920x1080.png fill
+output * bg /home/gustavo/Pictures/sky_stars.jpg fill
 #
 # Example configuration:
 #
@@ -244,4 +250,5 @@ input "2362:597:SYNA3602:00_093A:0255_Touchpad" {
 bindsym $mod+n exec --no-startup-id alacritty -t nm_tui_win -e "nmtui"
 for_window [title="nm_tui_win"] floating enable
 
+bindsym $mod+Shift+b exec /usr/local/bin/rofi-bluetooth/rofi-bluetooth
 
