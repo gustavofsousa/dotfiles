@@ -250,5 +250,7 @@ input "2362:597:SYNA3602:00_093A:0255_Touchpad" {
 bindsym $mod+n exec --no-startup-id alacritty -t nm_tui_win -e "nmtui"
 for_window [title="nm_tui_win"] floating enable
 
-bindsym $mod+Shift+b exec /usr/local/bin/rofi-bluetooth/rofi-bluetooth
+bindsym $mod+Shift+b exec --no-startup-id /usr/local/bin/rofi-bluetooth/rofi-bluetooth
+
+bindsym $mod+Shift+p exec /usr/local/bin/rofi-mixer/src/rofi-mixer
 
