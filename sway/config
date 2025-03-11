@@ -24,7 +24,9 @@ set $term alacritty
 #set $menu dmenu_path | wmenu | xargs swaymsg exec --
 set $menu rofi -show drun | xargs swaymsg exec --
 
+# Abrir e olhar esse etc depois
 include /etc/sway/config-vars.d/*
+#include /~/.config/sway/config.d/*
 
 #espaço entre janelas.
 for_window [app_id=".*"] border pixel 3
@@ -253,4 +255,17 @@ for_window [title="nm_tui_win"] floating enable
 bindsym $mod+Shift+b exec --no-startup-id /usr/local/bin/rofi-bluetooth/rofi-bluetooth
 
 bindsym $mod+Shift+p exec /usr/local/bin/rofi-mixer/src/rofi-mixer
+
+
+# Brightness control (requires `brightnessctl`)
+bindsym XF86MonBrightnessUp exec brightnessctl set +5%
+bindsym XF86MonBrightnessDown exec brightnessctl set 5%- 
+
+# Volume control (requires `pactl` or `pamixer`)
+bindsym XF86AudioRaiseVolume exec pactl set-sink-volume @DEFAULT_SINK@ +5%
+bindsym XF86AudioLowerVolume exec pactl set-sink-volume @DEFAULT_SINK@ -5%
+bindsym XF86AudioMute exec pactl set-sink-mute @DEFAULT_SINK@ toggle
+
+# Screenshot (requires `grim` and `slurp`)
+bindsym Print exec grim -g "$(slurp)" - | wl-copy
 
