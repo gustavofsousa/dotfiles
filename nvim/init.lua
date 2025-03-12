@@ -101,7 +101,51 @@ require("lazy").setup({
 	 keys = {
 	  { "<leader>lg", "<cmd>LazyGit<cr>", desc = "Open lazy git" },
 	 },
+  },
+
+-- Configuração do Telescope
+{
+  "nvim-telescope/telescope.nvim",
+  dependencies = {
+    "nvim-lua/plenary.nvim",
+	{ "nvim-telescope/telescope-fzf-native.nvim", build = "make" },
+  },
+  config = function()
+    require("telescope").setup({
+      defaults = {
+        -- Adicionar suas configurações personalizadas aqui, se necessário
+      },
+      extensions = {
+	fzf = {
+          fuzzy = true,                    -- Habilita fuzzy matching
+          override_generic_sorter = true,  -- Substitui o sorter padrão
+          override_file_sorter = true,     -- Substitui o sorter de arquivos
+          case_mode = "ignore_case",  
+      },
+      }
+    })
+
+    -- Carregar as extensões após a configuração
+    require("telescope").load_extension("fzf")
+  end,
+
+  keys = {
+    { "<leader>ff", function() require("telescope.builtin").find_files() end, desc = "Find Files" },
+    { "<leader>fg", function() require("telescope.builtin").live_grep() end, desc = "Live Grep" },
+    { "<leader>fb", function() require("telescope.builtin").buffers() end, desc = "Find Buffers" },
+    { "<leader>fh", function() require("telescope.builtin").help_tags() end, desc = "Find Help Tags" },
   }
+},
+
+-- Instalar o telescope-fzf-native e compilar
+--{
+--  "nvim-telescope/telescope-fzf-native.nvim",
+--  build = "make", 
+--  config = function()
+--    require("telescope").load_extension("fzf")
+--  end,
+--},
+
 
 })
 

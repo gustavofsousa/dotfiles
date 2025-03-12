@@ -230,9 +230,6 @@ exec waybar
 
 input * xkb_layout br
 
-include /etc/sway/config.d/*
-
-
 set $bg-color #1a1b26
 set $fg-color #c0caf5
 set $accent-color #f7768e
