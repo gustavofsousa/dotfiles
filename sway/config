@@ -32,10 +32,13 @@ include /etc/sway/config-vars.d/*
 for_window [app_id=".*"] border pixel 3
 gaps inner 7
 
-client.focused #ff0000 #285577 #ffffff #2e9ef4 #285577
-client.focused_inactive #333333 #444444 #bbbbbb #555555 #444444
-client.unfocused #222222 #333333 #888888 #444444 #333333
-client.urgent #ff0000 #550000 #ffffff #ff0000 #550000
+# Set a thin white border for all containers
+default_border pixel 2
+client.unfocused #ffffff #222222 #ffffff #ffffff
+
+# Set a thicker red border for the focused container
+client.focused #ff0000 #ff0000 #ffffff #ff0000
+client.focused_inactive #ffaaaa #222222 #ffffff #ffaaaa
 
 ### Output configuration
 #
