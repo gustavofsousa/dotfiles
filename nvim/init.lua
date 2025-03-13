@@ -41,47 +41,6 @@ require("lazy").setup({
     end
   },
 
-  -- Configuração do Nvim-Tree
-  {
-    'kyazdani42/nvim-tree.lua',
-    config = function()
-	require'nvim-tree'.setup {
-        -- Exemplo de configurações do Nvim-Tree
-        auto_reload_on_write = true,
-        open_on_tab = false,
-        disable_netrw = true,
-        hijack_netrw = true,
-        update_focused_file = {
-          enable = true,
-          update_cwd = true,
-        },
-        filters = {
-          dotfiles = false,           -- Mostrar arquivos ocultos
-          custom = {".git", "node_modules"},
-        },
-        view = {
-          width = 30,
-          side = 'left',
---auto_resize = true,
-        },
-        renderer = {
-          highlight_git = true,
-          icons = {
-            show = {
-              git = true,
-              folder = true,
-              file = true,
-            },
-          },
-        },
-      }
--- Atalho para abrir/fechar o Nvim-Tree
-	vim.api.nvim_set_keymap('n', '<C-n>', ':NvimTreeToggle<CR>', { noremap = true, silent = true })
-    end
-  },
-
-
-
   -- LAZYGIT
   {
 	"kdheepak/lazygit.nvim",
@@ -109,6 +68,7 @@ require("lazy").setup({
   dependencies = {
     "nvim-lua/plenary.nvim",
 	{ "nvim-telescope/telescope-fzf-native.nvim", build = "make" },
+"nvim-telescope/telescope-file-browser.nvim",
   },
   config = function()
     require("telescope").setup({
@@ -122,17 +82,37 @@ require("lazy").setup({
           override_file_sorter = true,     -- Substitui o sorter de arquivos
           case_mode = "ignore_case",  
       },
-      }
+file_browser = {
+--           Configurações para o file_browser
+           theme = "ivy",
+	hijack_netrw = true, -- Desabilita netrw e usa o file_browser
+	cwd_to_path = true,
+	grouped = true,
+	files = true,
+	auto_depth = 2,
+	git_status = true,
+	mappings = {
+	["i"] = {
+--		Mapeamentos personalizados para modo de inserção
+		},
+	["n"] = {
+		-- Mapeamentos personalizados para modo normal
+		},
+	       },
+       },
+	}
     })
 
     -- Carregar as extensões após a configuração
     require("telescope").load_extension("fzf")
+require("telescope").load_extension("file_browser") 
   end,
 
   keys = {
     { "<leader>ff", function() require("telescope.builtin").find_files() end, desc = "Find Files" },
     { "<leader>fg", function() require("telescope.builtin").live_grep() end, desc = "Live Grep" },
-    { "<leader>fb", function() require("telescope.builtin").buffers() end, desc = "Find Buffers" },
+    { "<leader>fu", function() require("telescope.builtin").buffers() end, desc = "Find Buffers" },
+{ "<leader>fb", function() require("telescope").extensions.file_browser.file_browser() end, desc = "File Browser" },
     { "<leader>fh", function() require("telescope.builtin").help_tags() end, desc = "Find Help Tags" },
   }
 },
