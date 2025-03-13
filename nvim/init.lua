@@ -117,17 +117,34 @@ require("telescope").load_extension("file_browser")
   }
 },
 
--- Instalar o telescope-fzf-native e compilar
---{
---  "nvim-telescope/telescope-fzf-native.nvim",
---  build = "make", 
---  config = function()
---    require("telescope").load_extension("fzf")
---  end,
---},
-
-
+{
+  "romgrk/barbar.nvim",
+  dependencies = {
+    "nvim-tree/nvim-web-devicons", -- Para ícones
+    "lewis6991/gitsigns.nvim",     -- Para integração com Git (opcional)
+  },
+  config = function()
+    require("barbar").setup({
+      animation = true, -- Animações ao mudar de aba
+      clickable = true, -- Permite clicar nas abas
+      hide = { -- Esconde informações desnecessárias
+        extensions = true,
+        inactive = true,
+      },
+    })
+  end,
+}
 })
+vim.keymap.set("n", "<leader>bn", ":BufferNext<CR>", { desc = "Próxima aba" })
+vim.keymap.set("n", "<leader>bp", ":BufferPrevious<CR>", { desc = "Aba anterior" })
+vim.keymap.set("n", "<leader>bd", ":BufferClose<CR>", { desc = "Fechar aba atual" })
+
+-- Atalhos para mover abas
+ vim.keymap.set("n", "<leader>bh", ":BufferMovePrevious<CR>", { desc = "Mover aba para a esquerda" })
+ vim.keymap.set("n", "<leader>bl", ":BufferMoveNext<CR>", { desc = "Mover aba para a direita" })
+
+-- Atalho para abrir lista de buffers
+ vim.keymap.set("n", "<leader>bb", ":BufferPick<CR>", { desc = "Selecionar buffer" })
 
 -- Enable relative and absolute line numbers
 vim.opt.relativenumber = true
