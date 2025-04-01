@@ -33,7 +33,7 @@ require("lazy").setup({
     build = ':TSUpdate',  -- Corrigido o erro de digitação no comando de build
     config = function()
       require('nvim-treesitter.configs').setup({
-        ensure_installed = { "lua", "python", "javascript", "html", "css" }, -- Adapte para as linguagens desejadas
+        ensure_installed = { "lua", "python", "javascript", "html", "css"}, -- Adapte para as linguagens desejadas
         highlight = { enable = true },  -- Ativa o destaque de sintaxe
         indent = { enable = true },     -- Ativa a indentação automática
         incremental_selection = { enable = true },  -- Habilita a seleção incremental
@@ -58,7 +58,7 @@ require("lazy").setup({
 	 -- setting the keybinding for LazyGit with 'keys' is recommended in
 	 -- order to load the plugin when the command is run for the first time
 	 keys = {
-	  { "<leader>lg", "<cmd>LazyGit<cr>", desc = "Open lazy git" },
+	  { "<leader>g", "<cmd>LazyGit<cr>", desc = "Open lazy git" },
 	 },
   },
 
@@ -66,46 +66,59 @@ require("lazy").setup({
 {
   "nvim-telescope/telescope.nvim",
   dependencies = {
-    "nvim-lua/plenary.nvim",
-	{ "nvim-telescope/telescope-fzf-native.nvim", build = "make" },
-"nvim-telescope/telescope-file-browser.nvim",
+		"nvim-lua/plenary.nvim",
+		{ "nvim-telescope/telescope-fzf-native.nvim", build = "make" },
+		"nvim-telescope/telescope-file-browser.nvim",
   },
   config = function()
-    require("telescope").setup({
-      defaults = {
-        -- Adicionar suas configurações personalizadas aqui, se necessário
-      },
-      extensions = {
-	fzf = {
-          fuzzy = true,                    -- Habilita fuzzy matching
-          override_generic_sorter = true,  -- Substitui o sorter padrão
-          override_file_sorter = true,     -- Substitui o sorter de arquivos
-          case_mode = "ignore_case",  
-      },
-file_browser = {
---           Configurações para o file_browser
-           theme = "ivy",
-	hijack_netrw = true, -- Desabilita netrw e usa o file_browser
-	cwd_to_path = true,
-	grouped = true,
-	files = true,
-	auto_depth = 2,
-	git_status = true,
-	mappings = {
-	["i"] = {
---		Mapeamentos personalizados para modo de inserção
+	require("telescope").setup({
+	  defaults = {
+	    hidden = true,
+	    file_ignore_patterns = { "node_modules", "%.git/" },
+	    mappings = {
+	      n = {
+		["j"] = require("telescope.actions").move_selection_next,      -- Para baixo
+		["k"] = require("telescope.actions").move_selection_previous,  -- Para cima
+		["l"] = require("telescope.actions").select_default,          -- Abre o arquivo/seleção
+		["h"] = false,                                                -- Desativa ação padrão (se houver)
+	      },
+	    },
+	  },
+	  extensions = {
+	    fzf = {
+	      fuzzy = true,
+	      override_generic_sorter = true,
+	      override_file_sorter = true,
+	      case_mode = "ignore_case",
+	    },
+	    file_browser = {
+	      theme = "ivy",
+	      hijack_netrw = true,
+	      cwd_to_path = true,
+	      grouped = true,
+	      files = true,
+	      auto_depth = 2,
+	      hidden = true,
+	      git_status = true,
+	      mappings = {
+		["n"] = {
+		  ["j"] = require("telescope.actions").move_selection_next,      -- Para baixo
+		  ["k"] = require("telescope.actions").move_selection_previous,  -- Para cima
+		  ["l"] = require("telescope.actions").select_default,          -- Entra no diretório/arquivo
+		  ["h"] = require("telescope").extensions.file_browser.actions.goto_parent_dir, -- Volta ao diretório pai
+		  ["c"] = require("telescope").extensions.file_browser.actions.create,          -- Criar arquivo/pasta
+		  ["r"] = require("telescope").extensions.file_browser.actions.rename,          -- Renomear
+		  ["q"] = require("telescope").extensions.file_browser.actions.remove,          -- Deletar
 		},
-	["n"] = {
-		-- Mapeamentos personalizados para modo normal
-		},
-	       },
-       },
-	}
-    })
+	      },
+	    },
+	  },
+	})
 
-    -- Carregar as extensões após a configuração
-    require("telescope").load_extension("fzf")
-require("telescope").load_extension("file_browser") 
+	-- Carregar as extensões após a configuração
+	require("telescope").load_extension("fzf")
+	require("telescope").load_extension("file_browser") 
+	require("nvim-web-devicons").setup()
   end,
 
   keys = {
@@ -124,27 +137,50 @@ require("telescope").load_extension("file_browser")
     "lewis6991/gitsigns.nvim",     -- Para integração com Git (opcional)
   },
   config = function()
-    require("barbar").setup({
-      animation = true, -- Animações ao mudar de aba
-      clickable = true, -- Permite clicar nas abas
-      hide = { -- Esconde informações desnecessárias
-        extensions = true,
-        inactive = true,
-      },
-    })
+	require("barbar").setup({
+	  animation = true,          -- Animações ao mudar de aba
+	  clickable = true,          -- Permite clicar nas abas com o mouse (se suportado)
+	  auto_hide = false,         -- Garante que a barra de abas nunca seja escondida
+	  tabpages = true,           -- Mostra abas de páginas (tabpages) junto com buffers
+	  hide = {
+	    extensions = false,      -- Mostra extensões nos nomes dos arquivos
+	    inactive = false,        -- Mostra buffers inativos
+	  },
+	  icons = {
+	    buffer_index = true,     -- Mostra o número do buffer (ex.: 1, 2, 3...)
+	    filetype = {
+	      enabled = true,        -- Mostra ícones de tipo de arquivo (requer nvim-web-devicons)
+	    },
+	    separator = { left = "▎", right = "" }, -- Estiliza os separadores entre abas
+	    modified = { button = "●" }, -- Indicador de arquivo modificado
+	  },
+	-- Função para personalizar o nome exibido
+	custom_buffer_name = function(bufnr)
+	  local full_path = vim.api.nvim_buf_get_name(bufnr)
+	  local relative_path = vim.fn.fnamemodify(full_path, ":p:.") -- Caminho relativo ao diretório atual
+	  local short_path = vim.fn.pathshorten(relative_path) -- Abrevia os diretórios
+	  if short_path == "" then
+	    return "[No Name]"
+	  end
+	  return short_path
+	end,
+	})
   end,
 }
 })
-vim.keymap.set("n", "<leader>bn", ":BufferNext<CR>", { desc = "Próxima aba" })
-vim.keymap.set("n", "<leader>bp", ":BufferPrevious<CR>", { desc = "Aba anterior" })
-vim.keymap.set("n", "<leader>bd", ":BufferClose<CR>", { desc = "Fechar aba atual" })
+vim.keymap.set("n", "<leader>l", ":BufferNext<CR>", { desc = "Próxima aba" })
+vim.keymap.set("n", "<leader>h", ":BufferPrevious<CR>", { desc = "Aba anterior" })
+vim.keymap.set("n", "<leader>q", ":BufferClose<CR>", { desc = "Fechar aba atual" })
+vim.keymap.set("n", "<leader><Tab>", ":BufferLast<CR>", { desc = "Ir para o buffer mais recente" })--TODO: funcionando só para alguns arquivos
+vim.keymap.set("n", "<leader>t", function()--TODO: funcionando só para alguns arquivos
+  local oldfiles = vim.v.oldfiles -- Lista de arquivos recentes
+  if #oldfiles > 0 then
+    vim.cmd("e " .. oldfiles[1]) -- Reabre o último arquivo do histórico
+  else
+    print("Nenhum arquivo recente encontrado.")
+  end
+end, { desc = "Reabrir último arquivo fechado" })
 
--- Atalhos para mover abas
- vim.keymap.set("n", "<leader>bh", ":BufferMovePrevious<CR>", { desc = "Mover aba para a esquerda" })
- vim.keymap.set("n", "<leader>bl", ":BufferMoveNext<CR>", { desc = "Mover aba para a direita" })
-
--- Atalho para abrir lista de buffers
- vim.keymap.set("n", "<leader>bb", ":BufferPick<CR>", { desc = "Selecionar buffer" })
 
 -- Enable relative and absolute line numbers
 vim.opt.relativenumber = true
