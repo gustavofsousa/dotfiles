@@ -259,7 +259,8 @@ mode "config" {
     bindsym Return mode "default"
     bindsym Escape mode "default"
 }
-bindsym $mod+n mode "config"
+bindsym $mod+n exec notify-send "Modo Configurações" "b: Bluetooth\nw: wifi\np: mixer\nv: Volume\nEsc: Sair"; mode "config"
+# bindsym $mod+n mode "config"
 for_window [title="nm_tui_win"] floating enable
 
 # Brightness control (requires `brightnessctl`)
