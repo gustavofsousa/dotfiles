@@ -112,7 +112,7 @@ output HDMI-A-1 resolution 1920x1080@74.973Hz position 0,-1080
     bindsym $mod+Shift+r reload
 
     # Exit sway (logs you out of your Wayland session)
-    bindsym $mod+Shift+e exec swaynag -t warning -m 'You pressed the exit shortcut. Do you really want to exit sway? This will end your Wayland session.' -B 'Yes, exit sway' 'swaymsg exit'
+    bindsym $mod+Shift+q exec swaynag -t warning -m 'You pressed the exit shortcut. Do you really want to exit sway? This will end your Wayland session.' -B 'Yes, exit sway' 'swaymsg exit'
 #
 # Moving around:
 #
@@ -234,15 +234,10 @@ bindsym $mod+r mode "resize"
 # Read `man 5 sway-bar` for more information about this section.
 exec waybar
 
-input * xkb_layout br
-
-set $bg-color #1a1b26
-set $fg-color #c0caf5
-set $accent-color #f7768e
-
-# Usando as cores para definir a aparência
-#output * background $bg-color
-
+# input * xkb_layout br
+input "1:1:AT_Translated_Set_2_keyboard" {
+    xkb_layout "br"
+}
 
 input "2362:597:SYNA3602:00_093A:0255_Touchpad" {
 	natural_scroll enabled
@@ -252,13 +247,20 @@ input "2362:597:SYNA3602:00_093A:0255_Touchpad" {
 	pointer_accel 0.4
 	}
 
-bindsym $mod+n exec --no-startup-id alacritty -t nm_tui_win -e "nmtui"
+# Configs do sistema
+mode "config" {
+	# wifi
+	bindsym w exec --no-startup-id alacritty -t nm_tui_win -e "nmtui", mode "default"
+	# bluetooth
+	bindsym b exec --no-startup-id /usr/local/bin/rofi-bluetooth/rofi-bluetooth
+	# Escolhar mixer audio
+	bindsym p exec /usr/local/bin/rofi-mixer/src/rofi-mixer
+    # Return to default mode
+    bindsym Return mode "default"
+    bindsym Escape mode "default"
+}
+bindsym $mod+n mode "config"
 for_window [title="nm_tui_win"] floating enable
-
-bindsym $mod+Shift+b exec --no-startup-id /usr/local/bin/rofi-bluetooth/rofi-bluetooth
-
-bindsym $mod+Shift+p exec /usr/local/bin/rofi-mixer/src/rofi-mixer
-
 
 # Brightness control (requires `brightnessctl`)
 bindsym XF86MonBrightnessUp exec brightnessctl set +5%
@@ -271,4 +273,3 @@ bindsym XF86AudioMute exec pactl set-sink-mute @DEFAULT_SINK@ toggle
 
 # Screenshot (requires `grim` and `slurp`)
 bindsym Print exec grim -g "$(slurp)" - | wl-copy
-
