@@ -232,7 +232,7 @@ bindsym $mod+r mode "resize"
 # Status Bar:
 #
 # Read `man 5 sway-bar` for more information about this section.
-exec waybar
+exec_always waybar
 
 # input * xkb_layout br
 input "1:1:AT_Translated_Set_2_keyboard" {
@@ -252,11 +252,10 @@ mode "config" {
 	# wifi
 	bindsym w exec --no-startup-id alacritty -t nm_tui_win -e "nmtui", mode "default"
 	# bluetooth
-	bindsym b exec --no-startup-id /usr/local/bin/rofi-bluetooth/rofi-bluetooth
+	bindsym b exec --no-startup-id /usr/local/bin/rofi-bluetooth/rofi-bluetooth, mode "default"
 	# Escolhar mixer audio
-	bindsym p exec /usr/local/bin/rofi-mixer/src/rofi-mixer
+	bindsym p exec /usr/local/bin/rofi-mixer/src/rofi-mixer, mode "default"
     # Return to default mode
-    bindsym Return mode "default"
     bindsym Escape mode "default"
 }
 bindsym $mod+n exec notify-send "Modo Configurações" "b: Bluetooth\nw: wifi\np: mixer\nv: Volume\nEsc: Sair"; mode "config"
