@@ -204,6 +204,17 @@ require("lazy").setup({
   end,
 },
 
+{
+  "numToStr/Comment.nvim",
+  config = function()
+    require("Comment").setup()
+  end,
+  keys = {
+    { "<leader>/", function() require("Comment.api").toggle.linewise.current() end, desc = "Toggle comment" },
+    { "<leader>/", function() require("Comment.api").toggle.blockwise.current() end, mode = "v", desc = "Toggle block comment" },
+  },
+}
+
 
 
 })
