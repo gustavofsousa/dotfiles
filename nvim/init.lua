@@ -118,7 +118,10 @@ require("lazy").setup({
 	-- Carregar as extensões após a configuração
 	require("telescope").load_extension("fzf")
 	require("telescope").load_extension("file_browser") 
-	require("nvim-web-devicons").setup()
+	require("nvim-web-devicons").setup({
+	  default = true, -- Habilita ícones padrão
+	  override = {}, -- Pode personalizar ícones se quiser
+})
   end,
 
   keys = {
@@ -130,6 +133,7 @@ require("lazy").setup({
   }
 },
 
+-- BARBAR
 {
   "romgrk/barbar.nvim",
   dependencies = {
@@ -166,8 +170,44 @@ require("lazy").setup({
 	end,
 	})
   end,
-}
+},
+
+-- LSP REFERENCES
+{
+  "neovim/nvim-lspconfig",
+  dependencies = {
+    "nvim-telescope/telescope.nvim",
+"nvim-lua/plenary.nvim",
+  },
+  config = function()
+    local lspconfig = require("lspconfig")
+
+    lspconfig.lua_ls.setup({
+      settings = {
+        Lua = {
+          diagnostics = {
+            globals = { "vim" },
+          },
+	workspace = {
+            library = vim.api.nvim_get_runtime_file("", true), -- Inclui runtime do Neovim
+          },
+        },
+      },
+    })
+	-- Integração com Telescope para referências
+	-- Atalhos LSP
+    vim.keymap.set("n", "<leader>fr", function()
+      require("telescope.builtin").lsp_references()
+    end, { desc = "Find References" })
+    vim.keymap.set("n", "<leader>gd", vim.lsp.buf.definition, { desc = "Go to Definition" })
+    vim.keymap.set("n", "<leader>gi", vim.lsp.buf.implementation, { desc = "Go to Implementation" })
+  end,
+},
+
+
+
 })
+-- Atalhos do barbar
 vim.keymap.set("n", "<leader>l", ":BufferNext<CR>", { desc = "Próxima aba" })
 vim.keymap.set("n", "<leader>h", ":BufferPrevious<CR>", { desc = "Aba anterior" })
 vim.keymap.set("n", "<leader>q", ":BufferClose<CR>", { desc = "Fechar aba atual" })
