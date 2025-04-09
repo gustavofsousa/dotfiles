@@ -1,0 +1,233 @@
+-- Configurações básicas para Ctrl+C e Ctrl+V no terminal
+vim.opt.clipboard = 'unnamedplus'  -- Usa o clipboard do sistema para copiar/colar
+
+-- Atalhos para copiar e colar
+vim.api.nvim_set_keymap('n', '<C-c>', '"+y', { noremap = true, silent = true })  -- Ctrl+C no modo normal copia
+vim.api.nvim_set_keymap('v', '<C-c>', '"+y', { noremap = true, silent = true })  -- Ctrl+C no modo visual copia
+vim.api.nvim_set_keymap('n', '<C-v>', '"+p', { noremap = true, silent = true })  -- Ctrl+V no modo normal cola
+vim.api.nvim_set_keymap('i', '<C-v>', '<C-r>+', { noremap = true, silent = true }) -- Ctrl+V no modo insert cola
+
+vim.g.mapleader = " "
+vim.g.maplocalleader = " "
+
+-- Inicialização do lazy.nvim
+local lazypath = vim.fn.stdpath("data") .. "/lazy/lazy.nvim"
+if not vim.loop.fs_stat(lazypath) then
+  vim.fn.system({
+    "git",
+    "clone",
+    "--filter=blob:none",
+    "https://github.com/folke/lazy.nvim.git",
+    "--branch=stable",
+    lazypath,
+  })
+end
+vim.opt.rtp:prepend(lazypath)
+
+-- Configuração dos plugins via lazy.nvim
+require("lazy").setup({
+
+  -- Configuração do Nvim-Treesitter
+  {
+    'nvim-treesitter/nvim-treesitter',
+    build = ':TSUpdate',  -- Corrigido o erro de digitação no comando de build
+    config = function()
+      require('nvim-treesitter.configs').setup({
+        ensure_installed = { "lua", "python", "javascript", "html", "css"}, -- Adapte para as linguagens desejadas
+        highlight = { enable = true },  -- Ativa o destaque de sintaxe
+        indent = { enable = true },     -- Ativa a indentação automática
+        incremental_selection = { enable = true },  -- Habilita a seleção incremental
+      })
+    end
+  },
+
+  -- LAZYGIT
+  {
+	"kdheepak/lazygit.nvim",
+	 cmd = {
+	  "LazyGit",
+	  "LazyGitConfig",
+	  "LazyGitCurrentFile",
+	  "LazyGitFilter",
+	  "LazyGitFilterCurrentFile",
+	 },
+	 -- optional for floating window border decoration
+	 dependencies = {
+	  "nvim-lua/plenary.nvim",
+	 },
+	 -- setting the keybinding for LazyGit with 'keys' is recommended in
+	 -- order to load the plugin when the command is run for the first time
+	 keys = {
+	  { "<leader>g", "<cmd>LazyGit<cr>", desc = "Open lazy git" },
+	 },
+  },
+
+-- Configuração do Telescope
+{
+  "nvim-telescope/telescope.nvim",
+  dependencies = {
+		"nvim-lua/plenary.nvim",
+		{ "nvim-telescope/telescope-fzf-native.nvim", build = "make" },
+		"nvim-telescope/telescope-file-browser.nvim",
+  },
+  config = function()
+	require("telescope").setup({
+	  defaults = {
+		initial_mode = "normal",
+	    hidden = true,
+	    file_ignore_patterns = { "node_modules", "%.git/" },
+	    mappings = {
+	      n = {
+		["j"] = require("telescope.actions").move_selection_next,      -- Para baixo
+		["k"] = require("telescope.actions").move_selection_previous,  -- Para cima
+		["l"] = require("telescope.actions").select_default,          -- Abre o arquivo/seleção
+		["h"] = false,                                                -- Desativa ação padrão (se houver)
+	      },
+	    },
+	  },
+	  extensions = {
+	    fzf = {
+	      fuzzy = true,
+	      override_generic_sorter = true,
+	      override_file_sorter = true,
+	      case_mode = "ignore_case",
+	    },
+	    file_browser = {
+	      theme = "ivy",
+	      hijack_netrw = true,
+	      cwd_to_path = true,
+	      grouped = true,
+	      files = true,
+	      auto_depth = 2,
+	      hidden = true,
+	      git_status = true,
+	      mappings = {
+		["n"] = {
+		  ["j"] = require("telescope.actions").move_selection_next,      -- Para baixo
+		  ["k"] = require("telescope.actions").move_selection_previous,  -- Para cima
+		  ["l"] = require("telescope.actions").select_default,          -- Entra no diretório/arquivo
+		  ["h"] = require("telescope").extensions.file_browser.actions.goto_parent_dir, -- Volta ao diretório pai
+		  ["c"] = require("telescope").extensions.file_browser.actions.create,          -- Criar arquivo/pasta
+		  ["r"] = require("telescope").extensions.file_browser.actions.rename,          -- Renomear
+		  ["q"] = require("telescope").extensions.file_browser.actions.remove,          -- Deletar
+		},
+	      },
+	    },
+	  },
+	})
+
+	-- Carregar as extensões após a configuração
+	require("telescope").load_extension("fzf")
+	require("telescope").load_extension("file_browser") 
+	require("nvim-web-devicons").setup({
+	  default = true, -- Habilita ícones padrão
+	  override = {}, -- Pode personalizar ícones se quiser
+})
+  end,
+
+  keys = {
+    { "<leader>ff", function() require("telescope.builtin").find_files() end, desc = "Find Files" },
+    { "<leader>fg", function() require("telescope.builtin").live_grep() end, desc = "Live Grep" },
+    { "<leader>fu", function() require("telescope.builtin").buffers() end, desc = "Find Buffers" },
+{ "<leader>fb", function() require("telescope").extensions.file_browser.file_browser() end, desc = "File Browser" },
+    { "<leader>fh", function() require("telescope.builtin").help_tags() end, desc = "Find Help Tags" },
+  }
+},
+
+-- BARBAR
+{
+  "romgrk/barbar.nvim",
+  dependencies = {
+    "nvim-tree/nvim-web-devicons", -- Para ícones
+    "lewis6991/gitsigns.nvim",     -- Para integração com Git (opcional)
+  },
+  config = function()
+	require("barbar").setup({
+	  animation = true,          -- Animações ao mudar de aba
+	  clickable = true,          -- Permite clicar nas abas com o mouse (se suportado)
+	  auto_hide = false,         -- Garante que a barra de abas nunca seja escondida
+	  tabpages = true,           -- Mostra abas de páginas (tabpages) junto com buffers
+	  hide = {
+	    extensions = false,      -- Mostra extensões nos nomes dos arquivos
+	    inactive = false,        -- Mostra buffers inativos
+	  },
+	  icons = {
+	    buffer_index = true,     -- Mostra o número do buffer (ex.: 1, 2, 3...)
+	    filetype = {
+	      enabled = true,        -- Mostra ícones de tipo de arquivo (requer nvim-web-devicons)
+	    },
+	    separator = { left = "▎", right = "" }, -- Estiliza os separadores entre abas
+	    modified = { button = "●" }, -- Indicador de arquivo modificado
+	  },
+	-- Função para personalizar o nome exibido
+	custom_buffer_name = function(bufnr)
+	  local full_path = vim.api.nvim_buf_get_name(bufnr)
+	  local relative_path = vim.fn.fnamemodify(full_path, ":p:.") -- Caminho relativo ao diretório atual
+	  local short_path = vim.fn.pathshorten(relative_path) -- Abrevia os diretórios
+	  if short_path == "" then
+	    return "[No Name]"
+	  end
+	  return short_path
+	end,
+	})
+  end,
+},
+
+-- LSP REFERENCES
+{
+  "neovim/nvim-lspconfig",
+  dependencies = {
+    "nvim-telescope/telescope.nvim",
+"nvim-lua/plenary.nvim",
+  },
+  config = function()
+    local lspconfig = require("lspconfig")
+
+    lspconfig.lua_ls.setup({
+      settings = {
+        Lua = {
+          diagnostics = {
+            globals = { "vim" },
+          },
+	workspace = {
+            library = vim.api.nvim_get_runtime_file("", true), -- Inclui runtime do Neovim
+          },
+        },
+      },
+    })
+	-- Integração com Telescope para referências
+	-- Atalhos LSP
+    vim.keymap.set("n", "<leader>fr", function()
+      require("telescope.builtin").lsp_references()
+    end, { desc = "Find References" })
+    vim.keymap.set("n", "<leader>gd", vim.lsp.buf.definition, { desc = "Go to Definition" })
+    vim.keymap.set("n", "<leader>gi", vim.lsp.buf.implementation, { desc = "Go to Implementation" })
+  end,
+}
+
+
+})
+-- Atalhos do barbar
+vim.keymap.set("n", "<leader>l", ":BufferNext<CR>", { desc = "Próxima aba" })
+vim.keymap.set("n", "<leader>h", ":BufferPrevious<CR>", { desc = "Aba anterior" })
+vim.keymap.set("n", "<leader>q", ":BufferClose<CR>", { desc = "Fechar aba atual" })
+vim.keymap.set("n", "<leader><Tab>", ":BufferLast<CR>", { desc = "Ir para o buffer mais recente" })--TODO: funcionando só para alguns arquivos
+vim.keymap.set("n", "<leader>t", function()--TODO: funcionando só para alguns arquivos
+  local oldfiles = vim.v.oldfiles -- Lista de arquivos recentes
+  if #oldfiles > 0 then
+    vim.cmd("e " .. oldfiles[1]) -- Reabre o último arquivo do histórico
+  else
+    print("Nenhum arquivo recente encontrado.")
+  end
+end, { desc = "Reabrir último arquivo fechado" })
+
+
+-- Enable relative and absolute line numbers
+vim.opt.relativenumber = true
+vim.opt.number = true
+
+-- Enable and set the width of the sign column
+vim.opt.numberwidth = 5
+vim.opt.signcolumn = "yes"
+vim.opt.signcolumn = "auto:5"
+
