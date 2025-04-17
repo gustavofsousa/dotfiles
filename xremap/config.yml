@@ -1,0 +1,20 @@
+keymap:
+  - name: Example
+    remap:
+      #pont-virgula
+      KEY_RO: key_slash
+      # 2 pontos
+      shift-KEY_RO: key_rightshift-key_slash
+      # slash
+      KEY_slash: key_ro
+      # colchete esquerdo
+      key_leftbrace: key_rightbrace
+      #chave esquerda
+      shift-key_leftbrace: shift-rightbrace
+      #acento
+      key_rightbrace: key_leftbrace
+      # crase
+      shift-key_rightbrace: shift-leftbrace
+    device:
+      only: ["/dev/input/event3", "/dev/input/event13"]
+

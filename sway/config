@@ -88,6 +88,22 @@ output HDMI-A-1 resolution 1920x1080@74.973Hz position 0,-1080
        middle_emulation enabled
    }
 
+ # Para configurar todosdispositivos
+# input * xkb_layout br
+
+#input "1:1:AT_Translated_Set_2_keyboard" {
+input * {
+	xkb_layout "br"
+	}
+
+input "2362:597:SYNA3602:00_093A:0255_Touchpad" {
+	natural_scroll enabled
+	tap enabled
+	dwt enabled
+	drag_lock enabled
+	pointer_accel 0.4
+	}
+
 ### Key bindings
 #
 # Basics:
@@ -233,19 +249,6 @@ bindsym $mod+r mode "resize"
 #
 # Read `man 5 sway-bar` for more information about this section.
 exec_always waybar
-
-# input * xkb_layout br
-input "1:1:AT_Translated_Set_2_keyboard" {
-    xkb_layout "br"
-}
-
-input "2362:597:SYNA3602:00_093A:0255_Touchpad" {
-	natural_scroll enabled
-	tap enabled
-	dwt enabled
-	drag_lock enabled
-	pointer_accel 0.4
-	}
 
 # Configs do sistema
 mode "config" {

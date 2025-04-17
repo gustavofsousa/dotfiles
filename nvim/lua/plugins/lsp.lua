@@ -12,7 +12,7 @@ return {
             },
         })
         lspconfig.omnisharp.setup({
-	cmd = { "mono", vim.fn.expand("~/.local/bin/omnisharp/OmniSharp.exe"), "--languageserver", "--hostPID", tostring(vim.fn.getpid()) },
+            cmd = { vim.fn.expand("~/.local/bin/omnisharp/OmniSharp"), "--languageserver", "--hostPID", tostring(vim.fn.getpid()) },
             root_dir = lspconfig.util.root_pattern("*.csproj", "*.sln"),
         })
     end,
