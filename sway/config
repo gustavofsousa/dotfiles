@@ -257,13 +257,16 @@ mode "config" {
 	# bluetooth
 	bindsym b exec --no-startup-id /usr/local/bin/rofi-bluetooth/rofi-bluetooth, mode "default"
 	# Escolhar mixer audio
-	bindsym p exec /usr/local/bin/rofi-mixer/src/rofi-mixer, mode "default"
+	bindsym v exec /usr/local/bin/rofi-mixer/src/rofi-mixer, mode "default"
+	# choose displays
+	bindsym p exec wdisplays, mode "default"
     # Return to default mode
     bindsym Escape mode "default"
 }
 bindsym $mod+n exec notify-send "Modo Configurações" "b: Bluetooth\nw: wifi\np: mixer\nv: Volume\nEsc: Sair"; mode "config"
 # bindsym $mod+n mode "config"
 for_window [title="nm_tui_win"] floating enable
+for_window [app_id="wdisplays"] floating enable
 
 # Brightness control (requires `brightnessctl`)
 bindsym XF86MonBrightnessUp exec brightnessctl set +5%
