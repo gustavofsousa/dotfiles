@@ -179,7 +179,8 @@ input "2362:597:SYNA3602:00_093A:0255_Touchpad" {
     bindsym $mod+Shift+9 move container to workspace number 9
     bindsym $mod+Shift+0 move container to workspace number 10
     # Note: workspaces can have any name you want, not just numbers.
-    # We just use 1-10 as the default.
+    # Swap workspaces with 2 monitor.
+    bindsym $mod+Tab exec ~/.config/sway/scripts/swap_output_displays.sh
 #
 # Layout stuff:
 #
@@ -248,7 +249,7 @@ bindsym $mod+r mode "resize"
 # Status Bar:
 #
 # Read `man 5 sway-bar` for more information about this section.
-exec_always waybar
+exec waybar
 
 # Configs do sistema
 mode "config" {
