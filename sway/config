@@ -280,3 +280,5 @@ bindsym XF86AudioMute exec pactl set-sink-mute @DEFAULT_SINK@ toggle
 
 # Screenshot (requires `grim` and `slurp`)
 bindsym Print exec grim -g "$(slurp)" - | wl-copy
+
+exec_always --no-startup-id xremap ~/.config/xremap/config.yml

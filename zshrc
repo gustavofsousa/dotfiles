@@ -48,6 +48,3 @@ alias gnome='gnome-shell --nested'
 alias please='sudo'
 
 eval "$(/home/linuxbrew/.linuxbrew/bin/brew shellenv)"
-
-[ -z "$(pgrep xremap)" ] && xremap ~/.config/xremap/config.yml &
-
