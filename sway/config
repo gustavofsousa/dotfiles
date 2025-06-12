@@ -44,6 +44,8 @@ client.focused_inactive #ffaaaa #222222 #ffffff #ffaaaa
 #
 # Default wallpaper (more resolutions are available in /usr/share/backgrounds/sway/)
 output * bg /home/gustavo/Pictures/sky_stars.jpg fill
+# Set wallpaper on startup
+# exec_always swaybg -i ~/Pictures/sky_stars.jpg -m fill
 #
 # Example configuration:
 #
@@ -279,3 +281,6 @@ bindsym XF86AudioMute exec pactl set-sink-mute @DEFAULT_SINK@ toggle
 
 # Screenshot (requires `grim` and `slurp`)
 bindsym Print exec grim -g "$(slurp)" - | wl-copy
+
+include 30-lockscreen.conf
+
