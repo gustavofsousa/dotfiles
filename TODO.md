@@ -1,61 +1,47 @@
 # TODO
 
-## Contexto (pra retomar rápido — inclusive por IA)
+Este arquivo reúne pendências do repo e da organização do computador. Nem toda
+tarefa vira um arquivo commitado. Ver [ROADMAP.md](ROADMAP.md) para como
+essas pendências se encaixam no plano até Nix (fases 0–3).
 
-- O que é: backup/versionamento das minhas configs pessoais (dotfiles).
-- Repo: `github.com/gustavofsousa/dotfiles`, branch `master`, **público**.
-- Convenção: uma pasta por ferramenta na raiz (`sway/`, `tmux/`, `nvim/`,
-  `alacritty/`, `waybar/`, `xremap/`, `yambar/`, `zen/`, `fonts/`).
-- Ainda não tem symlink automatizado nem gerenciador (chezmoi, stow) — hoje é
-  espelho manual: edito o arquivo real no sistema e copio pra cá.
-- Sem README ainda.
+## Repo
 
-## Pendências detectadas automaticamente
+> Maioria destes itens é fechamento da **Fase 2** do ROADMAP (deixar o Stow
+> limpo).
 
-Escaneei o repo em 2026-09-09. Validar e marcar o que já foi resolvido.
+- [ ] Corrigir `tmux/plugins`: os três diretórios parecem submodules, mas não
+      existe `.gitmodules`. Escolher entre registrar os submodules corretamente ou
+      transformar o conteúdo em arquivos normais.
+- [ ] Reduzir os binários vendorizados em `fonts/` e fazer o script baixar uma
+      versão do Nerd Fonts quando necessário.
+- [ ] Revisar `nvim/init.lua_bkp` e decidir se o backup deve continuar no repo.
+- [ ] Decidir se o `zen/` continuará apenas com notas ou também guardará os
+      arquivos exportáveis do perfil Flatpak.
+- [ ] Criar scripts de bootstrap para symlinks e dependências de uma máquina
+      nova.
+- [ ] Decidir entre `waybar` e `yambar` (hoje coexistem; `yambar/` tem só um
+      config mínimo/placeholder) — ou documentar por que os dois ficam. No GNOME
+      Ubuntu ambos estão inativos: candidatos ao sótão (`attic/`, ver
+      `docs/organizacao-de-arquivos.md`).
+- [ ] Mover pacotes de config largados (Sway/waybar/yambar, inativos no GNOME)
+      pra `attic/` — arquivar sem perder, conforme padrão do sótão.
 
-- [ ] **`tmux/plugins` sem `.gitmodules`** — `tpm`, `tmux-resurrect` e
-      `tmux-sensible` estão registrados como gitlink (modo `160000`,
-      submodule) mas não existe `.gitmodules` no repo. Um clone novo vai
-      deixar essas 3 pastas **vazias**. Resolver com
-      `git submodule add <url> tmux/plugins/<nome>` pra cada um (ou virar
-      arquivo normal se não quiser usar submodule de verdade).
-- [ ] **`fonts/` vendorizado como binário (232MB) num repo público** — puxa
-      o `.git` pra 139MB. `fonts/install-fonts.sh` já existe e só copia os
-      `.ttf` commitados; dá pra trocar por download direto (release do Nerd
-      Fonts) e tirar os binários do HEAD.
-- [ ] **Sem `README.md`** — repo público sem explicar o que é / como fazer
-      bootstrap numa máquina nova.
-- [ ] **`nvim/init.lua_bkp`** — arquivo de backup solto, decidir se apaga.
-- [ ] **`zen/`** — só tem `cheatsheet.md` por enquanto. Falta decidir se vale
-      trazer os arquivos reais (`zen-themes.css`, `zen-keyboard-shortcuts.json`
-      do perfil Flatpak) ou deixar só como notas.
+## Computador
 
-## Working tree — mudanças pendentes (ainda não commitadas)
+> Estes itens envolvem decisão de onde arquivos moram — parte da **Fase 1**
+> do ROADMAP (decidir área por área, aplicando o padrão da Fase 0).
 
-- [ ] `alacritty/alacritty.toml` — staged
-- [ ] `sway/config.d/50-statusbar.conf`, `sway/config.d/60-modes.conf` — modificado
-- [ ] `waybar/config` — modificado
-- [ ] `zshrc` — modificado
-- [ ] `sway/config.d/05-autostart.conf` — novo, não commitado
-- [ ] `waybar/style.css` — novo, não commitado
-- [ ] `yambar/` (`config.yml`) — pasta inteira nova, não commitada
+- [ ] Revisar os atalhos de teclado do Zen Browser, GNOME, VS Code, terminal,
+      Dolphin e outros aplicativos usados no dia a dia.
+- [ ] Configurar o Syncthing para sincronizar a pasta de livros.
+- [ ] Ajustar os backups do Notion.
+- [ ] Configurar o Google Drive para uso pelo Ubuntu, via GNOME Online Accounts
+      ou `rclone`.
+- [ ] Organizar as anotações e decidir entre Obsidian, Logseq e projetos.
+- [ ] Decidir o que fica e o que sai de pendrives/mídia externa em uso.
 
-## Minhas pendências
+## Ideias
 
-Ordem não é sequencial — pode pular entre itens.
+Ainda não há ideias separadas das pendências acima.
 
-- [ ] Revisar o que já existe no repo, pasta por pasta, pra decidir o que
-      permanece e o que sai (usar as pendências detectadas acima como ponto
-      de partida).
-- [ ] Fazer os scripts de criação/instalação — deixar tudo pronto pra rodar
-      numa máquina nova do zero (bootstrap: symlinks + instalação de deps).
-- [ ] Configurar/trazer as infos do Zen Browser pro repo (perfil Flatpak:
-      `zen-themes.css`, `zen-keyboard-shortcuts.json` etc. — ver `zen/`).
-- [ ] Decidir os melhores atalhos de teclado, sem conflito, considerando o
-      conjunto todo: Zen Browser, Ubuntu GNOME, workspaces do GNOME, VSCode,
-      terminal, Dolphin e outros apps do dia a dia.
-
-## Ideias / não urgente
-
-- [ ] Migrar pra um gerenciador de dotfiles (chezmoi) em vez de espelho manual
+> Para ver mudanças locais que ainda não foram commitadas, use `git status`.

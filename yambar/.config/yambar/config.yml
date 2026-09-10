@@ -1,0 +1,12 @@
+bar:
+  height: 30
+  location: top
+  background: "222222FF"
+  foreground: "FFFFFFFF"
+  font: "monospace 10"
+
+  left:
+    - clock:
+        content: "{hour}:{minute}:{second}"
+        interval: 1
+
