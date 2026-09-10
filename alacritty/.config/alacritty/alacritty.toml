@@ -44,4 +44,4 @@ yellow = "#ff9e64"
 
 [terminal.shell]
 program = "/usr/bin/tmux"
-args = ["new-session", "-A", "-s", "main"]
+args = ["new-session"]
