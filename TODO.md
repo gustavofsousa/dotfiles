@@ -1,5 +1,10 @@
 # TODO
 
+> **Nota (consolidação HQ, 2026-09-10):** o [ROADMAP.md](ROADMAP.md) foi reescrito no formato
+> Now/Next/Soon/Later e **absorveu estas pendências nos baldes** — ele é agora o painel único.
+> Este TODO fica como detalhamento/rascunho; ao mexer numa pendência, atualize o ROADMAP (fonte da
+> vista) para os dois não divergirem. Nada aqui é fonte da verdade sozinho.
+
 Este arquivo reúne pendências do repo e da organização do computador. Nem toda
 tarefa vira um arquivo commitado. Ver [ROADMAP.md](ROADMAP.md) para como
 essas pendências se encaixam no plano até Nix (fases 0–3).

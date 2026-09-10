@@ -1,92 +1,65 @@
-# Roadmap
+<!-- FORMATO: L (Now/Next/Soon/Later) — ver ~/projects/_hq/biblioteca/roadmaps/L-now-next-soon-later.md
+     Escolhido por ser infra pessoal: sem usuário externo, sem prazo, balde "frágil" central.
+     Este arquivo funde o antigo ROADMAP fase-based + o TODO num painel só. -->
 
-Plano de longo prazo até chegar em Nix/home-manager. Não é um cronograma
-fechado com datas — é uma sequência de fases, cada uma com um critério de
-"pronto" para avançar para a próxima. Pendências técnicas específicas de cada
-fase vivem no [TODO.md](TODO.md); decisões já tomadas vão para o
-[STATE.md](STATE.md); as perguntas de pesquisa de cada fase (com sugestões)
-estão em `specs/fase-N-*.md`.
+# Roadmap — dotfiles
 
-As fases 0 e 1 podem avançar em paralelo com o dia a dia — não bloqueiam uso
-normal do computador. A fase 2 é a execução das decisões da fase 1. A fase 3
-só começa quando 0, 1 e 2 estiverem maduras.
+> Plano até Nix/home-manager, em formato **Now/Next/Soon/Later** (infra pessoal, sem prazo).
+> As fases conceituais viram horizontes; as pendências técnicas viram itens. Perguntas de pesquisa
+> por fase em `specs/fase-N-*.md`; decisões em [STATE.md](STATE.md); padrão de organização em
+> [docs/organizacao-de-arquivos.md](docs/organizacao-de-arquivos.md).
+>
+> **A sequência de fundo continua:** Fase 0 (preparar base: IA+padrão) → Fase 1 (decidir área por
+> área) → Fase 2 (executar + Stow limpo) → Fase 3 (migrar Nix). Fases 0/1 correm em paralelo ao
+> uso; 2 executa as decisões de 1; 3 só quando 0–2 maduras.
 
-## Fase 0 — Preparar a base
+**Baldes:** `🔵 Now` · `🟢 Next` (decidido) · `🟡 Soon` (provável, sem data) · `⚪ Later` (`[vem-depois]` / `[explorar]`) · `✅ Feito` · `⚠️ Frágil` (funciona, não confio) · `🚫 Não-fará`
 
-Spec com perguntas de pesquisa: [specs/fase-0-preparar-base.md](specs/fase-0-preparar-base.md).
+---
 
-Duas partes, ambas pré-requisito conceitual antes de mexer em arquivo de
-verdade:
+## 🔵 Now
+- **Fase 0 — fortalecer IA + padrão de organização.** `AGENTS.md`/skills revisados e o padrão de
+  "onde cada arquivo mora" escrito no STATE.md. *(Pronto quando: padrão registrado, mesmo que a
+  aplicação completa venha na Fase 1/2.)* — **em consolidação junto do HQ (`_hq`).**
 
-- **IA e regras do repo:** fortalecer `AGENTS.md` e as skills usadas neste
-  projeto (organização de dotfiles, boas práticas), para que a IA consiga
-  executar as fases seguintes — inclusive a migração para Nix — com
-  qualidade e sem supervisão constante.
-- **Padrão de organização de arquivos:** definir (e documentar no
-  `STATE.md`) o padrão que vai guiar onde cada tipo de arquivo mora no
-  notebook inteiro — não só o que está neste repo. Referência de partida:
-  [XDG Base Directory Specification](https://specifications.freedesktop.org/basedir-spec/basedir-spec-latest.html)
-  (`~/.config`, `~/.local/share`, `~/.cache`, etc.), adaptado ou substituído
-  por algo melhor se fizer sentido no caso do Gustavo.
+## 🟢 Next *(decidido, aguarda vez — fechamento da Fase 2: Stow limpo)*
+- `[repo]` Corrigir `tmux/plugins`: parecem submodules sem `.gitmodules` — registrar corretamente ou virar arquivos normais.
+- `[repo]` Mover pacotes de config inativos no GNOME (sway/waybar/yambar) pra `attic/` — arquivar sem perder.
+- `[repo]` Criar scripts de bootstrap para symlinks e dependências de máquina nova.
+- `[repo]` Revisar `nvim/init.lua_bkp` — decidir se o backup continua no repo.
 
-**Critério de pronto:** `AGENTS.md`/skills revisados e o padrão de
-organização escrito e registrado no `STATE.md` — mesmo que a aplicação
-completa dele só aconteça na fase 1/2.
+## 🟡 Soon *(provável — Fase 1: decidir área por área, aplicando o padrão da Fase 0)*
+- `[repo]` Reduzir binários vendorizados em `fonts/`; script baixa Nerd Fonts sob demanda.
+- `[repo]` Decidir `waybar` vs `yambar` (coexistem; `yambar/` é placeholder) — ou documentar por que os dois ficam.
+- `[repo]` Decidir se `zen/` fica só com notas ou guarda os exportáveis do perfil Flatpak.
+- `[pc]` Revisar atalhos de teclado (Zen, GNOME, VS Code, terminal, Dolphin) — consolidar sem conflito, prontos pra virar declarativo depois.
+- `[pc]` Configurar Google Drive no Ubuntu (GNOME Online Accounts ou `rclone`).
+- `[pc]` Ajustar backups do Notion.
+- `[pc]` Configurar Syncthing para sincronizar a pasta de livros. *(ver HQ: sync de docs de estado também é candidato — UVW)*
 
-## Fase 1 — Decidir, área por área
+## ⚪ Later
+- `[vem-depois]` **Fase 3 — migrar para Nix / home-manager.** Só começa com 0–2 maduras. Objetivo: aprender Nix a fundo, sistema reproduzível por config declarativa. Migração incremental — a estrutura por ferramenta e o padrão da Fase 0 seguem servindo. Spec: [specs/fase-3-migrar-nix.md](specs/fase-3-migrar-nix.md).
+- `[explorar]` Gestão de segredos quando forem necessários: `age` independente vs solução integrada ao Nix/home-manager. *(em aberto — refinar antes de comprometer)*
+- `[explorar]` Anotações: decidir entre Obsidian, Logseq ou o próprio HQ — onde o vault mora. *(cruza com a decisão UVW do HQ)*
+- `[explorar]` Pendrives/mídia externa: o que continua em uso, o que é descartado.
 
-Spec com perguntas de pesquisa: [specs/fase-1-decisoes-por-area.md](specs/fase-1-decisoes-por-area.md).
+---
 
-Mapear e decidir onde cada coisa mora, aplicando o padrão definido na fase 0.
-Só decisão e registro (em `STATE.md` ou `TODO.md`) — a execução em si é a
-fase 2. Áreas conhecidas até agora:
+## ✅ Feito
+- **GNU Stow escolhido como gerenciador atual** *(2026-09)* — prioriza durabilidade (symlink simples, sem formato próprio) até o Nix amadurecer. Log em [STATE.md](STATE.md).
+- Pacotes Stow versionados: `sway/ waybar/ alacritty/ nvim/ xremap/ yambar/ tmux/` + `home/` (.zshrc, .tmux.conf, .gitconfig).
+- Padrão de organização de arquivos documentado (`docs/organizacao-de-arquivos.md`), com a skill `arruma-meu-not-ai` aplicando-o.
 
-- Zen Browser: perfil Flatpak, temas, atalhos — o que vira arquivo
-  gerenciado e como.
-- Pastas de Drive (Google Drive e afins): estrutura e ponto de montagem.
-- Pendrives e mídia externa: o que continua em uso, o que é descartado.
-- Anotações: Obsidian, Logseq ou outra — onde o vault mora.
-- Atalhos de teclado: Zen, GNOME, VS Code, terminal, Dolphin — consolidados
-  sem conflito, prontos para depois virar configuração declarativa.
-- Backups (ex: Notion) e outras pendências de "Computador" no `TODO.md` que
-  afetam onde arquivos/config moram.
+## ⚠️ Frágil *(funciona mas não confio — resolver antes de empilhar coisa nova na mesma área)*
+- **Sem scripts de bootstrap** — recriar os symlinks numa máquina nova hoje é manual/de memória (é o `[repo]` em Next).
+- **`waybar`/`yambar` coexistindo inativos no GNOME** — estado ambíguo, candidatos ao `attic/`.
 
-**Critério de pronto:** cada área acima tem uma decisão registrada (mesmo
-que a decisão seja "fica como está por enquanto").
+## 🚫 Não-fará (por ora)
+- Nada explicitamente descartado ainda — itens que morrerem migram pra cá com o motivo.
 
-## Fase 2 — Executar e deixar o Stow limpo
+---
 
-Spec com perguntas de pesquisa: [specs/fase-2-executar-stow-limpo.md](specs/fase-2-executar-stow-limpo.md).
-
-Aplicar as decisões da fase 1 e fechar as pendências técnicas do repo listadas
-em `TODO.md` (seção Repo): submodules do tmux, binários de fontes, arquivos
-de backup soltos, pacote `zen/`, coexistência `waybar`/`yambar`, scripts de
-bootstrap.
-
-**Critério de pronto:** `TODO.md` (seção Repo) zerado ou só com itens
-conscientemente adiados, e a estrutura de pacotes do Stow refletindo as
-decisões da fase 1.
-
-## Fase 3 — Migrar para Nix / home-manager
-
-Spec com perguntas de pesquisa: [specs/fase-3-migrar-nix.md](specs/fase-3-migrar-nix.md).
-
-Só começa quando as fases 0–2 estiverem maduras. Objetivo: aprender Nix a
-fundo e tornar o sistema reproduzível a partir de uma configuração
-declarativa (pacotes + configurações), não só organizar onde cada arquivo
-mora.
-
-Migração incremental — não é preciso jogar fora o que o Stow já organizou. A
-estrutura por ferramenta (`sway/`, `waybar/`, etc.) e o padrão de organização
-da fase 0 continuam servindo de referência durante a conversão.
-
-### Em aberto
-
-- Como gerenciar segredos quando forem necessários: `age` de forma
-  independente ou uma solução integrada ao Nix/home-manager.
-
-## Decisões já tomadas
-
-Ver [STATE.md](STATE.md) para o log completo. Resumo: GNU Stow foi escolhido
-em 2026-09 como gerenciador atual, priorizando durabilidade (symlink simples,
-sem formato próprio) até que a migração para Nix esteja madura.
+## Nota de leitura
+Item sobe `Later → Soon → Next → Now` conforme a fase de fundo permite (não dá pra fazer Fase 2
+sem as decisões da Fase 1). O balde `⚠️ Frágil` é o que a versão original não tinha e é central em
+infra pessoal — a prioridade real aqui é "quanto eu perderia se isso quebrasse", não métrica de uso.
