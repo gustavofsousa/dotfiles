@@ -12,12 +12,12 @@ ainda está em aberto. Complementa [TODO.md](TODO.md) (pendências) e
   `arruma-meu-not-ai` criada em `~/.claude/skills/`. Nix/home-manager fica pra
   Fase 3. **Fase 1** (decisões por área) é a próxima.
 - Gerenciador: **GNU Stow** (ver decisão abaixo). Pacotes ativos:
-  `sway`, `waybar`, `alacritty`, `nvim`, `xremap`, `yambar`, `tmux`, `home`.
-- `fonts/` e `zen/` não são pacotes do Stow — ver README.
-- `waybar/` e `yambar/` coexistem no repo. `yambar/.config/yambar/config.yml`
-  é uma config mínima/placeholder (só relógio) — parece experimento em
-  andamento, não uma substituição decidida do waybar. Sem decisão registrada
-  ainda sobre se um vai substituir o outro.
+  `alacritty`, `nvim`, `tmux`, `home`.
+- **Sótão (`attic/`, versionado sem symlink):** `sway`, `waybar`, `yambar`,
+  `xremap` — ambiente tiling abandonado ao migrar pra GNOME/Ubuntu (Wayland).
+  Arquivados em 2026-09, ver log de decisões. Resolve também o antigo impasse
+  `waybar` vs `yambar`: ambos saíram do fluxo ativo juntos.
+- `attic/`, `fonts/` e `zen/` não são pacotes do Stow — ver README.
 - `tmux/.config/tmux/plugins/` (`tpm`, `tmux-resurrect`, `tmux-sensible`)
   está commitado como gitlink (modo submodule) sem `.gitmodules` — um clone
   novo deixa essas pastas vazias. Ver TODO.

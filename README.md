@@ -9,29 +9,29 @@ não vira arquivo aqui.
 O gerenciador atual é o **GNU Stow**. Cada pasta de configuração na raiz é um
 pacote do Stow, e sua estrutura espelha o caminho final a partir de `$HOME`.
 
-Por exemplo, `sway/.config/sway/config` vira o symlink
-`~/.config/sway/config`.
+Por exemplo, `alacritty/.config/alacritty/alacritty.toml` vira o symlink
+`~/.config/alacritty/alacritty.toml`.
 
 ## Pacotes
 
 Cada pasta na raiz é um **pacote** do Stow. Dentro dela, a estrutura espelha
-exatamente onde o arquivo mora a partir de `$HOME` — por exemplo,
-`sway/.config/sway/config` vira o symlink `~/.config/sway/config`.
+exatamente onde o arquivo mora a partir de `$HOME`.
 
-Pacotes existentes:
+Pacotes ativos (viram symlink):
 
 | Pacote       | Vira                                                                  |
 | ------------ | --------------------------------------------------------------------- |
-| `sway/`      | `~/.config/sway/`                                                     |
-| `waybar/`    | `~/.config/waybar/`                                                   |
 | `alacritty/` | `~/.config/alacritty/`                                                |
 | `nvim/`      | `~/.config/nvim/`                                                     |
-| `xremap/`    | `~/.config/xremap/`                                                   |
-| `yambar/`    | `~/.config/yambar/`                                                   |
 | `tmux/`      | `~/.config/tmux/`                                                     |
 | `home/`      | `~/.zshrc`, `~/.tmux.conf`, `~/.gitconfig` (dotfiles de raiz da home) |
 
-`fonts/` e `zen/` não são pacotes do Stow:
+`attic/`, `fonts/` e `zen/` **não** são pacotes do Stow:
+
+- `attic/` é o **sótão**: config de ferramenta que não uso mais (hoje: `sway`,
+  `waybar`, `yambar`, `xremap` — ambiente tiling, inativo no GNOME/Ubuntu).
+  Fica versionada sem virar symlink, preservando o estilo para uma futura troca
+  de distro. Ver [STATE.md](STATE.md) para a decisão.
 
 - `fonts/` tem um script de instalação próprio (`fonts/install-fonts.sh`).
 - `zen/` guarda notas; o perfil do Zen Browser fica no Flatpak e não é
@@ -41,10 +41,9 @@ Pacotes existentes:
 
 ```sh
 sudo apt install -y stow
-git clone git@github.com:gustavofsousa/dotfiles.git ~/dotfiles
-cd ~/dotfiles
-stow -v -t ~ sway waybar alacritty nvim xremap yambar tmux home
-bash fonts/install-fonts.sh
+git clone git@github.com:gustavofsousa/dotfiles.git ~/projects/10_dotfiles
+cd ~/projects/10_dotfiles
+./bootstrap.sh
 ```
 
 ## Atualizar ou remover pacotes
@@ -52,8 +51,8 @@ bash fonts/install-fonts.sh
 Depois de adicionar ou remover arquivos, rode o Stow novamente:
 
 ```sh
-cd ~/dotfiles
-stow -v -t ~ sway waybar alacritty nvim xremap yambar tmux home
+cd ~/projects/10_dotfiles
+stow -v -t ~ alacritty nvim tmux home
 ```
 
 Para remover os symlinks de um pacote sem apagar os arquivos do repo:
