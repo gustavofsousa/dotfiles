@@ -40,11 +40,18 @@ Pacotes ativos (viram symlink):
 ## Instalar em uma máquina nova
 
 ```sh
-sudo apt install -y stow
+sudo apt install -y git stow
 git clone git@github.com:gustavofsousa/dotfiles.git ~/projects/10_dotfiles
 cd ~/projects/10_dotfiles
-./bootstrap.sh
+./bootstrap.sh            # dry-run: mostra o que faria, não muda nada
+./bootstrap.sh --apply    # executa: submodules do tmux + symlinks
 ```
+
+O `bootstrap.sh` é **idempotente** e roda em **dry-run por padrão** — revise a
+saída e só então rode com `--apply`. Ele checa dependências, inicializa os
+submodules do tmux e cria os symlinks via Stow (`alacritty home nvim tmux`),
+abortando com aviso se encontrar um arquivo real onde iria um symlink. Use
+`--apply --with-fonts` para instalar também as fontes (`fonts/install-fonts.sh`).
 
 ## Atualizar ou remover pacotes
 

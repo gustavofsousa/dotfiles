@@ -14,22 +14,15 @@ essas pendências se encaixam no plano até Nix (fases 0–3).
 > Maioria destes itens é fechamento da **Fase 2** do ROADMAP (deixar o Stow
 > limpo).
 
-- [ ] Corrigir `tmux/plugins`: os três diretórios parecem submodules, mas não
-      existe `.gitmodules`. Escolher entre registrar os submodules corretamente ou
-      transformar o conteúdo em arquivos normais.
 - [ ] Reduzir os binários vendorizados em `fonts/` e fazer o script baixar uma
       versão do Nerd Fonts quando necessário.
-- [ ] Revisar `nvim/init.lua_bkp` e decidir se o backup deve continuar no repo.
 - [ ] Decidir se o `zen/` continuará apenas com notas ou também guardará os
       arquivos exportáveis do perfil Flatpak.
 - [ ] Criar scripts de bootstrap para symlinks e dependências de uma máquina
       nova.
-- [ ] Decidir entre `waybar` e `yambar` (hoje coexistem; `yambar/` tem só um
-      config mínimo/placeholder) — ou documentar por que os dois ficam. No GNOME
-      Ubuntu ambos estão inativos: candidatos ao sótão (`attic/`, ver
-      `docs/organizacao-de-arquivos.md`).
-- [ ] Mover pacotes de config largados (Sway/waybar/yambar, inativos no GNOME)
-      pra `attic/` — arquivar sem perder, conforme padrão do sótão.
+- [x] Mover pacotes de config largados (Sway/waybar/yambar/xremap, inativos no
+      GNOME) pra `attic/` — feito 2026-09-11 (commit `02936fa`), arquivados sem
+      perder, conforme padrão do sótão.
 
 ## Computador
 

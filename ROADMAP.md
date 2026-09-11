@@ -23,10 +23,7 @@
   aplicação completa venha na Fase 1/2.)* — **em consolidação junto do HQ (`_hq`).**
 
 ## 🟢 Next *(decidido, aguarda vez — fechamento da Fase 2: Stow limpo)*
-- `[repo]` Corrigir `tmux/plugins`: parecem submodules sem `.gitmodules` — registrar corretamente ou virar arquivos normais.
-- `[repo]` Mover pacotes de config inativos no GNOME (sway/waybar/yambar) pra `attic/` — arquivar sem perder.
-- `[repo]` Criar scripts de bootstrap para symlinks e dependências de máquina nova.
-- `[repo]` Revisar `nvim/init.lua_bkp` — decidir se o backup continua no repo.
+*(vazio — os itens de fechamento da Fase 2 foram concluídos, ver ✅ Feito)*
 
 ## 🟡 Soon *(provável — Fase 1: decidir área por área, aplicando o padrão da Fase 0)*
 - `[repo]` Reduzir binários vendorizados em `fonts/`; script baixa Nerd Fonts sob demanda.
@@ -49,10 +46,13 @@
 - **GNU Stow escolhido como gerenciador atual** *(2026-09)* — prioriza durabilidade (symlink simples, sem formato próprio) até o Nix amadurecer. Log em [STATE.md](STATE.md).
 - Pacotes Stow versionados: `sway/ waybar/ alacritty/ nvim/ xremap/ yambar/ tmux/` + `home/` (.zshrc, .tmux.conf, .gitconfig).
 - Padrão de organização de arquivos documentado (`docs/organizacao-de-arquivos.md`), com a skill `arruma-meu-not-ai` aplicando-o.
+- Pacotes inativos no GNOME (`sway`/`waybar`/`yambar`/`xremap`) arquivados em `attic/` *(2026-09-11, commit `02936fa`)* — arquivados sem perder, prontos pra futura troca de distro.
+- `tmux/plugins` (tpm, tmux-resurrect, tmux-sensible) registrados como **submodules** de verdade *(2026-09-11)* — `.gitmodules` recriado a partir dos gitlinks órfãos; máquina nova recupera com `git submodule update --init`.
+- `nvim/init.lua_bkp` removido *(2026-09-11)* — config monolítica antiga já superada pela modular (`config/` + `plugins/`); histórico preservado no git.
+- `bootstrap.sh` criado *(2026-09-11, = `NX4` do ROADMAP-HQ)* — idempotente, dry-run por padrão: checa deps, inicializa submodules do tmux e cria symlinks via Stow, abortando em conflito. Fecha o último ⚠️ Frágil (bootstrap de máquina nova).
 
 ## ⚠️ Frágil *(funciona mas não confio — resolver antes de empilhar coisa nova na mesma área)*
-- **Sem scripts de bootstrap** — recriar os symlinks numa máquina nova hoje é manual/de memória (é o `[repo]` em Next).
-- **`waybar`/`yambar` coexistindo inativos no GNOME** — estado ambíguo, candidatos ao `attic/`.
+*(vazio — o bootstrap de máquina nova, único item aqui, foi resolvido; ver ✅ Feito)*
 
 ## 🚫 Não-fará (por ora)
 - Nada explicitamente descartado ainda — itens que morrerem migram pra cá com o motivo.
