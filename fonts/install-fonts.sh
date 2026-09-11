@@ -1,7 +1,7 @@
 #!/bin/bash
 
-# Diretório de fontes no dotfiles
-FONT_DIR="$HOME/dotfiles/fonts/JetBrainsMono"
+# Diretório de fontes no dotfiles (relativo a este script, não ao caminho do repo)
+FONT_DIR="$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)/JetBrainsMono"
 
 # Diretórios de fontes do sistema
 USER_FONT_DIR="$HOME/.local/share/fonts"
