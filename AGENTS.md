@@ -40,9 +40,14 @@ decisão de pasta nas Fases 1/2 do roadmap.
   dotfile (dados pessoais, projetos, mídia, caches, segredos). Só entra neste
   repo o que é **configuração**. Na dúvida sobre commitar algo que pareça
   dado/segredo, pare e pergunte (ver regra de repo público abaixo).
-- **Só commite quando pedido explicitamente.** Nunca leve mudança alheia
-  (ex: edição em andamento noutro arquivo) junto de um commit que não foi
-  sobre ela — confira `git status` e `git diff --cached` antes.
+- **Pode ir commitando em commits atômicos conforme conclui cada mudança
+  coesa** — não precisa esperar OK a cada commit. Regras que continuam
+  valendo: um commit por mudança coesa (não empacotar frentes diferentes
+  juntas), Conventional Commits, e **nunca** levar mudança alheia (ex: edição
+  em andamento noutro arquivo) junto de um commit que não foi sobre ela —
+  confira `git status` e `git diff --cached` antes. As travas de segurança
+  abaixo (segredo em repo público, arquivo real fora do repo) permanecem
+  exigindo confirmação; a liberdade é só de cadência de commit.
 - **Este repo é público.** Nunca commite segredo, token, ou credencial em
   texto puro. Antes de adicionar algo nesse sentido, pare e pergunte —
   segurança de segredo em repo público é decisão consciente, não default.
