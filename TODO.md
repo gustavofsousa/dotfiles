@@ -43,8 +43,17 @@ essas pendências se encaixam no plano até Nix (fases 0–3).
 - [x] Livros/Calibre — **local decidido** (2026-09-11):
       `~/Documents/livros/{biblioteca,entrada}`; Calibre GUI + calibre-mcp
       reapontados. Ver `docs/livros-calibre.md`.
-- [ ] Faxina de restos: `metadata.db`/`lib_calib_envio1/` avulsos em Documents,
-      ~109 epub/pdf no Downloads, duplicatas em `notas-pkm/logseq/pages/`.
+- [x] Faxina de restos — feito 2026-09-11:
+      - `metadata.db` + `metadata_db_prefs_backup.json` avulsos (índice Calibre
+        órfão, jun/2025): **apagados**.
+      - `lib_calib_envio1/` (2.5 GB, material-fonte da biblioteca de 177 livros):
+        **arquivado** em `~/Archive/calibre-envio1-2025-07/`. Confirmado por
+        amostragem que os livros vivem enriquecidos na biblioteca; guardado frio
+        até o backup da biblioteca no Drive existir, aí pode descartar.
+      - Downloads: os ~109 epub/pdf **já não existiam** (só sobraram 3 pdf úteis).
+      - Logseq `pages/`: **não eram duplicatas** — são versões distintas do mesmo
+        livro (conteúdo difere), curadoria manual pendente. Só `Conscreation saint
+        joseh.md` (cópia hash-idêntica com typo) foi **apagado**.
 - [ ] Decidir o que fica e o que sai de pendrives/mídia externa em uso.
 
 ## Ideias

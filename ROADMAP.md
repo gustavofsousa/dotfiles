@@ -32,7 +32,7 @@
 - `[pc]` Revisar atalhos de teclado (Zen, GNOME, VS Code, terminal, Dolphin) — consolidar sem conflito, prontos pra virar declarativo depois.
 - `[pc]` Configurar Google Drive no Ubuntu (GNOME Online Accounts ou `rclone`).
 - `[pc]` Ajustar backups do Notion.
-- `[pc]` Configurar Syncthing — sincronizar **só `~/Documents/livros/entrada/`** (celular→PC) + backup da biblioteca no Drive (job separado, cópia fria). Estrutura já pronta; instalar Syncthing é decisão macro (RFD). Ver [docs/livros-calibre.md](docs/livros-calibre.md).
+- `[pc→hq]` **Livros/backup/sync saíram do dotfiles** *(2026-09-11)* — o assunto migrou pro HQ (futuro NAS): [`_hq/infra/livros-backup-sync.md`](../_hq/infra/livros-backup-sync.md). Aqui fica só *onde* a biblioteca mora no disco ([docs/livros-calibre.md](docs/livros-calibre.md)); Syncthing (só `entrada/`, Android→PC) e backup são responsabilidade do HQ. Instalar Syncthing segue pendente (precisa sudo).
 
 ## ⚪ Later
 - `[vem-depois]` **Fase 3 — migrar para Nix / home-manager.** Só começa com 0–2 maduras. Objetivo: aprender Nix a fundo, sistema reproduzível por config declarativa. Migração incremental — a estrutura por ferramenta e o padrão da Fase 0 seguem servindo. Spec: [specs/fase-3-migrar-nix.md](specs/fase-3-migrar-nix.md).

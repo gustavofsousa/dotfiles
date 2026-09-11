@@ -39,31 +39,22 @@ projeto como **AD-028** (`~/projects/04_calibre-mcp/.specs/STATE.md`).
 > esse path exato — um bug antigo apontava pra `~/projects/calibre-mcp`
 > (inexistente) e o server nem subia. Corrigido em 2026-09-11.
 
-## Fluxo desejado com Syncthing (AINDA NÃO montado — decisão macro)
+## Sincronização (Syncthing) e backup
 
-Objetivo declarado: **baixar um livro no celular → ele aparece no PC → fácil de
-adicionar ao Calibre**, e ter **backup em outro lugar (Google Drive)**.
+Este assunto **saiu do dotfiles** e vive agora no HQ (futuro NAS):
+**[`_hq/infra/livros-backup-sync.md`](../../_hq/infra/livros-backup-sync.md)**.
+Lá está o desenho completo — Syncthing só na `entrada/` (Android ↔ PC), a trava
+de nunca sincronizar `biblioteca/` (SQLite vivo corrompe), backup e horizonte NAS.
+Esta doc (dotfiles) fica só com **onde** a biblioteca mora no disco (organização
+de arquivos, finalidade de máquina nova); **como** ela viaja e é resguardada é
+responsabilidade do HQ.
 
-Desenho recomendado (a decidir com RFD antes de instalar):
+## Restos a triar
 
-- Syncthing sincroniza **só `~/Documents/livros/entrada/`** entre celular ↔ PC.
-  A pasta de entrada é pequena e volátil; sincronizá-la resolve o
-  celular→PC sem risco.
-- **NÃO** sincronizar `biblioteca/` inteira: o `metadata.db` é SQLite vivo —
-  editar em duas pontas gera `.sync-conflict` no meio do índice, que pode
-  corromper a biblioteca. Backup da biblioteca é um job separado (cópia fria
-  pro Drive/HD externo), não sincronização contínua.
-- Backup no Google Drive: pode ser (a) uma pasta do Syncthing que também
-  espelha pro Drive, ou (b) um `rclone`/cópia periódica da `biblioteca/`.
-  Decidir na hora de implementar (item `[pc]` do roadmap).
-
-## Restos a triar (faxina pendente)
-
-Ainda soltos em `~/Documents/` (não movidos ainda — decisão sua):
-
-- `metadata.db` + `metadata_db_prefs_backup.json` avulsos (fora de qualquer lib)
-- `lib_calib_envio1/` (500 arquivos de um envio antigo)
-- ~109 `.epub`/`.pdf` soltos em `~/Downloads/`
-- `livros-investimento/` (24 PDFs) — decidir se entram no Calibre ou ficam à parte
-
-Candidatos a `~/Archive/` (frio) ou à `entrada/` (pra adicionar ao Calibre).
+- ✅ **Faxina feita (2026-09-11):** `metadata.db`/`metadata_db_prefs_backup.json`
+  avulsos apagados; `lib_calib_envio1/` (material-fonte, 2.5 GB) arquivado em
+  `~/Archive/calibre-envio1-2025-07/`; Downloads já estava limpo. Ver
+  [TODO.md](../TODO.md).
+- ✅ **`livros-investimento/` (24 PDFs)** importados no Calibre (2026-09-11);
+  pasta-fonte arquivada em `~/Archive/livros-investimento-fonte-2026-09/`.
+  Biblioteca: 177 → 201 livros. Nenhum resto pendente.

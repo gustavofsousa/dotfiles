@@ -29,6 +29,47 @@ ainda está em aberto. Complementa [TODO.md](TODO.md) (pendências) e
 
 ## Log de decisões
 
+### 2026-09-11 — Sync/backup da biblioteca + faxina de restos de livros
+
+**Contexto:** Fase 1 — fechar a área "livros" quanto a sincronização e backup, e
+limpar os restos que sobraram da migração da biblioteca. O TODO listava
+`metadata.db`/`lib_calib_envio1/` avulsos, ~109 epub/pdf no Downloads e
+"duplicatas" no Logseq. Celular do Gustavo é **Android**.
+
+**Decisão (sync/backup):** Syncthing sincroniza **só `~/Documents/livros/entrada/`**
+(Android ↔ PC), nunca a `biblioteca/` (SQLite vivo corrompe com sync). Backup da
+biblioteca fica **manual por ora** (fechar Calibre → cópia fria); automação via
+`rclone` agendado é melhoria futura (`LT13` no ROADMAP-HQ). GNOME Online Accounts
+serve só pra ver o Drive no Nautilus, não pra backup. Desenho completo na doc do HQ
+[`_hq/infra/livros-backup-sync.md`](../_hq/infra/livros-backup-sync.md) (ver
+atualização abaixo — o assunto migrou pro HQ no mesmo dia).
+
+**Decisão (faxina):** apagados `metadata.db` + `metadata_db_prefs_backup.json`
+(índice Calibre órfão, jun/2025) e `Conscreation saint joseh.md` do Logseq (cópia
+hash-idêntica). `lib_calib_envio1/` (2.5 GB, material-fonte da biblioteca)
+**arquivado** em `~/Archive/calibre-envio1-2025-07/` — não apagado: confiança alta
+mas não item-a-item de que é redundante; descartar só depois do backup existir. Os
+~109 arquivos do Downloads já não existiam; o Logseq não tinha duplicatas (o resto
+são versões distintas do mesmo livro = curadoria manual, não mexida).
+
+**Por quê:** entrada e backup são jobs diferentes com ferramentas diferentes;
+misturá-los (ou sincronizar o `metadata.db`) arrisca corromper a biblioteca.
+Backup manual é suficiente até valer o setup de `rclone`. Arquivar em vez de
+apagar o material-fonte segue a regra do repo (não destruir dado real sem certeza
+total) a custo baixo (2.5 GB frios).
+
+**Atualização (mesmo dia, 2026-09-11):** o assunto **livros/backup/sync saiu do
+dotfiles** e passou a viver no HQ (`_hq/infra/livros-backup-sync.md`), rumo a NAS —
+o dotfiles fica só com *onde* a biblioteca mora no disco (organização de arquivos,
+finalidade de máquina). Os 24 PDFs de `livros-investimento/` foram importados
+(biblioteca 177→201) e a pasta-fonte arquivada; feito um backup frio local em
+`~/Archive/biblioteca-backup-2026-09-11/` (provisório, mesmo disco).
+
+**Consequências:** Syncthing ainda não instalado (precisa sudo; comandos na doc do
+HQ). Documents limpo de todos os restos de livros. Quando o backup off-site
+(`rclone`→Drive) existir, `lib_calib_envio1/` e o backup local podem ser
+descartados/rotacionados.
+
 ### 2026-09-11 — PKM sob um guarda-chuva único (`~/Documents/notas-pkm/`)
 
 **Contexto:** Logseq (Snap) e Obsidian (Flatpak) instalados; o Logseq tinha o
