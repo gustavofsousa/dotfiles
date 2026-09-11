@@ -32,12 +32,12 @@
 - `[pc]` Revisar atalhos de teclado (Zen, GNOME, VS Code, terminal, Dolphin) — consolidar sem conflito, prontos pra virar declarativo depois.
 - `[pc]` Configurar Google Drive no Ubuntu (GNOME Online Accounts ou `rclone`).
 - `[pc]` Ajustar backups do Notion.
-- `[pc]` Configurar Syncthing para sincronizar a pasta de livros. *(ver HQ: sync de docs de estado também é candidato — UVW)*
+- `[pc]` Configurar Syncthing — sincronizar **só `~/Documents/livros/entrada/`** (celular→PC) + backup da biblioteca no Drive (job separado, cópia fria). Estrutura já pronta; instalar Syncthing é decisão macro (RFD). Ver [docs/livros-calibre.md](docs/livros-calibre.md).
 
 ## ⚪ Later
 - `[vem-depois]` **Fase 3 — migrar para Nix / home-manager.** Só começa com 0–2 maduras. Objetivo: aprender Nix a fundo, sistema reproduzível por config declarativa. Migração incremental — a estrutura por ferramenta e o padrão da Fase 0 seguem servindo. Spec: [specs/fase-3-migrar-nix.md](specs/fase-3-migrar-nix.md).
 - `[explorar]` Gestão de segredos quando forem necessários: `age` independente vs solução integrada ao Nix/home-manager. *(em aberto — refinar antes de comprometer)*
-- `[explorar]` Anotações: decidir entre Obsidian, Logseq ou o próprio HQ — onde o vault mora. *(cruza com a decisão UVW do HQ)*
+- `[explorar]` Anotações: **local decidido** (guarda-chuva `~/Documents/notas-pkm/`, Logseq+Obsidian juntos — ver ✅ Feito); resta explorar **qual ferramenta serve melhor à IA** sobre as notas. *(cruza com UVW do HQ)*
 - `[explorar]` Pendrives/mídia externa: o que continua em uso, o que é descartado.
 
 ---
@@ -50,6 +50,9 @@
 - `tmux/plugins` (tpm, tmux-resurrect, tmux-sensible) registrados como **submodules** de verdade *(2026-09-11)* — `.gitmodules` recriado a partir dos gitlinks órfãos; máquina nova recupera com `git submodule update --init`.
 - `nvim/init.lua_bkp` removido *(2026-09-11)* — config monolítica antiga já superada pela modular (`config/` + `plugins/`); histórico preservado no git.
 - `bootstrap.sh` criado *(2026-09-11, = `NX4` do ROADMAP-HQ)* — idempotente, dry-run por padrão: checa deps, inicializa submodules do tmux e cria symlinks via Stow, abortando em conflito. Fecha o último ⚠️ Frágil (bootstrap de máquina nova).
+- **Fase 1 — PKM decidido** *(2026-09-11)* — guarda-chuva `~/Documents/notas-pkm/` com o grafo Logseq movido pra dentro; Obsidian abre a pasta-mãe (markdown compartilhado, sem cópia). Doc: [docs/notas-pkm.md](docs/notas-pkm.md), decisão no [STATE.md](STATE.md).
+- **Fase 1 — livros decididos** *(2026-09-11)* — `~/Documents/livros/{biblioteca,entrada}`; biblioteca Calibre movida, Calibre GUI + env do calibre-mcp atualizados, bug de path do MCP corrigido (validado ao vivo). Doc: [docs/livros-calibre.md](docs/livros-calibre.md).
+- **Divergência PT-BR registrada** *(2026-09-11)* — pastas de conteúdo pessoal (`notas-pkm`, `livros`) em português por escolha; inglês segue pra config/estrutura técnica. Ver [STATE.md](STATE.md).
 
 ## ⚠️ Frágil *(funciona mas não confio — resolver antes de empilhar coisa nova na mesma área)*
 *(vazio — o bootstrap de máquina nova, único item aqui, foi resolvido; ver ✅ Feito)*

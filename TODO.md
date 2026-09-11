@@ -31,11 +31,20 @@ essas pendências se encaixam no plano até Nix (fases 0–3).
 
 - [ ] Revisar os atalhos de teclado do Zen Browser, GNOME, VS Code, terminal,
       Dolphin e outros aplicativos usados no dia a dia.
-- [ ] Configurar o Syncthing para sincronizar a pasta de livros.
+- [ ] Configurar o Syncthing — sincronizar só `~/Documents/livros/entrada/`
+      (celular→PC) + backup da biblioteca no Drive. Estrutura pronta; instalar
+      é decisão macro. Ver `docs/livros-calibre.md`.
 - [ ] Ajustar os backups do Notion.
 - [ ] Configurar o Google Drive para uso pelo Ubuntu, via GNOME Online Accounts
       ou `rclone`.
-- [ ] Organizar as anotações e decidir entre Obsidian, Logseq e projetos.
+- [x] Anotações — **local decidido** (2026-09-11): guarda-chuva
+      `~/Documents/notas-pkm/` com Logseq+Obsidian juntos. Ver
+      `docs/notas-pkm.md`. Resta explorar qual serve melhor à IA.
+- [x] Livros/Calibre — **local decidido** (2026-09-11):
+      `~/Documents/livros/{biblioteca,entrada}`; Calibre GUI + calibre-mcp
+      reapontados. Ver `docs/livros-calibre.md`.
+- [ ] Faxina de restos: `metadata.db`/`lib_calib_envio1/` avulsos em Documents,
+      ~109 epub/pdf no Downloads, duplicatas em `notas-pkm/logseq/pages/`.
 - [ ] Decidir o que fica e o que sai de pendrives/mídia externa em uso.
 
 ## Ideias

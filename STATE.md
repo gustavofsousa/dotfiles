@@ -6,23 +6,98 @@ ainda está em aberto. Complementa [TODO.md](TODO.md) (pendências) e
 
 ## Estado atual
 
-- Fase atual do [ROADMAP.md](ROADMAP.md): **Fase 0 concluída** — padrão de
-  organização definido ([docs/organizacao-de-arquivos.md](docs/organizacao-de-arquivos.md)),
-  `AGENTS.md` revisado (symlink-vs-real, dados-privados-fora-do-git), e skill
-  `arruma-meu-not-ai` criada em `~/.claude/skills/`. Nix/home-manager fica pra
-  Fase 3. **Fase 1** (decisões por área) é a próxima.
+- Fase atual do [ROADMAP.md](ROADMAP.md): **Fase 1 em andamento** (decisões por
+  área). Fase 0 concluída — padrão de organização definido
+  ([docs/organizacao-de-arquivos.md](docs/organizacao-de-arquivos.md)),
+  `AGENTS.md` revisado, skill `arruma-meu-not-ai` criada. Fase 2 (Stow limpo)
+  fechada: submodules do tmux corrigidos, `bootstrap.sh` criado, backup nvim
+  removido. Nix/home-manager fica pra Fase 3.
+- **Fase 1 — áreas decididas até agora (2026-09-11):** PKM (Logseq+Obsidian sob
+  `~/Documents/notas-pkm/`) e livros (Calibre em `~/Documents/livros/biblioteca`,
+  entrada em `~/Documents/livros/entrada`). Ver decisões abaixo e os docs
+  [docs/notas-pkm.md](docs/notas-pkm.md) e [docs/livros-calibre.md](docs/livros-calibre.md).
 - Gerenciador: **GNU Stow** (ver decisão abaixo). Pacotes ativos:
-  `alacritty`, `nvim`, `tmux`, `home`.
+  `alacritty`, `nvim`, `tmux`, `home`. Bootstrap de máquina nova: `bootstrap.sh`.
 - **Sótão (`attic/`, versionado sem symlink):** `sway`, `waybar`, `yambar`,
   `xremap` — ambiente tiling abandonado ao migrar pra GNOME/Ubuntu (Wayland).
   Arquivados em 2026-09, ver log de decisões. Resolve também o antigo impasse
   `waybar` vs `yambar`: ambos saíram do fluxo ativo juntos.
 - `attic/`, `fonts/` e `zen/` não são pacotes do Stow — ver README.
 - `tmux/.config/tmux/plugins/` (`tpm`, `tmux-resurrect`, `tmux-sensible`)
-  está commitado como gitlink (modo submodule) sem `.gitmodules` — um clone
-  novo deixa essas pastas vazias. Ver TODO.
+  são **submodules** de verdade (`.gitmodules` presente) — clone novo recupera
+  com `git submodule update --init` (o `bootstrap.sh` faz isso).
 
 ## Log de decisões
+
+### 2026-09-11 — PKM sob um guarda-chuva único (`~/Documents/notas-pkm/`)
+
+**Contexto:** Logseq (Snap) e Obsidian (Flatpak) instalados; o Logseq tinha o
+conteúdo real (33 pages, notas de leitura de 2025, último journal 2026-03),
+o Obsidian estava vazio (vault de teste criado no mesmo dia). Ambos espalhados
+em `~/Documents` (`Logseq/`, `obsidian-notes/`). O Gustavo quer experimentar o
+Obsidian e usar IA sobre as notas, mas manter os dois "no mesmo guarda-chuva".
+
+**Decisão:** criar `~/Documents/notas-pkm/` como guarda-chuva único e mover o
+grafo Logseq pra `notas-pkm/logseq/`. Um único vault Obsidian aberto em
+`notas-pkm/` enxerga tudo (Logseq e Obsidian são markdown puro; 0 sintaxe
+Logseq pesada → sem conversão nem cópia divergente). Vault de teste vazio
+arquivado em `~/Archive/`. Alinhado ao estudo `UVW` do HQ: Obsidian como
+*leitor* de markdown, não como formato-fim; qual ferramenta serve melhor à IA
+segue `[explorar]`. Detalhe em [docs/notas-pkm.md](docs/notas-pkm.md).
+
+**Por quê:** o conteúdo é o mesmo markdown; unificar o *local* dá grafo/busca/IA
+sobre o que já existe sem manter duas cópias em sincronia. Decisão barata agora
+(nenhum dos dois em uso ativo pesado).
+
+**Consequências:** fecha o item PKM da Fase 1 e informa o `LT7/UVW` do HQ
+(ainda `[explorar]` para a parte "melhor pra IA"). Faxina de duplicatas nas
+pages fica pendente. Reapontar o cache `.transit` do Logseq feito;
+regenerável se preciso.
+
+### 2026-09-11 — Livros: biblioteca local autoritativa + entrada sincronizável
+
+**Contexto:** biblioteca Calibre (2.5G, ~170 livros) em
+`~/Documents/BibliotecaCalibre`; calibre-mcp lê o path por env
+`CALIBRE_LIBRARY_PATH`; o Gustavo quer um fluxo celular→PC (baixar livro no
+celular, aparecer no PC pronto pro Calibre) e backup no Google Drive via
+Syncthing. Havia também um bug: a config MCP apontava pra `~/projects/calibre-mcp`
+(inexistente; real é `04_calibre-mcp`) — o server nem subia.
+
+**Decisão:** estrutura `~/Documents/livros/` com `biblioteca/` (a lib Calibre,
+LOCAL e autoritativa) e `entrada/` (staging). Atualizados os dois consumidores
+do path (Calibre GUI + env do MCP) e corrigido o path quebrado do MCP.
+Syncthing sincronizará **só `entrada/`**, nunca a `biblioteca/` inteira (o
+`metadata.db` é SQLite vivo → sync geraria `.sync-conflict`/corrupção). Backup
+da biblioteca é job separado (cópia fria), não sync contínuo. Instalar Syncthing
+é decisão macro pendente (RFD). Detalhe em [docs/livros-calibre.md](docs/livros-calibre.md).
+
+**Por quê:** separar entrada (pequena, volátil, boa pra sync) de biblioteca
+(grande, índice vivo, ruim pra sync) dá o fluxo celular→PC sem arriscar o
+índice do Calibre.
+
+**Consequências:** calibre-mcp validado ao vivo com o novo path (config OK,
+`metadata.db` encontrado). Débito "path duplicado sem fonte única" registrado
+no calibre-mcp como AD-028. Restos do Calibre soltos em `~/Documents`/`Downloads`
+seguem a triar. Syncthing/Drive não montados.
+
+### 2026-09-11 — Divergência consciente: nomes PT-BR para pastas de conteúdo pessoal
+
+**Contexto:** o padrão da Fase 0 ([docs/organizacao-de-arquivos.md](docs/organizacao-de-arquivos.md))
+manda nomes de pasta em **inglês**. As pastas de conteúdo pessoal criadas na
+Fase 1 (`notas-pkm`, `livros`, `livros/entrada`, `livros/biblioteca`) foram
+nomeadas em **PT-BR** por pedido explícito do Gustavo.
+
+**Decisão:** aceitar PT-BR para pastas de **conteúdo pessoal do usuário** (o que
+mora em `~/Documents`), mantendo inglês para **config/estrutura técnica** (repo,
+XDG, pacotes Stow). A regra "inglês" continua valendo para o que é
+open-source-facing; conteúdo pessoal em português é escolha de dono.
+
+**Por quê:** o custo de inglês (consistência com o repo público) não se aplica a
+pastas privadas que nunca saem da home; a legibilidade em PT-BR vale mais ali.
+
+**Consequências:** a skill `arruma-meu-not-ai` deve tratar isto como divergência
+conhecida (não "corrigir" `notas-pkm`→`notes`). Atualizar a reference da skill
+quando tocar nela.
 
 ### 2026-09 — Config largada vai pro sótão (`attic/`), não é apagada
 
