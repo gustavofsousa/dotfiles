@@ -8,6 +8,7 @@
 #   3. Cria os symlinks dos pacotes Stow em $HOME.
 #   4. (Opcional) instala as fontes via fonts/install-fonts.sh.
 #   5. (Opcional) instala o tema de ícones via icons/install-icons.sh.
+#   6. (Opcional) instala o cursor via cursors/install-cursor.sh.
 #
 # Idempotente: rodar de novo não quebra nada. Por segurança, o padrão é
 # DRY-RUN (só mostra o que faria). Use --apply para executar de verdade.
@@ -17,6 +18,7 @@
 #   ./bootstrap.sh --apply    # executa: cria symlinks e inicializa submodules
 #   ./bootstrap.sh --apply --with-fonts   # também instala as fontes
 #   ./bootstrap.sh --apply --with-icons   # também instala o tema de ícones
+#   ./bootstrap.sh --apply --with-cursor  # também instala o cursor
 #
 # Pré-requisito de sistema pro pacote `environment/` fazer efeito em apps
 # Qt/KDE (ex: Dolphin) rodando sob GNOME: `sudo apt install plasma-integration`
@@ -36,11 +38,13 @@ STOW_PACKAGES=(alacritty environment home nvim tmux)
 APPLY=false
 WITH_FONTS=false
 WITH_ICONS=false
+WITH_CURSOR=false
 for arg in "$@"; do
 	case "$arg" in
 		--apply) APPLY=true ;;
 		--with-fonts) WITH_FONTS=true ;;
 		--with-icons) WITH_ICONS=true ;;
+		--with-cursor) WITH_CURSOR=true ;;
 		-h|--help)
 			# Imprime só o bloco de comentário do topo (pula o shebang, para na
 			# primeira linha que não é comentário).
@@ -123,6 +127,18 @@ if $WITH_ICONS; then
 	fi
 else
 	say "Ícones: pulados (use --with-icons para instalar)"
+fi
+
+# --- 6. cursor (opcional) ----------------------------------------------------
+if $WITH_CURSOR; then
+	say "Instalando cursor (cursors/install-cursor.sh)"
+	if [ -x cursors/install-cursor.sh ]; then
+		run ./cursors/install-cursor.sh
+	else
+		warn "cursors/install-cursor.sh não encontrado ou sem permissão de execução."
+	fi
+else
+	say "Cursor: pulado (use --with-cursor para instalar)"
 fi
 
 # --- fim --------------------------------------------------------------------

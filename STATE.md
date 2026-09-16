@@ -23,16 +23,46 @@ ainda está em aberto. Complementa [TODO.md](TODO.md) (pendências) e
   `icons/install-icons.sh` (não é pacote Stow — clona upstream em
   build-time). Depende do pacote `environment/` (`QT_QPA_PLATFORMTHEME=kde`)
   + `plasma-integration` instalado via apt (manual). Ver log de decisões.
+- **Cursor (2026-09-15):** Qogir-cursors, aplicado via
+  `cursors/install-cursor.sh` (mesmo padrão do `icons/`). Nordzy-cursors e
+  Bibata-Original-Classic documentados como 2ª/3ª opção, não instalados.
 - **Sótão (`attic/`, versionado sem symlink):** `sway`, `waybar`, `yambar`,
   `xremap` — ambiente tiling abandonado ao migrar pra GNOME/Ubuntu (Wayland).
   Arquivados em 2026-09, ver log de decisões. Resolve também o antigo impasse
   `waybar` vs `yambar`: ambos saíram do fluxo ativo juntos.
-- `attic/`, `fonts/`, `icons/` e `zen/` não são pacotes do Stow — ver README.
+- `attic/`, `fonts/`, `icons/`, `cursors/` e `zen/` não são pacotes do Stow — ver README.
 - `tmux/.config/tmux/plugins/` (`tpm`, `tmux-resurrect`, `tmux-sensible`)
   são **submodules** de verdade (`.gitmodules` presente) — clone novo recupera
   com `git submodule update --init` (o `bootstrap.sh` faz isso).
 
 ## Log de decisões
+
+### 2026-09-15 — Cursor do mouse: Qogir (1ª opção), Nordzy e Bibata-Original-Classic como alternativas
+
+**Contexto:** seguindo a rice do Dolphin/ícones (entrada abaixo), faltava decidir o
+cursor. Comparados ao vivo (troca de `gsettings cursor-theme` + `kcminputrc`
+`[Mouse] cursorTheme` em sequência, sem reiniciar sessão): Breeze (já
+instalado), Bibata-Modern-Classic, DMZ-White, Bibata-Original-Classic,
+Nordzy-cursors, Qogir. Preferência declarada: formato comprido/pontudo
+("cumpridinho"/"losango"), não o formato curto/arredondado do Bibata Modern.
+"Obsidian" citado como possível 4ª opção não corresponde a nenhum tema de
+cursor real encontrado (buscas no GitHub e pling/gnome-look só retornam
+plugins do app de notas Obsidian) — provável confusão com o tema de
+**ícones** "Obsidian" mencionado antes, nunca confirmado pelo Gustavo.
+
+**Decisão:** **Qogir-cursors** como principal (instalado). **Nordzy-cursors**
+como 2ª opção e **Bibata-Original-Classic** como 3ª — nenhuma das duas fica
+instalada por padrão; comandos de reinstalação comentados no fim de
+`cursors/install-cursor.sh`. Qogir vem do mesmo repo
+`vinceliuice/Qogir-icon-theme` usado só pelo `install.sh` padrão (que já
+inclui `cursors/`) — não trocamos o tema de ícones (continua Fluent
+orange/dark), só extraímos o cursor.
+
+**Por quê:** clutter de disco baixo — o Nordzy sozinho instala ~130
+variantes (Catppuccin × 4 paletas × várias cores × lefthand); manter só o
+ativo e documentar o resto como comando pronto é mais barato que vendorizar
+tudo. Site de referência pra explorar mais opções:
+https://www.gnome-look.org/browse?cat=107 (catálogo comunitário de cursores).
 
 ### 2026-09-15 — Rice do Dolphin: tema de ícones Fluent + fix do QT_QPA_PLATFORMTHEME
 

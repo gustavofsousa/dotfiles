@@ -27,7 +27,7 @@ Pacotes ativos (viram symlink):
 | `tmux/`        | `~/.config/tmux/`                                                     |
 | `home/`        | `~/.zshrc`, `~/.tmux.conf`, `~/.gitconfig` (dotfiles de raiz da home) |
 
-`attic/`, `fonts/`, `icons/` e `zen/` **não** são pacotes do Stow:
+`attic/`, `fonts/`, `icons/`, `cursors/` e `zen/` **não** são pacotes do Stow:
 
 - `attic/` é o **sótão**: config de ferramenta que não uso mais (hoje: `sway`,
   `waybar`, `yambar`, `xremap` — ambiente tiling, inativo no GNOME/Ubuntu).
@@ -39,6 +39,11 @@ Pacotes ativos (viram symlink):
   orange/dark, clonando o upstream em build-time — não vendoriza SVG de
   terceiros) e `tag-hidden-folders.sh` (marca pastas ocultas de primeiro
   nível em cinza, pulando `.ssh`/`.gnupg`/`.pki`). Ver [STATE.md](STATE.md).
+- `cursors/` tem `install-cursor.sh` (instala o cursor **Qogir**, formato
+  comprido/"losango" — 1ª opção escolhida ao vivo entre Qogir/Nordzy/Bibata).
+  As duas alternativas comparadas (Nordzy-cursors, Bibata-Original-Classic)
+  não ficam instaladas por padrão — os comandos pra reinstalá-las estão
+  comentados no fim do script.
 - `zen/` guarda notas; o perfil do Zen Browser fica no Flatpak e não é
   gerenciado por symlink simples.
 
