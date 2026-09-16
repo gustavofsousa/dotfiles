@@ -7,6 +7,7 @@
 #   2. Inicializa os submodules do tmux (tpm, tmux-resurrect, tmux-sensible).
 #   3. Cria os symlinks dos pacotes Stow em $HOME.
 #   4. (Opcional) instala as fontes via fonts/install-fonts.sh.
+#   5. (Opcional) instala o tema de ícones via icons/install-icons.sh.
 #
 # Idempotente: rodar de novo não quebra nada. Por segurança, o padrão é
 # DRY-RUN (só mostra o que faria). Use --apply para executar de verdade.
@@ -15,6 +16,11 @@
 #   ./bootstrap.sh            # dry-run: mostra o que faria, não muda nada
 #   ./bootstrap.sh --apply    # executa: cria symlinks e inicializa submodules
 #   ./bootstrap.sh --apply --with-fonts   # também instala as fontes
+#   ./bootstrap.sh --apply --with-icons   # também instala o tema de ícones
+#
+# Pré-requisito de sistema pro pacote `environment/` fazer efeito em apps
+# Qt/KDE (ex: Dolphin) rodando sob GNOME: `sudo apt install plasma-integration`
+# (fora do escopo deste script — precisa de senha interativa).
 #
 set -euo pipefail
 
@@ -23,16 +29,18 @@ REPO_DIR="$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)"
 cd "$REPO_DIR"
 
 # Pacotes Stow ativos (uma pasta por ferramenta; espelham o caminho a partir
-# de $HOME). attic/, fonts/, zen/, docs/, specs/ NÃO são pacotes Stow.
-STOW_PACKAGES=(alacritty home nvim tmux)
+# de $HOME). attic/, fonts/, icons/, zen/, docs/, specs/ NÃO são pacotes Stow.
+STOW_PACKAGES=(alacritty environment home nvim tmux)
 
 # --- flags ------------------------------------------------------------------
 APPLY=false
 WITH_FONTS=false
+WITH_ICONS=false
 for arg in "$@"; do
 	case "$arg" in
 		--apply) APPLY=true ;;
 		--with-fonts) WITH_FONTS=true ;;
+		--with-icons) WITH_ICONS=true ;;
 		-h|--help)
 			# Imprime só o bloco de comentário do topo (pula o shebang, para na
 			# primeira linha que não é comentário).
@@ -103,6 +111,18 @@ if $WITH_FONTS; then
 	fi
 else
 	say "Fontes: puladas (use --with-fonts para instalar)"
+fi
+
+# --- 5. ícones (opcional) ----------------------------------------------------
+if $WITH_ICONS; then
+	say "Instalando tema de ícones (icons/install-icons.sh)"
+	if [ -x icons/install-icons.sh ]; then
+		run ./icons/install-icons.sh
+	else
+		warn "icons/install-icons.sh não encontrado ou sem permissão de execução."
+	fi
+else
+	say "Ícones: pulados (use --with-icons para instalar)"
 fi
 
 # --- fim --------------------------------------------------------------------

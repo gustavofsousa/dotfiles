@@ -21,12 +21,13 @@ Pacotes ativos (viram symlink):
 
 | Pacote       | Vira                                                                  |
 | ------------ | --------------------------------------------------------------------- |
-| `alacritty/` | `~/.config/alacritty/`                                                |
-| `nvim/`      | `~/.config/nvim/`                                                     |
-| `tmux/`      | `~/.config/tmux/`                                                     |
-| `home/`      | `~/.zshrc`, `~/.tmux.conf`, `~/.gitconfig` (dotfiles de raiz da home) |
+| `alacritty/`   | `~/.config/alacritty/`                                                |
+| `environment/` | `~/.config/environment.d/` (variáveis de ambiente da sessão)         |
+| `nvim/`        | `~/.config/nvim/`                                                     |
+| `tmux/`        | `~/.config/tmux/`                                                     |
+| `home/`        | `~/.zshrc`, `~/.tmux.conf`, `~/.gitconfig` (dotfiles de raiz da home) |
 
-`attic/`, `fonts/` e `zen/` **não** são pacotes do Stow:
+`attic/`, `fonts/`, `icons/` e `zen/` **não** são pacotes do Stow:
 
 - `attic/` é o **sótão**: config de ferramenta que não uso mais (hoje: `sway`,
   `waybar`, `yambar`, `xremap` — ambiente tiling, inativo no GNOME/Ubuntu).
@@ -34,8 +35,27 @@ Pacotes ativos (viram symlink):
   de distro. Ver [STATE.md](STATE.md) para a decisão.
 
 - `fonts/` tem um script de instalação próprio (`fonts/install-fonts.sh`).
+- `icons/` tem os scripts `install-icons.sh` (instala o tema Fluent
+  orange/dark, clonando o upstream em build-time — não vendoriza SVG de
+  terceiros) e `tag-hidden-folders.sh` (marca pastas ocultas de primeiro
+  nível em cinza, pulando `.ssh`/`.gnupg`/`.pki`). Ver [STATE.md](STATE.md).
 - `zen/` guarda notas; o perfil do Zen Browser fica no Flatpak e não é
   gerenciado por symlink simples.
+
+### Nota: `kdeglobals` não é gerenciado por symlink
+
+Apps Qt/KDE (Dolphin, Kate, Okular...) rodando sob GNOME só respeitam
+`~/.config/kdeglobals` se `QT_QPA_PLATFORMTHEME=kde` estiver setado (pacote
+`environment/` cuida disso) **e** o pacote `plasma-integration` estiver
+instalado (`sudo apt install plasma-integration` — fora do escopo do Stow,
+precisa de senha). Sem isso, o Qt detecta o GNOME e usa o tema GTK3 por
+padrão, ignorando `kdeglobals` silenciosamente — foi o que "parou pelo
+caminho" na rice do Dolphin antes desta sessão.
+
+`kdeglobals` em si **não** virou pacote do Stow: é um arquivo de estado do
+KDE com muita coisa além de tema (cache, geometria, etc.), não só
+configuração estável. A chave `[Icons] Theme=` é escrita pelo
+`icons/install-icons.sh` via `kwriteconfig5`, não por symlink.
 
 ## Instalar em uma máquina nova
 
@@ -46,6 +66,20 @@ cd ~/projects/10_dotfiles
 ./bootstrap.sh            # dry-run: mostra o que faria, não muda nada
 ./bootstrap.sh --apply    # executa: submodules do tmux + symlinks
 ```
+
+**Passo manual obrigatório pra rice do Dolphin/apps Qt/KDE fazer efeito**
+(não dá pra automatizar — precisa de senha interativa, `sudo` não funciona
+por script/agente):
+
+```sh
+sudo apt install -y plasma-integration
+./bootstrap.sh --apply --with-icons   # aplica environment/ + tema de ícones
+```
+
+Sem o `plasma-integration`, o pacote `environment/` (variável
+`QT_QPA_PLATFORMTHEME=kde`) fica sem efeito prático: o Qt continua caindo no
+tema GTK3 por padrão sob GNOME, e `kdeglobals`/o tema de ícones seguem
+sendo ignorados silenciosamente pelos apps Qt/KDE.
 
 O `bootstrap.sh` é **idempotente** e roda em **dry-run por padrão** — revise a
 saída e só então rode com `--apply`. Ele checa dependências, inicializa os

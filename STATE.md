@@ -17,17 +17,73 @@ ainda está em aberto. Complementa [TODO.md](TODO.md) (pendências) e
   entrada em `~/Documents/livros/entrada`). Ver decisões abaixo e os docs
   [docs/notas-pkm.md](docs/notas-pkm.md) e [docs/livros-calibre.md](docs/livros-calibre.md).
 - Gerenciador: **GNU Stow** (ver decisão abaixo). Pacotes ativos:
-  `alacritty`, `nvim`, `tmux`, `home`. Bootstrap de máquina nova: `bootstrap.sh`.
+  `alacritty`, `environment`, `nvim`, `tmux`, `home`. Bootstrap de máquina
+  nova: `bootstrap.sh`.
+- **Ícones/tema do Dolphin (2026-09-15):** Fluent orange/dark, aplicado via
+  `icons/install-icons.sh` (não é pacote Stow — clona upstream em
+  build-time). Depende do pacote `environment/` (`QT_QPA_PLATFORMTHEME=kde`)
+  + `plasma-integration` instalado via apt (manual). Ver log de decisões.
 - **Sótão (`attic/`, versionado sem symlink):** `sway`, `waybar`, `yambar`,
   `xremap` — ambiente tiling abandonado ao migrar pra GNOME/Ubuntu (Wayland).
   Arquivados em 2026-09, ver log de decisões. Resolve também o antigo impasse
   `waybar` vs `yambar`: ambos saíram do fluxo ativo juntos.
-- `attic/`, `fonts/` e `zen/` não são pacotes do Stow — ver README.
+- `attic/`, `fonts/`, `icons/` e `zen/` não são pacotes do Stow — ver README.
 - `tmux/.config/tmux/plugins/` (`tpm`, `tmux-resurrect`, `tmux-sensible`)
   são **submodules** de verdade (`.gitmodules` presente) — clone novo recupera
   com `git submodule update --init` (o `bootstrap.sh` faz isso).
 
 ## Log de decisões
+
+### 2026-09-15 — Rice do Dolphin: tema de ícones Fluent + fix do QT_QPA_PLATFORMTHEME
+
+**Contexto:** a rice do Dolphin (tema Monokai + JetBrains Mono já em
+`kdeglobals`) tinha "parado pelo caminho" — fonte e ícones não aplicavam.
+Investigando: Dolphin é app Qt/KDE, mas a sessão é GNOME puro (sem Plasma).
+Sem `QT_QPA_PLATFORMTHEME` setado, o Qt detecta o GNOME e carrega
+automaticamente o platform theme GTK3 (`libqgtk3.so`), que ignora
+`kdeglobals` por completo — confirmado com `strace`/`QT_DEBUG_PLUGINS=1`.
+
+**Decisão (integração KDE↔GNOME):** instalado `plasma-integration` (pacote
+apt, fora do repo — precisa de senha) e criado
+`~/.config/environment.d/qt-platform-theme.conf` com
+`QT_QPA_PLATFORMTHEME=kde`, agora versionado como pacote Stow `environment/`.
+Isso faz o Qt carregar o plugin `KDEPlasmaPlatformTheme.so` (id `"kde"`), que
+lê `kdeglobals` de verdade — sem isso, qualquer tentativa futura de configurar
+apps Qt/KDE sob GNOME por `kdeglobals` vai continuar "não fazendo nada".
+
+**Decisão (tema de ícones):** comparado ao vivo no Dolphin — Tela (rosa,
+rejeitado), Fluent (testado em várias cores: teal/purple/orange/green) e
+Zafiro (rejeitado). Escolhido **Fluent, variante orange/dark**. Script
+`icons/install-icons.sh` clona o upstream
+(`vinceliuice/Fluent-icon-theme`) em build-time pra `~/.local/share/icons/`
+(não vendorizado — SVG de terceiros, muito volume pra versionar) e aplica em
+dois lugares: `kdeglobals` (`[Icons] Theme=`, via `kwriteconfig5`, pros apps
+Qt/KDE) **e** `gsettings org.gnome.desktop.interface icon-theme` (pros apps
+GTK/GNOME) — os dois precisam estar setados pro visual ficar consistente
+entre os dois mundos.
+
+**Decisão (pastas ocultas em cinza):** pastas que começam com `.` na raiz da
+home ganham ícone `folder-grey` (extraído da variante grey do Fluent e
+registrado dentro do tema ativo) via arquivo `.directory` — mecanismo nativo
+do KDE/freedesktop, funciona com qualquer tema. Script
+`icons/tag-hidden-folders.sh`, idempotente. Ficam de fora `.ssh`, `.gnupg` e
+`.pki` (armazenamento de chave/credencial) — não por segurança de conteúdo
+(o `.directory` não expõe nada), mas por precaução de não escrever arquivo
+novo dentro dessas pastas por padrão.
+
+**Por quê:** o padrão observado (Qt/KDE app + GNOME sem Plasma = tema
+ignorado silenciosamente) é genérico — vai se repetir em qualquer app
+Qt/KDE futuro (Kate, Okular, etc.), não só Dolphin. Documentar aqui e na
+skill `ricing-do-gustavo` evita redescobrir o mesmo problema do zero.
+Ícones do tema não entram como submodule Git (fluxo de aprovação do Claude
+Code bloqueou por ser dependência de código externo não pedida
+explicitamente) — clone efêmero em build-time resolve sem esse trade-off.
+
+**Consequências:** máquina nova precisa de `sudo apt install
+plasma-integration` manual (não automatizável pelo `bootstrap.sh`, exige
+senha interativa) antes de `./bootstrap.sh --apply --with-icons` fazer
+sentido visualmente. `icons/install-icons.sh` depende de rede (clona do
+GitHub) — sem internet, pula esse passo.
 
 ### 2026-09-11 — Sync/backup da biblioteca + faxina de restos de livros
 
