@@ -17,8 +17,8 @@ ainda está em aberto. Complementa [TODO.md](TODO.md) (pendências) e
   entrada em `~/Documents/livros/entrada`). Ver decisões abaixo e os docs
   [docs/notas-pkm.md](docs/notas-pkm.md) e [docs/livros-calibre.md](docs/livros-calibre.md).
 - Gerenciador: **GNU Stow** (ver decisão abaixo). Pacotes ativos:
-  `alacritty`, `environment`, `home`, `nvim`, `tmux`, `vscode`. Bootstrap de
-  máquina nova: `bootstrap.sh`.
+  `alacritty`, `environment`, `home`, `nvim`, `theme-sync`, `tmux`, `vscode`.
+  Bootstrap de máquina nova: `bootstrap.sh`.
 - **Ícones/tema do Dolphin (2026-09-15):** Fluent orange/dark, aplicado via
   `icons/install-icons.sh` (não é pacote Stow — clona upstream em
   build-time). Depende do pacote `environment/` (`QT_QPA_PLATFORMTHEME=kde`)
@@ -27,6 +27,16 @@ ainda está em aberto. Complementa [TODO.md](TODO.md) (pendências) e
 - **Cursor (2026-09-15):** Qogir-cursors, aplicado via
   `cursors/install-cursor.sh` (mesmo padrão do `icons/`). Nordzy-cursors e
   Bibata-Original-Classic documentados como 2ª/3ª opção, não instalados.
+- **Tema GTK/Shell/ícone (2026-09-16):** saiu do Adwaita — base virou **Tokyo
+  Night** (GTK3+GTK4/libadwaita+top bar, `gtk-theme/install-gtk-theme.sh`) +
+  ícone **Fluent-purple** (`icons/install-icons-tokyonight.sh`). Fluent-orange
+  (Monokai/Dolphin) preservado intacto em `icons/install-icons.sh` pra voltar
+  se quiser. Claro/escuro é manual (toggle nativo do GNOME); pacote Stow
+  `theme-sync/` roda um watcher (`systemctl --user` service) que mantém
+  gtk-theme/ícone/shell-theme sincronizados com esse toggle. Extensão GNOME
+  Shell "User Themes" (pacote `gnome-shell-extensions`) precisa de
+  logout/login pra aparecer — pendente até a próxima sessão. Ver log de
+  decisões.
 - **Paleta Monokai em todo o resto (2026-09-16):** Alacritty, Neovim, tmux e
   VS Code — mesma paleta do Dolphin. Terminal padrão do sistema trocado pra
   Alacritty (`update-alternatives`, manual/sudo, já feito). `themes/` guarda
@@ -42,6 +52,66 @@ ainda está em aberto. Complementa [TODO.md](TODO.md) (pendências) e
   com `git submodule update --init` (o `bootstrap.sh` faz isso).
 
 ## Log de decisões
+
+### 2026-09-16 — Tema GTK/Shell sai do Adwaita, entra Tokyo Night + Fluent-purple
+
+**Contexto:** pedido de mexer na top bar do GNOME escalou pra "não quero ficar
+no Adwaita, pode pegar um novo tema pra tudo" — visual "mais programador +
+minimalista", referência dada: Tokyo Night GTK Theme
+(gnome-look.org/p/1681315, upstream real é
+[Fausto-Korpsvart/Tokyonight-GTK-Theme](https://github.com/Fausto-Korpsvart/Tokyonight-GTK-Theme)).
+Usa o desktop de dia e de noite, então precisa alternar claro/escuro sem
+perder o sol de vista durante o dia.
+
+**Decisão (tema):** Tokyo Night (variante padrão "blue", que já é a paleta
+clássica do tema) para GTK3, GTK4/libadwaita e GNOME Shell (top bar via
+extensão User Themes), instalado com light+dark em `~/.themes` por
+`gtk-theme/install-gtk-theme.sh` (clone efêmero do upstream, mesmo padrão do
+`icons/install-icons.sh` — não vendoriza).
+
+**Decisão (ícone):** perguntado se mantinha o Fluent orange/dark (combo
+Monokai/Dolphin) ou trocava pra combinar — resposta: trocar, mas preservar
+como o orange foi feito caso queira voltar. Resultado: novo script irmão
+`icons/install-icons-tokyonight.sh` gera **Fluent-purple** (light+dark,
+combina com a paleta azul/roxa do Tokyo Night); `icons/install-icons.sh`
+(orange) **não foi tocado**, continua documentando a decisão de 2026-09-15.
+
+**Decisão (claro/escuro):** perguntado automático-por-horário vs.
+manual-por-script vs. manual-pelo-toggle-nativo — escolhido o **toggle
+nativo** (Configurações > Aparência). Problema: esse toggle só seta
+`org.gnome.desktop.interface color-scheme` (prefer-dark/prefer-light); pra
+temas fora do Yaru isso não troca `gtk-theme`/`icon-theme`/tema do shell
+sozinho. Solução: pacote Stow novo `theme-sync/` com um script
+(`theme-sync-watcher.sh`) rodando como `systemctl --user` service
+(`theme-sync.service`, `WantedBy=graphical-session.target`) que fica em
+`gsettings monitor` na chave `color-scheme` e reaplica
+gtk-theme/icon-theme/shell-theme (Tokyonight-{Light,Dark} +
+Fluent-purple-{light,dark}) a cada mudança. Testado: troca em ~1s.
+
+**Dependências instaladas:** `sassc` (build do tema, faltava) e
+`gnome-shell-extensions` (traz a extensão "User Themes", necessária pra tema
+valer na top bar — sem ela só GTK3/GTK4 dos apps mudam, não o shell). Ambos
+via apt/sudo, manual (sandbox não tem senha interativa).
+
+**Pendência:** extensão "User Themes" instalada mas GNOME Shell no Wayland só
+recarrega extensões de sistema novas depois de logout/login — não dá pra
+reiniciar o shell em uso como no X11. `gnome-extensions enable
+user-theme@gnome-shell-extensions.gcampax.github.com` fica pra próxima sessão
+gráfica.
+
+**Erro cometido e corrigido:** `stow theme-sync` sem `-t ~` usou o alvo
+default (pai do diretório atual = `~/projects`), criando
+`~/projects/.config` e `~/projects/.local` como symlinks pro pacote — pego
+antes de qualquer dano (pastas não tinham conteúdo, só foram removidas e
+re-stowed com `-t ~`, seguindo a convenção do README). Lição: **sempre usar
+`stow -v -t ~ <pacote>`**, nunca `stow <pacote>` puro dentro do repo.
+
+**Consequências:** Alacritty/Neovim/tmux/VS Code continuam em Monokai (não
+foram tocados — decisão de 2026-09-16 abaixo é sobre esses, separada da
+mudança de tema do sistema aqui). `themes/tokyo-night/` (paleta antiga do
+Alacritty) fica sem uso direto por enquanto — é uma paleta diferente da usada
+pelo tema GTK (esse veio do repo Tokyonight-GTK-Theme direto, não do arquivo
+local).
 
 ### 2026-09-16 — Monokai em Alacritty/Neovim/tmux/VS Code + Alacritty terminal padrão
 
