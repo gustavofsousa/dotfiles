@@ -42,6 +42,9 @@ zstyle ':completion:*' list-colors ${(s.:.)LS_COLORS}
 zstyle ':completion:*:*:kill:*:processes' list-colors '=(#b) #([0-9]#)*=0=01;31'
 zstyle ':completion:*:kill:*' command 'ps -u $USER -o pid,%cpu,tty,cputime,cmd'
 
+export EDITOR="nvim"
+export VISUAL="nvim"
+
 alias lg="lazygit"
 alias wifi='swaymsg exec "alacritty -t nm_tui_win -e nmtui"'
 alias gnome='gnome-shell --nested'

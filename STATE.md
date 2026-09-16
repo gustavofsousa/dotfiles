@@ -17,15 +17,21 @@ ainda está em aberto. Complementa [TODO.md](TODO.md) (pendências) e
   entrada em `~/Documents/livros/entrada`). Ver decisões abaixo e os docs
   [docs/notas-pkm.md](docs/notas-pkm.md) e [docs/livros-calibre.md](docs/livros-calibre.md).
 - Gerenciador: **GNU Stow** (ver decisão abaixo). Pacotes ativos:
-  `alacritty`, `environment`, `nvim`, `tmux`, `home`. Bootstrap de máquina
-  nova: `bootstrap.sh`.
+  `alacritty`, `environment`, `home`, `nvim`, `tmux`, `vscode`. Bootstrap de
+  máquina nova: `bootstrap.sh`.
 - **Ícones/tema do Dolphin (2026-09-15):** Fluent orange/dark, aplicado via
   `icons/install-icons.sh` (não é pacote Stow — clona upstream em
   build-time). Depende do pacote `environment/` (`QT_QPA_PLATFORMTHEME=kde`)
-  + `plasma-integration` instalado via apt (manual). Ver log de decisões.
+  + `plasma-integration` instalado via apt (manual, já feito). Ver log de
+  decisões.
 - **Cursor (2026-09-15):** Qogir-cursors, aplicado via
   `cursors/install-cursor.sh` (mesmo padrão do `icons/`). Nordzy-cursors e
   Bibata-Original-Classic documentados como 2ª/3ª opção, não instalados.
+- **Paleta Monokai em todo o resto (2026-09-16):** Alacritty, Neovim, tmux e
+  VS Code — mesma paleta do Dolphin. Terminal padrão do sistema trocado pra
+  Alacritty (`update-alternatives`, manual/sudo, já feito). `themes/` guarda
+  o Tokyo Night antigo do Alacritty pra retomar depois, sem aplicar. Ver log
+  de decisões.
 - **Sótão (`attic/`, versionado sem symlink):** `sway`, `waybar`, `yambar`,
   `xremap` — ambiente tiling abandonado ao migrar pra GNOME/Ubuntu (Wayland).
   Arquivados em 2026-09, ver log de decisões. Resolve também o antigo impasse
@@ -36,6 +42,58 @@ ainda está em aberto. Complementa [TODO.md](TODO.md) (pendências) e
   com `git submodule update --init` (o `bootstrap.sh` faz isso).
 
 ## Log de decisões
+
+### 2026-09-16 — Monokai em Alacritty/Neovim/tmux/VS Code + Alacritty terminal padrão
+
+**Contexto:** ícones e cursor do Dolphin já estavam em Monokai (2026-09-15), mas
+o resto do sistema não: Alacritty estava em Tokyo Night, Neovim sem colorscheme
+nenhum (cores cruas do terminal), tmux no tema cinza padrão do oh-my-tmux, VS
+Code sem tema nem fonte definidos (apesar de ter 4 extensões monokai-* instaladas
+e nunca ativadas). `$EDITOR`/`$VISUAL` também nunca tinham sido setados (só
+`git core.editor=nvim`, isolado).
+
+**Decisão (paleta):** Monokai clássico aplicado em todo o resto:
+- Alacritty: bloco `[colors.*]` reescrito com a paleta clássica (mesmos hex
+  usados no `kdeglobals`: bg `#272822`, fg `#f8f8f2`, etc.).
+- Neovim: plugin `tanvirtin/monokai.nvim` adicionado
+  (`lua/plugins/colorscheme.lua`), colorscheme `monokai` (não `monokai_classic`
+  — nome errado tentado primeiro, corrigido depois de testar headless).
+- tmux: as 17 `tmux_conf_theme_colour_*` do `.tmux.conf.local` remapeadas pra
+  Monokai.
+- VS Code: `workbench.colorTheme=Monokai` (tema **embutido**, sem precisar de
+  extensão) + `editor.fontFamily`/`terminal.integrated.fontFamily` = JetBrains
+  Mono. `settings.json` virou pacote Stow (`vscode/`) — antes só existia solto
+  em `~/.config/Code/User/`.
+
+**Decisão (padrão pra abrir algo):** `EDITOR`/`VISUAL=nvim` adicionados ao
+`.zshrc` (pacote `home/`). `git core.editor` já era `nvim`, sem mudança.
+Terminal padrão do sistema (`x-terminal-emulator`, usado por GNOME Files
+"abrir terminal aqui", `Super+T`, etc.) trocado de `gnome-terminal` pra
+`alacritty` via `update-alternatives --install` + `--set` — **manual, exige
+sudo**, rodado pelo Gustavo diretamente (fora do escopo do bootstrap.sh).
+**Deixado de fora, decisão consciente:** duplo-clique em arquivo de
+texto/código no Dolphin/Nautilus continua abrindo GNOME Text Editor (GUI),
+não terminal+nvim — mudar isso mudaria o fluxo de clique duplo de forma mais
+invasiva do que o pedido cobria.
+
+**Decisão (Tokyo Night guardado, não aplicado):** Gustavo achou o Tokyo Night
+bonito também — bloco de cores original do Alacritty salvo em
+`themes/tokyo-night/alacritty-colors.toml` pra retomar/comparar depois, sem
+aplicar agora. `themes/README.md` documenta que só o Alacritty tem snapshot
+completo (Neovim/tmux/VS Code nunca tiveram Tokyo Night configurado) e que um
+switcher de verdade fica mais natural na Fase 3 (Nix/home-manager) do que um
+script bash ad-hoc reescrevendo 4 arquivos.
+
+**Por quê:** o objetivo declarado é "mesma cara entre todos os apps" — com
+ícones/cursor decididos mas terminal/editor/multiplexador/IDE cada um numa
+paleta diferente, a rice ficava pela metade. Testado headless (`nvim
+--headless -c "colorscheme monokai"`) antes de declarar pronto, não só
+assumido.
+
+**Consequências:** próxima sessão tmux já abre com o tema novo (não havia
+sessão ativa pra recarregar ao vivo). VS Code precisa reabrir (ou "Reload
+Window") pra pegar tema/fonte novos — não testado ao vivo por não ter acesso
+de screenshot no ambiente (mesma limitação já registrada na rice do Dolphin).
 
 ### 2026-09-15 — Cursor do mouse: Qogir (1ª opção), Nordzy e Bibata-Original-Classic como alternativas
 

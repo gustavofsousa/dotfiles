@@ -25,9 +25,11 @@ Pacotes ativos (viram symlink):
 | `environment/` | `~/.config/environment.d/` (variáveis de ambiente da sessão)         |
 | `nvim/`        | `~/.config/nvim/`                                                     |
 | `tmux/`        | `~/.config/tmux/`                                                     |
+| `vscode/`      | `~/.config/Code/User/settings.json`                                   |
 | `home/`        | `~/.zshrc`, `~/.tmux.conf`, `~/.gitconfig` (dotfiles de raiz da home) |
 
-`attic/`, `fonts/`, `icons/`, `cursors/` e `zen/` **não** são pacotes do Stow:
+`attic/`, `fonts/`, `icons/`, `cursors/`, `themes/` e `zen/` **não** são
+pacotes do Stow:
 
 - `attic/` é o **sótão**: config de ferramenta que não uso mais (hoje: `sway`,
   `waybar`, `yambar`, `xremap` — ambiente tiling, inativo no GNOME/Ubuntu).
@@ -44,6 +46,10 @@ Pacotes ativos (viram symlink):
   As duas alternativas comparadas (Nordzy-cursors, Bibata-Original-Classic)
   não ficam instaladas por padrão — os comandos pra reinstalá-las estão
   comentados no fim do script.
+- `themes/` guarda paletas de tema como referência pra troca futura (não é
+  switcher automático — ver `themes/README.md`). Hoje: Monokai é o tema
+  ativo (aplicado direto nos arquivos de cada ferramenta), Tokyo Night fica
+  guardado como opção pra retomar depois.
 - `zen/` guarda notas; o perfil do Zen Browser fica no Flatpak e não é
   gerenciado por symlink simples.
 
