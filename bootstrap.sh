@@ -33,7 +33,7 @@ cd "$REPO_DIR"
 # Pacotes Stow ativos (uma pasta por ferramenta; espelham o caminho a partir
 # de $HOME). attic/, fonts/, icons/, cursors/, zen/, docs/, specs/ NÃO são
 # pacotes Stow.
-STOW_PACKAGES=(alacritty environment home nvim tmux vscode)
+STOW_PACKAGES=(alacritty environment home nvim theme-sync tmux vscode)
 
 # --- flags ------------------------------------------------------------------
 APPLY=false

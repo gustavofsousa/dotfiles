@@ -1,0 +1,11 @@
+[Unit]
+Description=Sincroniza tema GTK/Shell/ícone (Tokyo Night) com o toggle claro/escuro do GNOME
+PartOf=graphical-session.target
+
+[Service]
+Type=simple
+ExecStart=%h/.local/bin/theme-sync-watcher.sh
+Restart=on-failure
+
+[Install]
+WantedBy=graphical-session.target
