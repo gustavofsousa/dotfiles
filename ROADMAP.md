@@ -26,6 +26,14 @@
 *(vazio — os itens de fechamento da Fase 2 foram concluídos, ver ✅ Feito)*
 
 ## 🟡 Soon *(provável — Fase 1: decidir área por área, aplicando o padrão da Fase 0)*
+- `[repo]` **Dump/restore declarativo do dconf (tema GNOME Shell).** Hoje só
+  ícones (`icons/`) e `kdeglobals` (Dolphin/apps Qt) estão versionados; o
+  resto do tema do GNOME Shell (top bar, extensões, wallpaper, etc.) ainda é
+  ajuste manual perdido na GUI — contra o princípio de "estilo portátil" da
+  skill `ricing-do-gustavo`. Ideia: `dconf dump /org/gnome/` (escopo a
+  refinar — não tudo, só as chaves de tema/extensões) versionado num pacote
+  novo, com script de restore (`dconf load`). Surgiu ao ricar o Dolphin
+  (2026-09-15) — ver [STATE.md](STATE.md).
 - `[repo]` Reduzir binários vendorizados em `fonts/`; script baixa Nerd Fonts sob demanda.
 - `[repo]` Decidir `waybar` vs `yambar` (coexistem; `yambar/` é placeholder) — ou documentar por que os dois ficam.
 - `[repo]` Decidir se `zen/` fica só com notas ou guarda os exportáveis do perfil Flatpak.
