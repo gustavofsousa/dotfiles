@@ -36,14 +36,20 @@ ainda está em aberto. Complementa [TODO.md](TODO.md) (pendências) e
   gtk-theme/ícone/shell-theme sincronizados com esse toggle. Extensão GNOME
   Shell "User Themes" habilitada em 2026-09-17 (pós logout/login) — top bar
   já responde ao tema junto com o resto. Ver log de decisões.
-- **Wallpaper Tokyo Night (2026-09-17):** design oficial "gnome" (minimalista,
-  pegada do GNOME + listras na paleta do tema), variantes claro/escuro
-  vendorizadas em `wallpaper/backgrounds/*.svg` (upstream
-  [tokyo-night/wallpapers](https://github.com/tokyo-night/wallpapers), MIT).
-  Aplicado via `wallpaper/apply-wallpaper.sh` em `picture-uri`/
-  `picture-uri-dark` — GNOME troca sozinho entre os dois conforme
-  `color-scheme`, sem precisar do watcher do `theme-sync/`. `wallpaper/` não é
-  pacote Stow (mesmo padrão de `icons/`/`gtk-theme/`).
+- **Wallpaper Tokyo Night (2026-09-17, trocado no mesmo dia):** primeira
+  versão era o design oficial "gnome" (pegada do GNOME + listras). Gustavo
+  pediu pra trocar pelo **símbolo do Tokyo Night** — a Tokyo Tower (dá nome
+  ao tema), composta a partir do `theme-icon.png` do upstream
+  [tokyo-night/wallpapers](https://github.com/tokyo-night/wallpapers) (MIT).
+  Variantes claro/escuro vendorizadas como PNG 4K em
+  `wallpaper/backgrounds/tokyo-night-symbol-{night,light}.png` (torre+texto
+  "function" sobre canvas sólido `#1a1b26`/`#d5d6db`; variante clara com a
+  torre recolorida pro tom "fg" do Tokyo Night Day `#343b58`, já que o
+  lavender original não tinha contraste em fundo claro). Aplicado via
+  `wallpaper/apply-wallpaper.sh` em `picture-uri`/`picture-uri-dark` — GNOME
+  troca sozinho entre os dois conforme `color-scheme`, sem precisar do
+  watcher do `theme-sync/`. `wallpaper/` não é pacote Stow (mesmo padrão de
+  `icons/`/`gtk-theme/`).
 - **Paleta Monokai em todo o resto (2026-09-16):** Alacritty, Neovim, tmux e
   VS Code — mesma paleta do Dolphin. Terminal padrão do sistema trocado pra
   Alacritty (`update-alternatives`, manual/sudo, já feito). `themes/` guarda
@@ -60,6 +66,56 @@ ainda está em aberto. Complementa [TODO.md](TODO.md) (pendências) e
   com `git submodule update --init` (o `bootstrap.sh` faz isso).
 
 ## Log de decisões
+
+### 2026-09-17 — Wallpaper trocado pro símbolo real do Tokyo Night (Tokyo Tower)
+
+**Contexto:** logo depois de aplicar o wallpaper "gnome" (pegada + listras),
+Gustavo pediu "coloca o símbolo do Tokyo Night" — o repo de wallpapers não
+tem nenhum arquivo pronto com esse símbolo (só variantes por SO/DE:
+gnome/kde/i3wm/xfce/wordpress/stripes). Achei o símbolo de verdade no
+`theme-icon.png` da raiz do mesmo repo: a **Tokyo Tower** (a torre real que
+dá nome ao tema) com "function" repetido atrás nas 5 cores de sintaxe do
+tema — é o logo/avatar oficial do projeto no GitHub.
+
+**Decisão:** compor um wallpaper novo a partir desse ícone em vez de usar
+algo pronto. Processo (com dois bugs no caminho, ver abaixo): isolar a arte
+(torre + texto) removendo o fundo do badge original por cor
+(`-transparent`), aparar uma margem residual da borda arredondada do badge
+com `-shave`, montar sobre canvas sólido 3840x2160 nas cores exatas do tema
+(`#1a1b26` noite, `#d5d6db` dia — mesmas do wallpaper anterior, pra manter
+consistência caso troque de novo). Pra variante clara, a torre precisou ser
+recolorida de `#c0c9f5` (lavender, ilegível em fundo claro) pro `#343b58`
+(tom "fg" do Tokyo Night Day) — texto "function" manteve as cores originais
+(pastéis do tema legíveis em ambos fundos, não precisou de mapa de recolor
+completo). Substituiu as duas SVGs anteriores em
+`wallpaper/backgrounds/tokyo-night-symbol-{night,light}.png` — mesmo script
+`apply-wallpaper.sh`, só os nomes de arquivo mudaram.
+
+**Dois bugs de ImageMagick no processo, pra não repetir:**
+1. `-opaque "#COR" -fill none` **não produz transparência** (pinta preto
+   opaco em vez de transparente) — usar sempre o operador dedicado
+   `-transparent "#COR"`.
+2. `-alpha Associate`/`-alpha Disassociate` ao redor de um `-resize`, feito
+   pra tentar consertar uma franja de borda visível contra fundo vermelho de
+   teste, **piorou tudo**: criou uma caixa preta sólida ao compor sobre um
+   canvas escuro de verdade. A franja original só aparecia contra vermelho
+   por coincidência de contraste — um `-resize` simples, sem o truque de
+   associate/disassociate, já ficava limpo contra os fundos reais
+   (`#1a1b26`/`#d5d6db`). A franja residual real (visível só contra fundo
+   claro) era uma borda física desenhada no PNG original perto do canto
+   arredondado, resolvida aparando alguns pixels com `-shave` antes de
+   qualquer outra operação — não era artefato de anti-aliasing, então
+   `-fuzz` alto (testado até 40%) nunca teria resolvido.
+
+**Verificação:** cada etapa (remoção de fundo, recolor, resize, composição
+final) foi conferida rasterizando e lendo o PNG resultante antes de seguir
+pra próxima — pegou os dois bugs acima antes de aplicar de verdade.
+
+**Consequências:** nenhuma mudança de fundo/paleta/processo, só troca do
+motivo visual. `wallpaper/LICENSE-upstream.txt` continua válido (mesmo repo,
+mesma licença MIT) — a nota do script agora deixa claro que a imagem é
+**composta** a partir do `theme-icon.png` deles, não um arquivo copiado
+direto do diretório de wallpapers.
 
 ### 2026-09-17 — Extensão "User Themes" habilitada + wallpaper Tokyo Night
 
