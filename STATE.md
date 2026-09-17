@@ -53,6 +53,34 @@ ainda está em aberto. Complementa [TODO.md](TODO.md) (pendências) e
 
 ## Log de decisões
 
+### 2026-09-16 — Google Drive: rclone escolhido, runbooks de rclone e Syncthing escritos
+
+**Contexto:** item Soon do ROADMAP pedia decidir GNOME Online Accounts (GOA)
+vs. `rclone` pro Google Drive no Ubuntu. Checado o estado real da máquina:
+`rclone v1.60.1` e `syncthing v1.27.2` **já instalados via apt**, nenhum dos
+dois configurado (`rclone listremotes` vazio, `syncthing.service` existe mas
+`disabled`, nunca rodou).
+
+**Decisão:** **rclone**, não GOA. GOA só monta o Drive como pasta virtual
+(bom pra navegar, não agenda nem sincroniza pasta↔nuvem sozinho); rclone roda
+sem sessão gráfica, agenda via systemd timer, e serve o caso de backup já
+desenhado no HQ ([`_hq/infra/livros-backup-sync.md`](../_hq/infra/livros-backup-sync.md)) sem depender de GUI.
+
+**Documentação criada:** [docs/google-drive-rclone.md](docs/google-drive-rclone.md)
+e [docs/syncthing.md](docs/syncthing.md) — runbooks passo a passo do que só o
+Gustavo (humano) pode fazer: `rclone config` exige OAuth no navegador com
+`gustavofsousa.me@gmail.com`; Syncthing exige parear o Android fisicamente.
+Nenhum dos dois passos é executável pela IA.
+
+**Por quê:** a IA não tem acesso ao navegador/sessão Google do Gustavo nem ao
+celular físico — só dá pra levantar o que já está pronto (instalação) e deixar
+o passo a passo exato do que falta, sem fingir que a configuração está feita.
+
+**Consequências:** ambos os runbooks ficam prontos pra seguir assim que o
+Gustavo tiver ~10-30 min; o caso concreto de uso (backup da biblioteca Calibre
+via rclone, sync de `entrada/` via Syncthing) permanece detalhado no HQ, essas
+docs novas cobrem a ferramenta em si (instalação, primeira configuração).
+
 ### 2026-09-16 — `fonts/` não vendoriza mais binário, baixa Nerd Font em build-time
 
 **Contexto:** item Soon do ROADMAP; `fonts/JetBrainsMono/` e

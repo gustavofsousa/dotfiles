@@ -36,9 +36,13 @@
   (2026-09-15) — ver [STATE.md](STATE.md).
 - `[repo]` Decidir se `zen/` fica só com notas ou guarda os exportáveis do perfil Flatpak.
 - `[pc]` Revisar atalhos de teclado (Zen, GNOME, VS Code, terminal, Dolphin) — consolidar sem conflito, prontos pra virar declarativo depois.
-- `[pc]` Configurar Google Drive no Ubuntu (GNOME Online Accounts ou `rclone`).
+- `[pc]` **Google Drive — decidido: rclone** (2026-09-16), não GNOME Online
+  Accounts. rclone e Syncthing já estão instalados (apt) mas sem remote/pareamento —
+  falta ação humana (OAuth no navegador, pareamento do celular). Runbook:
+  [docs/google-drive-rclone.md](docs/google-drive-rclone.md) e
+  [docs/syncthing.md](docs/syncthing.md).
 - `[pc]` Ajustar backups do Notion.
-- `[pc→hq]` **Livros/backup/sync saíram do dotfiles** *(2026-09-11)* — o assunto migrou pro HQ (futuro NAS): [`_hq/infra/livros-backup-sync.md`](../_hq/infra/livros-backup-sync.md). Aqui fica só *onde* a biblioteca mora no disco ([docs/livros-calibre.md](docs/livros-calibre.md)); Syncthing (só `entrada/`, Android→PC) e backup são responsabilidade do HQ. Instalar Syncthing segue pendente (precisa sudo).
+- `[pc→hq]` **Livros/backup/sync saíram do dotfiles** *(2026-09-11)* — o assunto migrou pro HQ (futuro NAS): [`_hq/infra/livros-backup-sync.md`](../_hq/infra/livros-backup-sync.md). Aqui fica só *onde* a biblioteca mora no disco ([docs/livros-calibre.md](docs/livros-calibre.md)); uso concreto de Syncthing (só `entrada/`, Android→PC) descrito em [docs/syncthing.md](docs/syncthing.md), backup off-site em [docs/google-drive-rclone.md](docs/google-drive-rclone.md).
 
 ## ⚪ Later
 - `[vem-depois]` **Fase 3 — migrar para Nix / home-manager.** Só começa com 0–2 maduras. Objetivo: aprender Nix a fundo, sistema reproduzível por config declarativa. Migração incremental — a estrutura por ferramenta e o padrão da Fase 0 seguem servindo. Spec: [specs/fase-3-migrar-nix.md](specs/fase-3-migrar-nix.md).

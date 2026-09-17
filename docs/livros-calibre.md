@@ -41,13 +41,12 @@ projeto como **AD-028** (`~/projects/04_calibre-mcp/.specs/STATE.md`).
 
 ## Sincronização (Syncthing) e backup
 
-Este assunto **saiu do dotfiles** e vive agora no HQ (futuro NAS):
-**[`_hq/infra/livros-backup-sync.md`](../../_hq/infra/livros-backup-sync.md)**.
-Lá está o desenho completo — Syncthing só na `entrada/` (Android ↔ PC), a trava
-de nunca sincronizar `biblioteca/` (SQLite vivo corrompe), backup e horizonte NAS.
-Esta doc (dotfiles) fica só com **onde** a biblioteca mora no disco (organização
-de arquivos, finalidade de máquina nova); **como** ela viaja e é resguardada é
-responsabilidade do HQ.
+O desenho completo (por quê só `entrada/`, trava do SQLite, horizonte NAS) vive
+no HQ: **[`_hq/infra/livros-backup-sync.md`](../../_hq/infra/livros-backup-sync.md)**.
+O runbook de instalação/pareamento em si (o que já está no computador, passo a
+passo do que falta) está em [`docs/syncthing.md`](syncthing.md) (Syncthing) e
+[`docs/google-drive-rclone.md`](google-drive-rclone.md) (backup off-site via
+rclone). Esta doc (dotfiles) fica só com **onde** a biblioteca mora no disco.
 
 **Snapshot manual existente:** `~/Backups/biblioteca-backup-2026-09-11/`
 (2.6 GB, cópia completa da `biblioteca/` feita antes da faxina de 2026-09-11).
