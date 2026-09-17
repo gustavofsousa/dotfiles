@@ -34,9 +34,16 @@ ainda está em aberto. Complementa [TODO.md](TODO.md) (pendências) e
   se quiser. Claro/escuro é manual (toggle nativo do GNOME); pacote Stow
   `theme-sync/` roda um watcher (`systemctl --user` service) que mantém
   gtk-theme/ícone/shell-theme sincronizados com esse toggle. Extensão GNOME
-  Shell "User Themes" (pacote `gnome-shell-extensions`) precisa de
-  logout/login pra aparecer — pendente até a próxima sessão. Ver log de
-  decisões.
+  Shell "User Themes" habilitada em 2026-09-17 (pós logout/login) — top bar
+  já responde ao tema junto com o resto. Ver log de decisões.
+- **Wallpaper Tokyo Night (2026-09-17):** design oficial "gnome" (minimalista,
+  pegada do GNOME + listras na paleta do tema), variantes claro/escuro
+  vendorizadas em `wallpaper/backgrounds/*.svg` (upstream
+  [tokyo-night/wallpapers](https://github.com/tokyo-night/wallpapers), MIT).
+  Aplicado via `wallpaper/apply-wallpaper.sh` em `picture-uri`/
+  `picture-uri-dark` — GNOME troca sozinho entre os dois conforme
+  `color-scheme`, sem precisar do watcher do `theme-sync/`. `wallpaper/` não é
+  pacote Stow (mesmo padrão de `icons/`/`gtk-theme/`).
 - **Paleta Monokai em todo o resto (2026-09-16):** Alacritty, Neovim, tmux e
   VS Code — mesma paleta do Dolphin. Terminal padrão do sistema trocado pra
   Alacritty (`update-alternatives`, manual/sudo, já feito). `themes/` guarda
@@ -46,12 +53,66 @@ ainda está em aberto. Complementa [TODO.md](TODO.md) (pendências) e
   `xremap` — ambiente tiling abandonado ao migrar pra GNOME/Ubuntu (Wayland).
   Arquivados em 2026-09, ver log de decisões. Resolve também o antigo impasse
   `waybar` vs `yambar`: ambos saíram do fluxo ativo juntos.
-- `attic/`, `fonts/`, `icons/`, `cursors/` e `zen/` não são pacotes do Stow — ver README.
+- `attic/`, `fonts/`, `icons/`, `cursors/`, `gtk-theme/`, `wallpaper/` e `zen/`
+  não são pacotes do Stow — ver README.
 - `tmux/.config/tmux/plugins/` (`tpm`, `tmux-resurrect`, `tmux-sensible`)
   são **submodules** de verdade (`.gitmodules` presente) — clone novo recupera
   com `git submodule update --init` (o `bootstrap.sh` faz isso).
 
 ## Log de decisões
+
+### 2026-09-17 — Extensão "User Themes" habilitada + wallpaper Tokyo Night
+
+**Contexto:** pendência deixada em 2026-09-16 — extensão instalada mas só
+carrega no GNOME Shell (Wayland) depois de logout/login. Gustavo avisou que
+tinha feito logout e voltado; pediu pra habilitar a extensão, revisar se
+tudo ficou certo, e adicionar um wallpaper Tokyo Night.
+
+**Decisão (extensão):** `gnome-extensions enable
+user-theme@gnome-shell-extensions.gcampax.github.com` — confirmado `State:
+ACTIVE`. Testado o watcher (`theme-sync.service`) de ponta a ponta depois
+disso: alternar `color-scheme` agora troca `gtk-theme`, `icon-theme` **e**
+`org.gnome.shell.extensions.user-theme name` juntos em ~1s (antes só os dois
+primeiros respondiam, porque o schema da extensão nem existia até habilitar).
+
+**Decisão (wallpaper):** design oficial "gnome" do repo
+[tokyo-night/wallpapers](https://github.com/tokyo-night/wallpapers) (MIT) —
+minimalista, pegada do GNOME com listras na paleta do tema, casa com o pedido
+original de visual "mais programador + minimalista". Pasta `night/minimal` e
+`light/minimal`, formato SVG (`_scalable`, lossless — evita escolher
+resolução fixa). Vendorizado direto em `wallpaper/backgrounds/*.svg` (6KB
+cada) em vez de clone efêmero — são só 2 imagens estáticas, não um tema pra
+rebuildar, então vendorizar é mais simples e sem trade-off real.
+`wallpaper/apply-wallpaper.sh` copia pra `~/.local/share/backgrounds/` e seta
+`org.gnome.desktop.background picture-uri`/`picture-uri-dark`. **GNOME troca
+sozinho entre os dois conforme o toggle nativo claro/escuro** — descoberta
+importante: essa chave já existe nativamente
+(`org.gnome.desktop.background picture-uri-dark`), então o wallpaper não
+precisou entrar no watcher do `theme-sync/` como o resto precisou.
+
+**Erro cometido e corrigido:** primeira tentativa colocou
+`wallpaper/apply-wallpaper.sh` dentro da árvore que o Stow espelha
+(`wallpaper/.local/share/backgrounds/...` + o script solto na raiz do
+pacote) e rodei `stow -t ~ wallpaper` — isso criou um symlink solto direto em
+`~/apply-wallpaper.sh` (script na raiz do pacote não tem prefixo de pasta
+oculta, então o Stow espelha ele direto pra raiz da home). Desfeito com
+`stow -D -t ~ wallpaper` e reestruturado: `wallpaper/` **não é pacote Stow**
+(mesmo padrão de `icons/`/`gtk-theme/`), o script copia os arquivos ele
+mesmo. Lição: pacote Stow só deve conter caminhos que já espelham `$HOME`
+corretamente (`.config/...`, `.local/...`) — qualquer arquivo solto na raiz
+do pacote vaza pra raiz da home.
+
+**Verificação:** rasterizei as duas SVGs com `convert` (ImageMagick) e li as
+PNGs geradas pra conferir visualmente — captura de tela direta não funcionou
+(`gnome-screenshot` ausente, D-Bus `org.gnome.Shell.Screenshot` negado por
+sandbox, `grim` incompatível com Mutter/Wayland). As duas variantes
+renderizaram corretamente antes de aplicar.
+
+**Consequências:** ricing do sistema (tema+ícone+shell+wallpaper) fechado
+ponta a ponta, claro e escuro, tudo versionado e reaplicável num
+`bootstrap.sh --apply --with-wallpaper` numa máquina nova. Falta só o item
+de mood/referência visual do backlog da skill `ricing-do-gustavo` (não
+pedido nesta conversa).
 
 ### 2026-09-16 — `zen/` guarda o tema (ZenMods); Syncthing não tem nada a ver com o Zen
 
