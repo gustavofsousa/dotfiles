@@ -11,6 +11,7 @@
 #   6. (Opcional) instala o cursor via cursors/install-cursor.sh.
 #   7. (Opcional) restaura tema/extensões do GNOME Shell via gnome-shell/restore-dconf.sh.
 #   8. (Opcional) aplica o tema do Zen (ZenMods) via zen/apply-theme.sh.
+#   9. (Opcional) aplica o wallpaper Tokyo Night via wallpaper/apply-wallpaper.sh.
 #
 # Idempotente: rodar de novo não quebra nada. Por segurança, o padrão é
 # DRY-RUN (só mostra o que faria). Use --apply para executar de verdade.
@@ -23,6 +24,7 @@
 #   ./bootstrap.sh --apply --with-cursor  # também instala o cursor
 #   ./bootstrap.sh --apply --with-gnome-shell-theme  # restaura tema/extensões do GNOME Shell (dconf)
 #   ./bootstrap.sh --apply --with-zen-theme  # aplica o tema do Zen (precisa o Zen já ter rodado 1x)
+#   ./bootstrap.sh --apply --with-wallpaper  # aplica o wallpaper Tokyo Night (claro/escuro nativo)
 #
 # Pré-requisito de sistema pro pacote `environment/` fazer efeito em apps
 # Qt/KDE (ex: Dolphin) rodando sob GNOME: `sudo apt install plasma-integration`
@@ -35,8 +37,8 @@ REPO_DIR="$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)"
 cd "$REPO_DIR"
 
 # Pacotes Stow ativos (uma pasta por ferramenta; espelham o caminho a partir
-# de $HOME). attic/, fonts/, icons/, cursors/, gnome-shell/, zen/, docs/, specs/ NÃO são
-# pacotes Stow.
+# de $HOME). attic/, fonts/, icons/, cursors/, gtk-theme/, gnome-shell/, zen/,
+# wallpaper/, docs/, specs/ NÃO são pacotes Stow.
 STOW_PACKAGES=(alacritty environment home nvim theme-sync tmux vscode)
 
 # --- flags ------------------------------------------------------------------
@@ -46,6 +48,7 @@ WITH_ICONS=false
 WITH_CURSOR=false
 WITH_GNOME_SHELL_THEME=false
 WITH_ZEN_THEME=false
+WITH_WALLPAPER=false
 for arg in "$@"; do
 	case "$arg" in
 		--apply) APPLY=true ;;
@@ -54,6 +57,7 @@ for arg in "$@"; do
 		--with-cursor) WITH_CURSOR=true ;;
 		--with-gnome-shell-theme) WITH_GNOME_SHELL_THEME=true ;;
 		--with-zen-theme) WITH_ZEN_THEME=true ;;
+		--with-wallpaper) WITH_WALLPAPER=true ;;
 		-h|--help)
 			# Imprime só o bloco de comentário do topo (pula o shebang, para na
 			# primeira linha que não é comentário).
@@ -172,6 +176,18 @@ if $WITH_ZEN_THEME; then
 	fi
 else
 	say "Tema do Zen: pulado (use --with-zen-theme para aplicar)"
+fi
+
+# --- 9. wallpaper Tokyo Night (opcional) -------------------------------------
+if $WITH_WALLPAPER; then
+	say "Aplicando wallpaper Tokyo Night (wallpaper/apply-wallpaper.sh)"
+	if [ -x wallpaper/apply-wallpaper.sh ]; then
+		run ./wallpaper/apply-wallpaper.sh
+	else
+		warn "wallpaper/apply-wallpaper.sh não encontrado ou sem permissão de execução."
+	fi
+else
+	say "Wallpaper: pulado (use --with-wallpaper para aplicar)"
 fi
 
 # --- fim --------------------------------------------------------------------
