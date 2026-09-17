@@ -34,8 +34,6 @@
   refinar — não tudo, só as chaves de tema/extensões) versionado num pacote
   novo, com script de restore (`dconf load`). Surgiu ao ricar o Dolphin
   (2026-09-15) — ver [STATE.md](STATE.md).
-- `[repo]` Reduzir binários vendorizados em `fonts/`; script baixa Nerd Fonts sob demanda.
-- `[repo]` Decidir `waybar` vs `yambar` (coexistem; `yambar/` é placeholder) — ou documentar por que os dois ficam.
 - `[repo]` Decidir se `zen/` fica só com notas ou guarda os exportáveis do perfil Flatpak.
 - `[pc]` Revisar atalhos de teclado (Zen, GNOME, VS Code, terminal, Dolphin) — consolidar sem conflito, prontos pra virar declarativo depois.
 - `[pc]` Configurar Google Drive no Ubuntu (GNOME Online Accounts ou `rclone`).
@@ -61,6 +59,8 @@
 - **Fase 1 — PKM decidido** *(2026-09-11)* — guarda-chuva `~/Documents/notas-pkm/` com o grafo Logseq movido pra dentro; Obsidian abre a pasta-mãe (markdown compartilhado, sem cópia). Doc: [docs/notas-pkm.md](docs/notas-pkm.md), decisão no [STATE.md](STATE.md).
 - **Fase 1 — livros decididos** *(2026-09-11)* — `~/Documents/livros/{biblioteca,entrada}`; biblioteca Calibre movida, Calibre GUI + env do calibre-mcp atualizados, bug de path do MCP corrigido (validado ao vivo). Doc: [docs/livros-calibre.md](docs/livros-calibre.md).
 - **Divergência PT-BR registrada** *(2026-09-11)* — pastas de conteúdo pessoal (`notas-pkm`, `livros`) em português por escolha; inglês segue pra config/estrutura técnica. Ver [STATE.md](STATE.md).
+- **`waybar` vs `yambar` resolvido por já estarem os dois em `attic/`** *(2026-09-16)* — arquivar os dois (feito em 2026-09-11) já respondia a pergunta; confirmado que não há symlink ativo nem pasta solta na raiz pra nenhum dos dois. Item antigo do balde Soon removido por obsoleto.
+- **`fonts/` não vendoriza mais binário** *(2026-09-16)* — `install-fonts.sh` baixa JetBrainsMono + Symbols Nerd Font (releases oficiais, pinado em `v3.5.1`) em build-time, mesmo padrão do `icons/`. 232MB de `.ttf` removidos do git. Ver [STATE.md](STATE.md).
 
 ## ⚠️ Frágil *(funciona mas não confio — resolver antes de empilhar coisa nova na mesma área)*
 *(vazio — o bootstrap de máquina nova, único item aqui, foi resolvido; ver ✅ Feito)*

@@ -53,6 +53,30 @@ ainda está em aberto. Complementa [TODO.md](TODO.md) (pendências) e
 
 ## Log de decisões
 
+### 2026-09-16 — `fonts/` não vendoriza mais binário, baixa Nerd Font em build-time
+
+**Contexto:** item Soon do ROADMAP; `fonts/JetBrainsMono/` e
+`fonts/JetBrainsMonoSymbols/` tinham 232MB de `.ttf` versionados no git (131
+arquivos), mesmo trade-off já resolvido em `icons/install-icons.sh` (SVG de
+terceiros clonado em build-time, não vendorizado).
+
+**Decisão:** `fonts/install-fonts.sh` reescrito pra baixar os releases oficiais
+do `ryanoasis/nerd-fonts` (`JetBrainsMono.zip` + `NerdFontsSymbolsOnly.zip`,
+pinado em `v3.5.1`) num diretório temporário e instalar em
+`~/.local/share/fonts/`, mesmo padrão do `icons/`. `fonts/JetBrainsMono/` e
+`fonts/JetBrainsMonoSymbols/` removidos do git. Testado de ponta a ponta com
+`HOME` isolado (238MB instalados, `fc-cache` OK).
+
+**Por quê:** binário de terceiro grande e reproduzível a partir de uma URL não
+precisa viver no histórico do git — infla clone/fetch pra sempre (git não
+esquece blob antigo) sem ganho, já que o release upstream é a fonte de verdade.
+
+**Consequências:** clonar o repo de agora em diante já vem 232MB mais leve;
+histórico antigo (commits anteriores) continua carregando esse peso — só um
+`git filter-repo`/rewrite retroativo resolveria isso, não feito aqui (fora de
+escopo, mexe com histórico). Instalar fonte exige rede (mesma limitação do
+`icons/`).
+
 ### 2026-09-16 — Eliminado o tier `~/Archive` da Camada 2
 
 **Contexto:** faxina de `~/Downloads` e revisão da Camada 2 (ver
