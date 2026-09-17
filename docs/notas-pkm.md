@@ -47,8 +47,8 @@ intactos.
 
 O Obsidian é Flatpak (`md.obsidian.Obsidian`). Ao abrir, escolha "Open folder
 as vault" e aponte para `~/Documents/notas-pkm/`. O vault vazio de teste antigo
-(`obsidian-notes`, só com `Welcome.md`) foi arquivado em
-`~/Archive/obsidian-notes-vazio-2026-09-11`.
+(`obsidian-notes`, só com `Welcome.md`) foi apagado em 2026-09-16 (junto da
+eliminação do `~/Archive` — era só um vault de teste vazio, sem dado real).
 
 ## Faxina pendente
 

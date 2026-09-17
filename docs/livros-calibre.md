@@ -49,12 +49,61 @@ Esta doc (dotfiles) fica só com **onde** a biblioteca mora no disco (organizaç
 de arquivos, finalidade de máquina nova); **como** ela viaja e é resguardada é
 responsabilidade do HQ.
 
+**Snapshot manual existente:** `~/Backups/biblioteca-backup-2026-09-11/`
+(2.6 GB, cópia completa da `biblioteca/` feita antes da faxina de 2026-09-11).
+`~/Backups` é o tier estreito só pra backup deliberado — não confundir com o
+extinto `~/Archive` (ver `organizacao-de-arquivos.md`). Continua sendo a única
+cópia de segurança da biblioteca até o desenho de backup do HQ existir de
+fato.
+
+## Nomenclatura para export / envio
+
+`biblioteca/` é gerenciada pelo Calibre sozinho — **nunca renomear essas
+pastas pelo explorador de arquivos** (`<Autor>/<Livro (id)>/`), quebra o
+`metadata.db`. A convenção abaixo vale pra quando o livro **sai** da
+biblioteca: enviar pro Kindle/KOReader, exportar cópia, backup em outro disco.
+
+**Formato master:** manter o original em **EPUB** (padrão aberto); PDF técnico
+fica PDF. Preencher o campo **Série** no Calibre quando o livro fizer parte de
+uma saga — Kindle e KOReader agrupam por esse campo, não pelo nome do arquivo.
+
+| Caso | Template | Exemplo |
+| --- | --- | --- |
+| Avulso | `Sobrenome, Nome - Título (Ano).ext` | `Orwell, George - 1984 (1949).epub` |
+| Série | `Sobrenome, Nome - [Série NN] - Título.ext` | `Herbert, Frank - [Duna 01] - Duna.epub` |
+| PDF técnico | `[Assunto] Autor - Título (Ano).pdf` | `[Docker] Silva, João - Dominando Containers (2023).pdf` |
+
+Número de série com **2 dígitos** (`01`, `02`) pra não quebrar ordenação
+alfabética no volume 10+.
+
+**Modelo de salvamento no Calibre** (Preferências → Salvando livros no disco /
+Enviar para o dispositivo → *Modelo de Salvamento*) automatiza isso na hora de
+exportar/enviar:
+
+```
+{author_sort}/{series:||/|}{series_index:0>2s| - |}{title}
+```
+
+Gera `Herbert, Frank/Duna/01 - Duna.epub` pra livro de série e
+`Orwell, George/1984.epub` pra avulso — sem pasta de série quando não há
+série. **Ainda não configurado** neste sistema (nenhum `save_template` em
+`~/.config/calibre/global.py.json`) — só importa quando um fluxo de
+export/envio (Kindle, Drive, KOReader) existir de fato; hoje é só convenção
+documentada. Quando o calibre-mcp chegar na Fase 4 ("Export to a folder", ver
+`ARCHITECTURE.md`/`ROADMAP.md` do projeto), este é o template a usar.
+
+**Ebook baixado com nome sujo:** não editar nome/metadado na mão — arrastar
+pro Calibre, `E` (editar metadados) → "Baixar Metadados e Capas". Plugins
+úteis: **Modify ePub** (limpa EPUB baixado) e **KFX Output** (envio via cabo
+pro Kindle, hifenização e negrito corretos).
+
 ## Restos a triar
 
 - ✅ **Faxina feita (2026-09-11):** `metadata.db`/`metadata_db_prefs_backup.json`
-  avulsos apagados; `lib_calib_envio1/` (material-fonte, 2.5 GB) arquivado em
-  `~/Archive/calibre-envio1-2025-07/`; Downloads já estava limpo. Ver
-  [TODO.md](../TODO.md).
+  avulsos apagados; `lib_calib_envio1/` (material-fonte, 2.5 GB) importado no
+  Calibre, arquivado temporariamente e depois **apagado de vez em
+  2026-09-16** (`~/Archive` foi eliminado — fonte já estava redundante com a
+  biblioteca). Downloads já estava limpo. Ver [TODO.md](../TODO.md).
 - ✅ **`livros-investimento/` (24 PDFs)** importados no Calibre (2026-09-11);
-  pasta-fonte arquivada em `~/Archive/livros-investimento-fonte-2026-09/`.
-  Biblioteca: 177 → 201 livros. Nenhum resto pendente.
+  pasta-fonte apagada em 2026-09-16 (mesma faxina do `~/Archive`, já redundante
+  com a biblioteca). Biblioteca: 177 → 201 livros. Nenhum resto pendente.

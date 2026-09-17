@@ -53,6 +53,43 @@ ainda está em aberto. Complementa [TODO.md](TODO.md) (pendências) e
 
 ## Log de decisões
 
+### 2026-09-16 — Eliminado o tier `~/Archive` da Camada 2
+
+**Contexto:** faxina de `~/Downloads` e revisão da Camada 2 (ver
+`docs/organizacao-de-arquivos.md`) escancarou que `~/Archive` (criado
+2026-09-11) tinha virado depósito sem curadoria — backup de biblioteca
+Calibre, material-fonte já importado, vault Obsidian de teste vazio, tudo
+misturado sem critério de saída. Servia só pra dar sensação de "resolvido"
+por tirar da frente do Downloads.
+
+**Decisão:** `~/Archive` deixa de existir como pasta de topo. Todo arquivo é
+ou vivo num lugar categorizado (`Documents/<assunto>/`, `Projects/`) ou é
+lixo — apagado. Sem meio-termo de "guardar por guardar". `docs/organizacao-de-arquivos.md`
+e a reference da skill `arruma-meu-not-ai` já refletem isso.
+
+**Por quê:** um tier "frio" sem critério de quando algo sai dele pra ser
+apagado de vez tende a virar lixeira permanente — o problema não é ter dado
+frio, é não ter decidido o destino final dele.
+
+**Consequências:** conteúdo que estava em `~/Archive` foi triado nessa mesma
+sessão — `calibre-envio1-2025-07/` e `livros-investimento-fonte-2026-09/`
+apagados (fonte já importada e redundante com a biblioteca Calibre),
+`obsidian-notes-vazio-2026-09-11/` apagado (vault de teste sem dado real).
+Documentos reais que estavam em `~/Downloads` foram pra pastas próprias em
+`~/Documents/` (`boletos/`, `carreira/`, `contracheque/`,
+`documentos-pessoais-impostoderenda/`, `casamento/`, `geodata-rj/`,
+`imoveis/`, `pessoal/`, `robozzle/`, `projetos-notas/`, mesclado em
+`Marsalgado/`, `univ/tcc/`, `UFF/2026.2/`); manga fora do Calibre foi pra
+`Documents/livros/entrada/` (staging).
+
+**Ajuste 2026-09-16 (mesmo dia):** `biblioteca-backup-2026-09-11/` (2.6 GB) —
+pedido explícito de **não apagar**, é a única cópia de segurança da biblioteca
+Calibre hoje (ver `docs/livros-calibre.md`). Em vez de recriar `~/Archive`
+(que voltaria a ser o depósito genérico que a decisão acima eliminou),
+`~/Archive` foi **renomeado pra `~/Backups`** — tier estreito e intencional,
+só pra snapshots de backup de verdade, não pra "frio sem categoria". Hoje
+`~/Backups` tem só esse item.
+
 ### 2026-09-16 — Tema GTK/Shell sai do Adwaita, entra Tokyo Night + Fluent-purple
 
 **Contexto:** pedido de mexer na top bar do GNOME escalou pra "não quero ficar
