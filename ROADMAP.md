@@ -26,13 +26,6 @@
 *(vazio — os itens de fechamento da Fase 2 foram concluídos, ver ✅ Feito)*
 
 ## 🟡 Soon *(provável — Fase 1: decidir área por área, aplicando o padrão da Fase 0)*
-- `[pc]` **Syncthing pras "sessões" do Zen — pendente de decisão do Gustavo**
-  (2026-09-16): pediu pra preparar a pasta que o Syncthing vai sincronizar,
-  mas `zen-sessions-backup/` e `sessionstore-backups/` no perfil Flatpak são
-  reescritos *o tempo todo* enquanto o Zen roda (mesmo padrão de risco do
-  `metadata.db` do Calibre — sync contínuo bidirecional de arquivo vivo gera
-  `.sync-conflict`/corrupção). Não criei a pasta ainda; levei a pergunta de
-  volta pro Gustavo em vez de assumir. Ver [STATE.md](STATE.md).
 - `[pc]` Revisar atalhos de teclado (Zen, GNOME, VS Code, terminal, Dolphin) — consolidar sem conflito, prontos pra virar declarativo depois.
 - `[pc]` **Google Drive — decidido: rclone** (2026-09-16), não GNOME Online
   Accounts. rclone e Syncthing já estão instalados (apt) mas sem remote/pareamento —
@@ -64,7 +57,8 @@
 - **`waybar` vs `yambar` resolvido por já estarem os dois em `attic/`** *(2026-09-16)* — arquivar os dois (feito em 2026-09-11) já respondia a pergunta; confirmado que não há symlink ativo nem pasta solta na raiz pra nenhum dos dois. Item antigo do balde Soon removido por obsoleto.
 - **`fonts/` não vendoriza mais binário** *(2026-09-16)* — `install-fonts.sh` baixa JetBrainsMono + Symbols Nerd Font (releases oficiais, pinado em `v3.5.1`) em build-time, mesmo padrão do `icons/`. 232MB de `.ttf` removidos do git. Ver [STATE.md](STATE.md).
 - **Dump/restore declarativo do dconf** *(2026-09-16)* — pacote novo `gnome-shell/` (não-Stow): `interface.ini`/`shell.ini`/`wm-preferences.ini` versionados, `dump-dconf.sh` regenera, `restore-dconf.sh` aplica (`bootstrap.sh --with-gnome-shell-theme`). Escopo: tema + extensões habilitadas; atalhos de teclado ficam de fora (item separado). Ver [STATE.md](STATE.md).
-- **`zen/` decidido: guarda o tema (ZenMods)** *(2026-09-16)* — `zen/theme/` versionado + `export-theme.sh`/`apply-theme.sh` (`bootstrap.sh --with-zen-theme`). Sessão/histórico/senhas ficam de fora (estado vivo, já cobertos em parte pelo login do Zen). Ver [STATE.md](STATE.md).
+- **`zen/` decidido: guarda o tema (ZenMods)** *(2026-09-16)* — `zen/theme/` versionado + `export-theme.sh`/`apply-theme.sh` (`bootstrap.sh --with-zen-theme`). Sessão/histórico/senhas ficam de fora — Zen sincroniza isso pelo próprio login (Firefox/Zen Account), não é assunto de dotfiles nem de Syncthing. Ver [STATE.md](STATE.md).
+- **Syncthing dos livros: `para-celular/` criada (PC → Android, Send Only)** *(2026-09-16)* — segunda via além de `entrada/`, pra ler no celular livros já na biblioteca sem sincronizar a `biblioteca/` (índice vivo). Populada via Calibre "Save to disk". Runbook: [docs/syncthing.md](docs/syncthing.md), desenho completo em [`_hq/infra/livros-backup-sync.md`](../_hq/infra/livros-backup-sync.md).
 
 ## ⚠️ Frágil *(funciona mas não confio — resolver antes de empilhar coisa nova na mesma área)*
 *(vazio — o bootstrap de máquina nova, único item aqui, foi resolvido; ver ✅ Feito)*

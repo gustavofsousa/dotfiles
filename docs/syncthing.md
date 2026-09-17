@@ -1,11 +1,23 @@
 # Syncthing — sincronização celular ↔ PC
 
 Fecha o item `[pc]` do [ROADMAP.md](../ROADMAP.md). Uso concreto já desenhado
-hoje: **Android ↔ PC, só `~/Documents/livros/entrada/`** (nunca a
-`biblioteca/` — ver a trava crítica abaixo). Desenho completo e contexto de
-por quê em
+hoje: **Android ↔ PC, duas pastas com direção oposta** (nunca a
+`biblioteca/` inteira — ver a trava crítica abaixo). Desenho completo e
+contexto de por quê em
 [`_hq/infra/livros-backup-sync.md`](../../_hq/infra/livros-backup-sync.md);
 esta doc é o runbook de instalação/pareamento em si.
+
+- **`~/Documents/livros/entrada/`** (Android → PC, bidirecional) — livro
+  baixado no celular aparece aqui pra depois entrar no Calibre.
+- **`~/Documents/livros/para-celular/`** (PC → Android, **Send Only**/**Receive
+  Only**) — livros já na biblioteca que você quer ler no celular. Populado
+  via Calibre: selecionar livro(s) → botão direito → **Save to disk** →
+  apontar pra essa pasta (ou `calibredb export`, CLI já instalada). Pasta já
+  criada, vazia, pronta pro Syncthing apontar.
+
+Nenhuma das duas é a `biblioteca/` em si — só cópias soltas de arquivo
+(epub/pdf), sem o índice do Calibre. É isso que torna as duas seguras pra
+sincronizar (ver trava abaixo).
 
 ## O que já está no computador (checado em 2026-09-16)
 
@@ -50,30 +62,39 @@ Store) — ou *Syncthing* direto na Play Store se preferir não usar F-Droid.
 3. Confirmar a conexão **nos dois lados** (o Android também vai perguntar se
    aceita o PC como device conhecido)
 
-### Passo 4: compartilhar só a pasta certa
+### Passo 4: compartilhar as duas pastas
 
-1. No PC, na UI web: **Add Folder** → path `~/Documents/livros/entrada/`
-2. Em **Sharing**, marcar o device do Android
-3. No Android: aceitar a pasta compartilhada, escolher onde ela fica no
-   armazenamento do celular (ex: pasta de Downloads do app de leitura)
+1. No PC, na UI web: **Add Folder** → path `~/Documents/livros/entrada/` →
+   em **Sharing**, marcar o device do Android. No Android: aceitar a pasta,
+   escolher onde fica no armazenamento (ex: pasta de Downloads do app de
+   leitura). Tipo padrão (bidirecional) — os dois lados podem escrever.
+2. No PC: **Add Folder** de novo → path `~/Documents/livros/para-celular/` →
+   em **Folder Type**, escolher **Send Only** → em **Sharing**, marcar o
+   Android. No Android, ao aceitar, escolher **Folder Type: Receive Only**.
+   Isso garante que o celular nunca escreve nessa pasta — elimina qualquer
+   chance de conflito.
 
 > ⚠️ **Nunca compartilhar `~/Documents/livros/biblioteca/`.** O `metadata.db`
 > do Calibre é SQLite vivo — sincronizar em duas pontas gera conflito
 > (`.sync-conflict`) no meio do índice e corrompe a biblioteca inteira. Só
-> `entrada/` (pequena, volátil, pensada pra isso) entra no Syncthing. Backup
-> da biblioteca é outro mecanismo — ver
+> `entrada/` e `para-celular/` (cópias soltas de arquivo, não o índice)
+> entram no Syncthing. Backup da biblioteca é outro mecanismo — ver
 > [`docs/google-drive-rclone.md`](google-drive-rclone.md).
 
-**Tempo estimado: ~20-30 min na primeira vez** (a maior parte é o pareamento
-manual nas duas pontas).
+**Tempo estimado: ~25-35 min na primeira vez** (a maior parte é o pareamento
+manual nas duas pontas + as duas pastas).
 
 ### Verificar que está funcionando
 
-Baixar um epub de teste no celular pra pasta compartilhada → checar que
-aparece em `~/Documents/livros/entrada/` no PC em segundos.
+- `entrada/`: baixar um epub de teste no celular pra pasta compartilhada →
+  checar que aparece em `~/Documents/livros/entrada/` no PC em segundos.
+- `para-celular/`: no Calibre, exportar (Save to disk) um livro pra
+  `~/Documents/livros/para-celular/` → checar que aparece no celular.
 
 ## Depois de configurado
 
-Fluxo normal: baixar livro no Android → aparece em `entrada/` no PC →
-importar pro Calibre (`biblioteca/`) → pode apagar de `entrada/` (staging,
-não é o lugar definitivo).
+- **Entrada:** baixar livro no Android → aparece em `entrada/` no PC →
+  importar pro Calibre (`biblioteca/`) → pode apagar de `entrada/` (staging,
+  não é o lugar definitivo).
+- **Leitura no celular:** no Calibre, selecionar livro(s) já na biblioteca →
+  **Save to disk** → `para-celular/` → aparece automaticamente no celular.

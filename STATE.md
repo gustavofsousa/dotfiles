@@ -53,13 +53,16 @@ ainda está em aberto. Complementa [TODO.md](TODO.md) (pendências) e
 
 ## Log de decisões
 
-### 2026-09-16 — `zen/` guarda o tema (ZenMods); sessões via Syncthing fica em aberto (risco)
+### 2026-09-16 — `zen/` guarda o tema (ZenMods); Syncthing não tem nada a ver com o Zen
 
 **Contexto:** item Soon do ROADMAP — decidir se `zen/` fica só com notas ou
-guarda exportáveis do perfil Flatpak. Gustavo: consegue sincronizar parte do
-Zen pelo próprio login (Firefox Sync/Zen Account — bookmarks, provavelmente
-histórico/senhas); tema e "sessões" não vêm por aí, pode salvar. Pediu
-também pra preparar a pasta que o Syncthing vai sincronizar.
+guarda exportáveis do perfil Flatpak. Gustavo esclareceu: o Zen sincroniza
+sozinho pelo próprio login (Firefox/Zen Account) — Syncthing não entra nessa
+história. Tema não vem pelo login, pode salvar no repo. O pedido de
+"preparar a pasta que o Syncthing vai sincronizar" era sobre **livros**, não
+Zen (ver decisão separada abaixo) — cheguei a interpretar errado e preparei
+uma pergunta sobre sync de sessão do Zen que não fazia sentido; o Gustavo
+corrigiu antes de eu seguir com isso.
 
 **Decisão (tema):** `zen/theme/` versiona o CSS gerado pelos mods
 (`chrome/zen-themes.css`, 9KB) + a pasta de cada mod
@@ -71,34 +74,43 @@ aleatório) pra dentro do repo; `zen/apply-theme.sh` faz o caminho inverso
 numa máquina nova (`bootstrap.sh --apply --with-zen-theme`). Testado de
 ponta a ponta com `HOME` isolado (export real + apply num perfil falso).
 
-**Decisão (resto do perfil): fica de fora, de propósito.** `zen-sessions-backup/`
-(7.6MB) e `sessionstore-backups/` (5.2MB) são estado vivo — arquivos
-`.jsonlz4`/`.baklz4` **reescritos toda vez que o Zen abre/fecha uma aba**,
-não config. Não entram no git pelo mesmo motivo que `fonts/` não entra mais
-(binário grande e volátil não pertence ao histórico) — e não vira snapshot
-manual como o tema porque muda demais pra isso fazer sentido.
+**Decisão (resto do perfil): fica de fora.** Sessão/histórico/senhas/extensões
+do navegador continuam fora do dotfiles — é estado vivo do Zen, e o próprio
+Zen já resolve a portabilidade disso via login. Nada a preparar aqui.
 
-**Syncthing pra "sessões": NÃO preparei a pasta ainda — risco real, levei a
-pergunta de volta.** Inspecionei `zen-sessions-backup/`: os arquivos
-`recovery.jsonlz4`/`recovery.baklz4` são sobrescritos continuamente enquanto
-o Zen roda. Sincronizar essa pasta ao vivo (bidirecional, Syncthing) enquanto
-o Zen está aberto é **o mesmo padrão de risco já documentado pro
-`metadata.db` do Calibre** — dois lados escrevendo o mesmo arquivo vivo gera
-`.sync-conflict` e pode corromper a sessão. Antes de criar a pasta, preciso
-saber: (a) é sync entre **dois computadores** (Zen não roda em Android) — se
-sim, qual o segundo; (b) o objetivo é sync contínuo (mesmas abas nas duas
-máquinas, ao vivo — arriscado) ou snapshot/backup periódico (seguro, mas não
-é "Syncthing" no sentido usual); (c) os dois nunca rodam Zen ao mesmo tempo
-(mitigaria o risco, já que o conflito só ocorre com escrita concorrente).
+**Por quê:** só o que não tem outro mecanismo de portabilidade (o tema, que
+o login do Zen não cobre) precisa de solução própria; duplicar o que o login
+já resolve seria refazer trabalho.
 
-**Por quê:** a IA não decide sozinha um design de sync que pode corromper
-dado vivo do Gustavo — mesmo princípio já aplicado à trava do Calibre
-(`livros-backup-sync.md`). Preparar a pasta sem entender o padrão de uso
-seria assumir um design arriscado sem confirmação.
+### 2026-09-16 — Syncthing dos livros: segunda pasta `para-celular/` (PC → Android)
 
-**Consequências:** tema do Zen já é portátil (git) a partir de agora; sessão
-segue dependendo só do login nativo do Zen até a decisão do Syncthing ser
-tomada. Item registrado no ROADMAP (balde Soon) até a resposta.
+**Contexto:** Gustavo quer ler no celular livros que já estão na biblioteca
+do Calibre, além do fluxo já desenhado de `entrada/` (celular → PC, pra
+entrar no Calibre). Sincronizar a `biblioteca/` inteira pra isso é a mesma
+armadilha já documentada (`metadata.db` SQLite vivo → `.sync-conflict` →
+corrupção).
+
+**Decisão:** pasta nova `~/Documents/livros/para-celular/` (criada, vazia),
+via oposta a `entrada/` — PC → Android. Populada manualmente pelo Calibre
+("Save to disk" ou `calibredb export`, CLI já instalada): cópias soltas de
+epub/pdf, sem o índice do Calibre, mesmo raciocínio de segurança que já
+protege a `entrada/`. No Syncthing, configurada como **Send Only** no PC e
+**Receive Only** no celular — o celular nunca escreve nessa pasta, elimina
+qualquer chance de conflito mesmo se o uso crescer. Documentado em
+[docs/syncthing.md](docs/syncthing.md) (runbook) e
+[`_hq/infra/livros-backup-sync.md`](../_hq/infra/livros-backup-sync.md)
+(desenho completo, Peça 1 atualizada — editado mas **não commitado**, é
+outro repo com mudanças próprias em andamento que não me cabe tocar).
+
+**Por quê:** a trava do `metadata.db` já ensinou que sync bidirecional de
+índice vivo corrompe; a solução que já funciona pra `entrada/` (arquivo
+solto, não índice) se generaliza pra via contrária sem reinventar nada.
+Send Only/Receive Only é reforço extra — mesmo que `para-celular/` nunca
+tenha risco de índice vivo, elimina qualquer escrita acidental do lado do
+celular.
+
+**Consequências:** falta só a ação manual do Gustavo (pareamento Syncthing,
+ver runbook) — pasta e desenho já prontos dos dois lados (dotfiles + HQ).
 
 ### 2026-09-16 — Dump/restore declarativo do dconf (tema + extensões do GNOME Shell)
 
