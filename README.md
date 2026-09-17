@@ -28,8 +28,8 @@ Pacotes ativos (viram symlink):
 | `vscode/`      | `~/.config/Code/User/settings.json`                                   |
 | `home/`        | `~/.zshrc`, `~/.tmux.conf`, `~/.gitconfig` (dotfiles de raiz da home) |
 
-`attic/`, `fonts/`, `icons/`, `cursors/`, `themes/` e `zen/` **não** são
-pacotes do Stow:
+`attic/`, `fonts/`, `icons/`, `cursors/`, `gtk-theme/`, `gnome-shell/`,
+`themes/` e `zen/` **não** são pacotes do Stow:
 
 - `attic/` é o **sótão**: config de ferramenta que não uso mais (hoje: `sway`,
   `waybar`, `yambar`, `xremap` — ambiente tiling, inativo no GNOME/Ubuntu).
@@ -50,6 +50,17 @@ pacotes do Stow:
   switcher automático — ver `themes/README.md`). Hoje: Monokai é o tema
   ativo (aplicado direto nos arquivos de cada ferramenta), Tokyo Night fica
   guardado como opção pra retomar depois.
+- `gtk-theme/` tem `install-gtk-theme.sh` (instala Tokyo Night pra
+  GTK3/GTK4/libadwaita + GNOME Shell, clonando o upstream em build-time —
+  mesmo padrão do `icons/`). Ver [STATE.md](STATE.md).
+- `gnome-shell/` guarda um snapshot **declarativo** do dconf (não é pacote
+  Stow porque dconf não é arquivo symlinkável): `interface.ini`,
+  `shell.ini` (extensões habilitadas + config de cada uma) e
+  `wm-preferences.ini`. `dump-dconf.sh` regenera os snapshots a partir da
+  máquina atual; `restore-dconf.sh` aplica numa máquina nova
+  (`./bootstrap.sh --apply --with-gnome-shell-theme`). Restaura só
+  *configuração* — instalar as extensões em si (apt ou
+  extensions.gnome.org) continua manual, ver comentário no topo do script.
 - `zen/` guarda notas; o perfil do Zen Browser fica no Flatpak e não é
   gerenciado por symlink simples.
 

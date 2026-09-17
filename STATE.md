@@ -53,6 +53,50 @@ ainda está em aberto. Complementa [TODO.md](TODO.md) (pendências) e
 
 ## Log de decisões
 
+### 2026-09-16 — Dump/restore declarativo do dconf (tema + extensões do GNOME Shell)
+
+**Contexto:** item Soon do ROADMAP — só ícones e `kdeglobals` estavam
+versionados; o resto do tema do GNOME Shell (extensões habilitadas, config de
+cada uma, `gtk-theme`/`icon-theme`/`cursor-theme` do GSettings, decoração de
+janela) era ajuste manual perdido na GUI, contra o princípio de estilo
+portátil.
+
+**Decisão:** pacote novo `gnome-shell/` (não é pacote Stow — dconf é banco
+binário, não arquivo symlinkável). Três snapshots versionados:
+`interface.ini` (`/org/gnome/desktop/interface/`), `shell.ini`
+(`/org/gnome/shell/`, inclui `enabled-extensions` e a config de cada
+extensão) e `wm-preferences.ini` (`/org/gnome/desktop/wm/preferences/`,
+layout dos botões de janela). `dump-dconf.sh` regenera os três a partir da
+máquina atual; `restore-dconf.sh` aplica (`dconf load`) numa máquina nova,
+com aviso explícito de que isso só restaura *configuração* — instalar as
+extensões em si (apt: `gnome-shell-extensions` pra `ding`/`tiling-assistant`/
+`ubuntu-appindicators`/`ubuntu-dock`/`user-theme`; extensions.gnome.org pra
+`space-bar`/`Vitals`/`tactile`/`rounded-window-corners`/`no-overview`)
+continua manual. Wireado no `bootstrap.sh --with-gnome-shell-theme`.
+
+**Escopo deliberadamente estreito:** ficaram de fora atalhos de teclado
+(`org.gnome.desktop.wm.keybindings` etc. — item separado, ainda não revisado),
+`/org/gnome/mutter/` (comportamento/tiling, não tema) e wallpaper
+(`/org/gnome/desktop/background/` está vazio no dconf — ainda no default do
+Ubuntu, nunca customizado, nada a versionar por ora).
+
+**Achado ao escrever o script:** `pop-shell@system76.com` aparece na lista
+`enabled-extensions` mas **não está instalada** nesta máquina (provável
+resíduo de teste com tiling — `tactile`/`tiling-assistant` já cobrem esse
+papel). Não removido agora (não foi pedido); o GNOME Shell ignora UUID
+inexistente sem erro, documentado como ruído conhecido no comentário do
+`restore-dconf.sh`.
+
+**Por quê:** `dconf dump /org/gnome/` inteiro traria muito ruído (estado de
+sessão, histórico de comandos, posição de janela) — escopo por tema/extensões
+é o que vale a pena versionar e restaurar; o resto é descartável.
+
+**Consequências:** próxima vez que o tema/extensões mudar pela GUI, rodar
+`./gnome-shell/dump-dconf.sh` e revisar o diff antes de commitar — não é
+automático. README.md também ganhou entrada faltante pra `gtk-theme/`
+(lacuna de documentação de sessão anterior, corrigida de passagem por estar
+na mesma lista sendo editada).
+
 ### 2026-09-16 — Google Drive: rclone escolhido, runbooks de rclone e Syncthing escritos
 
 **Contexto:** item Soon do ROADMAP pedia decidir GNOME Online Accounts (GOA)

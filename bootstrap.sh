@@ -9,6 +9,7 @@
 #   4. (Opcional) instala as fontes via fonts/install-fonts.sh.
 #   5. (Opcional) instala o tema de ícones via icons/install-icons.sh.
 #   6. (Opcional) instala o cursor via cursors/install-cursor.sh.
+#   7. (Opcional) restaura tema/extensões do GNOME Shell via gnome-shell/restore-dconf.sh.
 #
 # Idempotente: rodar de novo não quebra nada. Por segurança, o padrão é
 # DRY-RUN (só mostra o que faria). Use --apply para executar de verdade.
@@ -19,6 +20,7 @@
 #   ./bootstrap.sh --apply --with-fonts   # também instala as fontes
 #   ./bootstrap.sh --apply --with-icons   # também instala o tema de ícones
 #   ./bootstrap.sh --apply --with-cursor  # também instala o cursor
+#   ./bootstrap.sh --apply --with-gnome-shell-theme  # restaura tema/extensões do GNOME Shell (dconf)
 #
 # Pré-requisito de sistema pro pacote `environment/` fazer efeito em apps
 # Qt/KDE (ex: Dolphin) rodando sob GNOME: `sudo apt install plasma-integration`
@@ -31,7 +33,7 @@ REPO_DIR="$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)"
 cd "$REPO_DIR"
 
 # Pacotes Stow ativos (uma pasta por ferramenta; espelham o caminho a partir
-# de $HOME). attic/, fonts/, icons/, cursors/, zen/, docs/, specs/ NÃO são
+# de $HOME). attic/, fonts/, icons/, cursors/, gnome-shell/, zen/, docs/, specs/ NÃO são
 # pacotes Stow.
 STOW_PACKAGES=(alacritty environment home nvim theme-sync tmux vscode)
 
@@ -40,12 +42,14 @@ APPLY=false
 WITH_FONTS=false
 WITH_ICONS=false
 WITH_CURSOR=false
+WITH_GNOME_SHELL_THEME=false
 for arg in "$@"; do
 	case "$arg" in
 		--apply) APPLY=true ;;
 		--with-fonts) WITH_FONTS=true ;;
 		--with-icons) WITH_ICONS=true ;;
 		--with-cursor) WITH_CURSOR=true ;;
+		--with-gnome-shell-theme) WITH_GNOME_SHELL_THEME=true ;;
 		-h|--help)
 			# Imprime só o bloco de comentário do topo (pula o shebang, para na
 			# primeira linha que não é comentário).
@@ -140,6 +144,18 @@ if $WITH_CURSOR; then
 	fi
 else
 	say "Cursor: pulado (use --with-cursor para instalar)"
+fi
+
+# --- 7. tema/extensões do GNOME Shell via dconf (opcional) ------------------
+if $WITH_GNOME_SHELL_THEME; then
+	say "Restaurando tema/extensões do GNOME Shell (gnome-shell/restore-dconf.sh)"
+	if [ -x gnome-shell/restore-dconf.sh ]; then
+		run ./gnome-shell/restore-dconf.sh
+	else
+		warn "gnome-shell/restore-dconf.sh não encontrado ou sem permissão de execução."
+	fi
+else
+	say "Tema do GNOME Shell (dconf): pulado (use --with-gnome-shell-theme para restaurar)"
 fi
 
 # --- fim --------------------------------------------------------------------

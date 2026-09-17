@@ -26,14 +26,6 @@
 *(vazio — os itens de fechamento da Fase 2 foram concluídos, ver ✅ Feito)*
 
 ## 🟡 Soon *(provável — Fase 1: decidir área por área, aplicando o padrão da Fase 0)*
-- `[repo]` **Dump/restore declarativo do dconf (tema GNOME Shell).** Hoje só
-  ícones (`icons/`) e `kdeglobals` (Dolphin/apps Qt) estão versionados; o
-  resto do tema do GNOME Shell (top bar, extensões, wallpaper, etc.) ainda é
-  ajuste manual perdido na GUI — contra o princípio de "estilo portátil" da
-  skill `ricing-do-gustavo`. Ideia: `dconf dump /org/gnome/` (escopo a
-  refinar — não tudo, só as chaves de tema/extensões) versionado num pacote
-  novo, com script de restore (`dconf load`). Surgiu ao ricar o Dolphin
-  (2026-09-15) — ver [STATE.md](STATE.md).
 - `[repo]` Decidir se `zen/` fica só com notas ou guarda os exportáveis do perfil Flatpak.
 - `[pc]` Revisar atalhos de teclado (Zen, GNOME, VS Code, terminal, Dolphin) — consolidar sem conflito, prontos pra virar declarativo depois.
 - `[pc]` **Google Drive — decidido: rclone** (2026-09-16), não GNOME Online
@@ -65,6 +57,7 @@
 - **Divergência PT-BR registrada** *(2026-09-11)* — pastas de conteúdo pessoal (`notas-pkm`, `livros`) em português por escolha; inglês segue pra config/estrutura técnica. Ver [STATE.md](STATE.md).
 - **`waybar` vs `yambar` resolvido por já estarem os dois em `attic/`** *(2026-09-16)* — arquivar os dois (feito em 2026-09-11) já respondia a pergunta; confirmado que não há symlink ativo nem pasta solta na raiz pra nenhum dos dois. Item antigo do balde Soon removido por obsoleto.
 - **`fonts/` não vendoriza mais binário** *(2026-09-16)* — `install-fonts.sh` baixa JetBrainsMono + Symbols Nerd Font (releases oficiais, pinado em `v3.5.1`) em build-time, mesmo padrão do `icons/`. 232MB de `.ttf` removidos do git. Ver [STATE.md](STATE.md).
+- **Dump/restore declarativo do dconf** *(2026-09-16)* — pacote novo `gnome-shell/` (não-Stow): `interface.ini`/`shell.ini`/`wm-preferences.ini` versionados, `dump-dconf.sh` regenera, `restore-dconf.sh` aplica (`bootstrap.sh --with-gnome-shell-theme`). Escopo: tema + extensões habilitadas; atalhos de teclado ficam de fora (item separado). Ver [STATE.md](STATE.md).
 
 ## ⚠️ Frágil *(funciona mas não confio — resolver antes de empilhar coisa nova na mesma área)*
 *(vazio — o bootstrap de máquina nova, único item aqui, foi resolvido; ver ✅ Feito)*
