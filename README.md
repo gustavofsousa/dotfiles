@@ -61,8 +61,14 @@ Pacotes ativos (viram symlink):
   (`./bootstrap.sh --apply --with-gnome-shell-theme`). Restaura só
   *configuração* — instalar as extensões em si (apt ou
   extensions.gnome.org) continua manual, ver comentário no topo do script.
-- `zen/` guarda notas; o perfil do Zen Browser fica no Flatpak e não é
-  gerenciado por symlink simples.
+- `zen/` guarda notas (`cheatsheet.md`) e o **tema** (ZenMods): `theme/`
+  (snapshot versionado de `chrome/zen-themes.css` + `chrome/zen-themes/`),
+  `export-theme.sh` (copia do perfil Flatpak ativo pra cá) e
+  `apply-theme.sh` (aplica numa máquina nova —
+  `./bootstrap.sh --apply --with-zen-theme`). O resto do perfil (sessão,
+  histórico, senhas, extensões do navegador) fica fora — é estado vivo, não
+  config, e o Zen já sincroniza parte disso via login (Firefox Sync/Zen
+  Account). Ver [STATE.md](STATE.md).
 
 ### Nota: `kdeglobals` não é gerenciado por symlink
 

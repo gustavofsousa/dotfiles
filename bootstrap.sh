@@ -10,6 +10,7 @@
 #   5. (Opcional) instala o tema de ícones via icons/install-icons.sh.
 #   6. (Opcional) instala o cursor via cursors/install-cursor.sh.
 #   7. (Opcional) restaura tema/extensões do GNOME Shell via gnome-shell/restore-dconf.sh.
+#   8. (Opcional) aplica o tema do Zen (ZenMods) via zen/apply-theme.sh.
 #
 # Idempotente: rodar de novo não quebra nada. Por segurança, o padrão é
 # DRY-RUN (só mostra o que faria). Use --apply para executar de verdade.
@@ -21,6 +22,7 @@
 #   ./bootstrap.sh --apply --with-icons   # também instala o tema de ícones
 #   ./bootstrap.sh --apply --with-cursor  # também instala o cursor
 #   ./bootstrap.sh --apply --with-gnome-shell-theme  # restaura tema/extensões do GNOME Shell (dconf)
+#   ./bootstrap.sh --apply --with-zen-theme  # aplica o tema do Zen (precisa o Zen já ter rodado 1x)
 #
 # Pré-requisito de sistema pro pacote `environment/` fazer efeito em apps
 # Qt/KDE (ex: Dolphin) rodando sob GNOME: `sudo apt install plasma-integration`
@@ -43,6 +45,7 @@ WITH_FONTS=false
 WITH_ICONS=false
 WITH_CURSOR=false
 WITH_GNOME_SHELL_THEME=false
+WITH_ZEN_THEME=false
 for arg in "$@"; do
 	case "$arg" in
 		--apply) APPLY=true ;;
@@ -50,6 +53,7 @@ for arg in "$@"; do
 		--with-icons) WITH_ICONS=true ;;
 		--with-cursor) WITH_CURSOR=true ;;
 		--with-gnome-shell-theme) WITH_GNOME_SHELL_THEME=true ;;
+		--with-zen-theme) WITH_ZEN_THEME=true ;;
 		-h|--help)
 			# Imprime só o bloco de comentário do topo (pula o shebang, para na
 			# primeira linha que não é comentário).
@@ -156,6 +160,18 @@ if $WITH_GNOME_SHELL_THEME; then
 	fi
 else
 	say "Tema do GNOME Shell (dconf): pulado (use --with-gnome-shell-theme para restaurar)"
+fi
+
+# --- 8. tema do Zen (opcional) -----------------------------------------------
+if $WITH_ZEN_THEME; then
+	say "Aplicando tema do Zen (zen/apply-theme.sh)"
+	if [ -x zen/apply-theme.sh ]; then
+		run ./zen/apply-theme.sh
+	else
+		warn "zen/apply-theme.sh não encontrado ou sem permissão de execução."
+	fi
+else
+	say "Tema do Zen: pulado (use --with-zen-theme para aplicar)"
 fi
 
 # --- fim --------------------------------------------------------------------

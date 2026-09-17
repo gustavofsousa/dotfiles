@@ -53,6 +53,53 @@ ainda está em aberto. Complementa [TODO.md](TODO.md) (pendências) e
 
 ## Log de decisões
 
+### 2026-09-16 — `zen/` guarda o tema (ZenMods); sessões via Syncthing fica em aberto (risco)
+
+**Contexto:** item Soon do ROADMAP — decidir se `zen/` fica só com notas ou
+guarda exportáveis do perfil Flatpak. Gustavo: consegue sincronizar parte do
+Zen pelo próprio login (Firefox Sync/Zen Account — bookmarks, provavelmente
+histórico/senhas); tema e "sessões" não vêm por aí, pode salvar. Pediu
+também pra preparar a pasta que o Syncthing vai sincronizar.
+
+**Decisão (tema):** `zen/theme/` versiona o CSS gerado pelos mods
+(`chrome/zen-themes.css`, 9KB) + a pasta de cada mod
+(`chrome/zen-themes/<uuid>/`, preferences.json/readme.md/chrome.css) — total
+44KB, texto, gerado pela extensão ZenMods a partir de config que o Gustavo
+edita na UI do Zen. `zen/export-theme.sh` copia do perfil Flatpak ativo
+(descoberto via `installs.ini`, não hardcoded — o nome da pasta do perfil é
+aleatório) pra dentro do repo; `zen/apply-theme.sh` faz o caminho inverso
+numa máquina nova (`bootstrap.sh --apply --with-zen-theme`). Testado de
+ponta a ponta com `HOME` isolado (export real + apply num perfil falso).
+
+**Decisão (resto do perfil): fica de fora, de propósito.** `zen-sessions-backup/`
+(7.6MB) e `sessionstore-backups/` (5.2MB) são estado vivo — arquivos
+`.jsonlz4`/`.baklz4` **reescritos toda vez que o Zen abre/fecha uma aba**,
+não config. Não entram no git pelo mesmo motivo que `fonts/` não entra mais
+(binário grande e volátil não pertence ao histórico) — e não vira snapshot
+manual como o tema porque muda demais pra isso fazer sentido.
+
+**Syncthing pra "sessões": NÃO preparei a pasta ainda — risco real, levei a
+pergunta de volta.** Inspecionei `zen-sessions-backup/`: os arquivos
+`recovery.jsonlz4`/`recovery.baklz4` são sobrescritos continuamente enquanto
+o Zen roda. Sincronizar essa pasta ao vivo (bidirecional, Syncthing) enquanto
+o Zen está aberto é **o mesmo padrão de risco já documentado pro
+`metadata.db` do Calibre** — dois lados escrevendo o mesmo arquivo vivo gera
+`.sync-conflict` e pode corromper a sessão. Antes de criar a pasta, preciso
+saber: (a) é sync entre **dois computadores** (Zen não roda em Android) — se
+sim, qual o segundo; (b) o objetivo é sync contínuo (mesmas abas nas duas
+máquinas, ao vivo — arriscado) ou snapshot/backup periódico (seguro, mas não
+é "Syncthing" no sentido usual); (c) os dois nunca rodam Zen ao mesmo tempo
+(mitigaria o risco, já que o conflito só ocorre com escrita concorrente).
+
+**Por quê:** a IA não decide sozinha um design de sync que pode corromper
+dado vivo do Gustavo — mesmo princípio já aplicado à trava do Calibre
+(`livros-backup-sync.md`). Preparar a pasta sem entender o padrão de uso
+seria assumir um design arriscado sem confirmação.
+
+**Consequências:** tema do Zen já é portátil (git) a partir de agora; sessão
+segue dependendo só do login nativo do Zen até a decisão do Syncthing ser
+tomada. Item registrado no ROADMAP (balde Soon) até a resposta.
+
 ### 2026-09-16 — Dump/restore declarativo do dconf (tema + extensões do GNOME Shell)
 
 **Contexto:** item Soon do ROADMAP — só ícones e `kdeglobals` estavam
