@@ -67,6 +67,26 @@ ainda está em aberto. Complementa [TODO.md](TODO.md) (pendências) e
 
 ## Log de decisões
 
+### 2026-09-28 — VS Code multi-root workspace adotado (`~/projects/projects.code-workspace`)
+
+- **Contexto:** eu abria uma pasta por vez no VS Code e reabria a cada troca de
+  projeto. Em 2026-09-24 montei um multi-root workspace com os 12 folders da
+  raiz de `~/projects/` (`_hq` + 11 numerados) pra testar o hábito de ter tudo
+  lado a lado. Item `NX5` do roadmap do `_hq`, com janela de avaliação de 1-2
+  semanas: "se pegar o hábito, documentar; se não, arquivar e voltar a abrir
+  pasta única".
+- **Decisão:** o hábito pegou dentro da janela — **adotado**. Documentado em
+  [docs/vscode-multiroot-workspace.md](docs/vscode-multiroot-workspace.md) como
+  parte do setup de máquina.
+- **Por quê:** cada repo mantém seu próprio `.git` (multi-root não funde
+  histórico) e um `settings`/`extensions` comum se aplica a todos de uma vez;
+  trocar de projeto virou clicar numa pasta em vez de reabrir janela.
+- **Consequências:** o arquivo `.code-workspace` fica **fora do git** — mora em
+  `~/projects/` (dado real, não `~/.config`), este repo é público e lista os
+  nomes de projetos privados, e é regenerável a partir dos folders + settings.
+  Não é pacote Stow; o doc é o snapshot declarativo (mesmo espírito do
+  `gnome-shell/`). Reverter = apagar o arquivo e abrir pasta a pasta.
+
 ### 2026-09-17 — Wallpaper trocado pro símbolo real do Tokyo Night (Tokyo Tower)
 
 **Contexto:** logo depois de aplicar o wallpaper "gnome" (pegada + listras),

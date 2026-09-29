@@ -44,6 +44,7 @@
 ---
 
 ## ✅ Feito
+- **VS Code multi-root workspace adotado** *(2026-09-28, = `NX5` do ROADMAP-HQ)* — `~/projects/projects.code-workspace` com os 12 folders da raiz; o hábito pegou na janela de teste (desde 2026-09-24). Arquivo fica fora do git (dado real, repo público, regenerável); doc: [docs/vscode-multiroot-workspace.md](docs/vscode-multiroot-workspace.md), decisão no [STATE.md](STATE.md).
 - **GNU Stow escolhido como gerenciador atual** *(2026-09)* — prioriza durabilidade (symlink simples, sem formato próprio) até o Nix amadurecer. Log em [STATE.md](STATE.md).
 - Pacotes Stow versionados: `sway/ waybar/ alacritty/ nvim/ xremap/ yambar/ tmux/` + `home/` (.zshrc, .tmux.conf, .gitconfig).
 - Padrão de organização de arquivos documentado (`docs/organizacao-de-arquivos.md`), com a skill `arruma-meu-not-ai` aplicando-o.
