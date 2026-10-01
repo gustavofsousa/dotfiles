@@ -2,8 +2,8 @@ return {
     "neovim/nvim-lspconfig",
     dependencies = { "nvim-telescope/telescope.nvim", "nvim-lua/plenary.nvim" },
     config = function()
-        local lspconfig = require("lspconfig")
-        lspconfig.lua_ls.setup({
+        -- nvim-lspconfig only ships server defaults (lsp/*.lua); vim.lsp.config merges our overrides on top.
+        vim.lsp.config("lua_ls", {
             settings = {
                 Lua = {
                     diagnostics = { globals = { "vim" } },
@@ -11,9 +11,10 @@ return {
                 },
             },
         })
-        lspconfig.omnisharp.setup({
+        -- The default omnisharp root_dir already matches *.sln/*.slnx/*.csproj.
+        vim.lsp.config("omnisharp", {
             cmd = { vim.fn.expand("~/.local/bin/omnisharp/OmniSharp"), "--languageserver", "--hostPID", tostring(vim.fn.getpid()) },
-            root_dir = lspconfig.util.root_pattern("*.csproj", "*.sln"),
         })
+        vim.lsp.enable({ "lua_ls", "omnisharp" })
     end,
 }
