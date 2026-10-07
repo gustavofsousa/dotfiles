@@ -3,7 +3,8 @@
 # bootstrap.sh — prepara uma máquina nova a partir deste repo de dotfiles.
 #
 # Faz, em ordem:
-#   1. Checa dependências (stow, git) e avisa o que falta.
+#   1. Checa dependências (stow, git — obrigatórias) e as recomendadas de
+#      manutenção do acervo (smartmontools, exiftool, rsync, ffmpeg — avisa e segue).
 #   2. Inicializa os submodules do tmux (tpm, tmux-resurrect, tmux-sensible).
 #   3. Cria os symlinks dos pacotes Stow em $HOME.
 #   4. (Opcional) instala as fontes via fonts/install-fonts.sh.
@@ -97,6 +98,20 @@ if [ ${#missing[@]} -gt 0 ]; then
 	exit 1
 fi
 echo "   git e stow presentes ✓"
+
+# Ferramentas de manutenção do acervo: úteis, não obrigatórias pro bootstrap —
+# avisa e segue (ver docs/organizacao-de-arquivos.md e _hq/infra/acervo-digital.md).
+recommended=()
+command -v smartctl  >/dev/null 2>&1 || recommended+=(smartmontools)   # saúde de disco (SMART)
+command -v exiftool  >/dev/null 2>&1 || recommended+=(libimage-exiftool-perl)
+command -v rsync     >/dev/null 2>&1 || recommended+=(rsync)
+command -v ffmpeg    >/dev/null 2>&1 || recommended+=(ffmpeg)
+if [ ${#recommended[@]} -gt 0 ]; then
+	warn "Recomendadas ausentes: ${recommended[*]}"
+	warn "  sudo apt install -y ${recommended[*]}"
+else
+	echo "   ferramentas de acervo (smartctl, exiftool, rsync, ffmpeg) presentes ✓"
+fi
 
 # --- 2. submodules do tmux --------------------------------------------------
 say "Inicializando submodules (plugins do tmux)"
