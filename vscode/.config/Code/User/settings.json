@@ -5,10 +5,6 @@
     "editor.minimap.enabled": false,
     "window.zoomLevel": 1,
     "workbench.tree.indent": 12,
-    // Monokai — mesma paleta do Dolphin/KDE, Alacritty e Neovim (ver STATE.md
-    // do repo de dotfiles, 2026-09-16). Tema embutido do VS Code, sem
-    // extensão — os vários monokai-* instalados não estavam ativos.
-    "workbench.colorTheme": "Monokai",
     "editor.fontFamily": "'JetBrains Mono', monospace",
     "terminal.integrated.fontFamily": "'JetBrains Mono', monospace",
     // ========================
@@ -341,6 +337,5 @@
         "npm run dev": true
     },
     "explorer.confirmDragAndDrop": false,
-    "git.confirmSync": false,
-    "workbench.colorTheme": "Tokyo Night"
+    "git.confirmSync": false
 }
