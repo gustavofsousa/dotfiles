@@ -1,3 +1,12 @@
+> **Arquivado 2026-10-06.** Doc original de livros/Calibre.
+>
+> **Colhido para:** [`docs/biblioteca.md`](../docs/biblioteca.md), que absorveu tudo
+> (estrutura no disco, os dois consumidores do path, trava do `metadata.db`,
+> template de export, plugins) e acrescentou o fluxo de entrada e o RFD do bloco
+> técnico.
+
+---
+
 # Livros e Calibre — como está montado
 
 Retrato de como a biblioteca de livros, o Calibre, o calibre-mcp e o (futuro)
@@ -42,7 +51,7 @@ projeto como **AD-028** (`~/projects/04_calibre-mcp/.specs/STATE.md`).
 ## Sincronização (Syncthing) e backup
 
 O desenho completo (por quê só `entrada/`, trava do SQLite, horizonte NAS) vive
-no HQ: **[`_hq/infra/livros-backup-sync.md`](../../_hq/infra/livros-backup-sync.md)**.
+no HQ: **[`acervo-digital.md`](acervo-digital.md)**.
 O runbook de instalação/pareamento em si (o que já está no computador, passo a
 passo do que falta) está em [`docs/syncthing.md`](syncthing.md) (Syncthing) e
 [`docs/google-drive-rclone.md`](google-drive-rclone.md) (backup off-site via
@@ -90,6 +99,35 @@ série. **Ainda não configurado** neste sistema (nenhum `save_template` em
 export/envio (Kindle, Drive, KOReader) existir de fato; hoje é só convenção
 documentada. Quando o calibre-mcp chegar na Fase 4 ("Export to a folder", ver
 `ARCHITECTURE.md`/`ROADMAP.md` do projeto), este é o template a usar.
+
+### Ficção vs. técnico: por que o export não usa um template só
+
+Tensão real, decidir quando o fluxo de export existir: **ficção e técnico se
+procuram de formas diferentes.** Em ficção você lembra do autor e quer a obra
+dele reunida, com os volumes na ordem (`author_sort` + série resolve). Em livro
+técnico você raramente lembra o autor — procura pelo **assunto** ("aquele de
+Docker"), e `Fowler, Martin/` não ajuda.
+
+A convenção de fóruns de arquivamento (MobileRead, `r/koreader`) divide em dois
+blocos no destino:
+
+```
+Biblioteca-export/
+├── 01_Ficcao/              <-- Sobrenome, Nome/[Série NN]/ — template acima
+└── 02_Nao-Ficcao_Tecnicos/ <-- por assunto: [Docker] Autor - Título (Ano).pdf
+```
+
+O template `{author_sort}/…` cobre **só o bloco 1**. Pro bloco 2 o Calibre não
+tem "assunto" nativo — precisaria de uma coluna personalizada (ex. `#assunto`)
+e um segundo template usando `{#assunto}`. Por isso: **não está configurado, e
+configurar pede a decisão de criar a coluna**. Até lá, o prefixo `[Assunto]` da
+tabela acima é preenchido na mão, só quando exportar.
+
+> Isso vale **só no destino do export** (Kindle, KOReader, pendrive, Drive). A
+> `biblioteca/` interna continua `<Autor>/<Livro>/` gerenciada pelo Calibre, e
+> dentro do Calibre quem faz esse papel é **tag/coluna**, não pasta — mesmo
+> princípio dos álbuns de foto: a estrutura física é uma, as visões são várias.
+> Ver [`organizacao-de-arquivos.md`](organizacao-de-arquivos.md#álbuns-de-evento--sem-duplicar-arquivo).
 
 **Ebook baixado com nome sujo:** não editar nome/metadado na mão — arrastar
 pro Calibre, `E` (editar metadados) → "Baixar Metadados e Capas". Plugins

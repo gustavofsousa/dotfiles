@@ -1,10 +1,22 @@
+> **Arquivado 2026-10-06.** Runbook de instalação/pareamento do Syncthing.
+>
+> **Colhido para:** o passo a passo virou o item 1 do [`config.md`](../config.md)
+> (fila de ação humana, esvazia quando feito); o desenho das duas pastas, a trava do
+> `metadata.db` e o porquê do Send Only foram pra
+> [`docs/sincronizacao.md`](../docs/sincronizacao.md).
+>
+> *Motivo da saída:* instrução de ação humana estava em dois lugares (aqui e no
+> `config.md`) e ia divergir.
+
+---
+
 # Syncthing — sincronização celular ↔ PC
 
 Fecha o item `[pc]` do [ROADMAP.md](../ROADMAP.md). Uso concreto já desenhado
 hoje: **Android ↔ PC, duas pastas com direção oposta** (nunca a
 `biblioteca/` inteira — ver a trava crítica abaixo). Desenho completo e
 contexto de por quê em
-[`_hq/infra/livros-backup-sync.md`](../../_hq/infra/livros-backup-sync.md);
+[`biblioteca.md`](biblioteca.md);
 esta doc é o runbook de instalação/pareamento em si.
 
 - **`~/Documents/livros/entrada/`** (Android → PC, bidirecional) — livro

@@ -1,3 +1,14 @@
+> **Arquivado 2026-10-06.** Runbook de configuração do rclone + Google Drive.
+>
+> **Colhido para:** o passo a passo (OAuth) virou o item 2 do
+> [`config.md`](../config.md); a decisão "rclone, não GNOME Online Accounts" com o
+> porquê completo foi pra [`docs/sincronizacao.md`](../docs/sincronizacao.md); o
+> comando de backup da biblioteca está em [`docs/backup.md`](../docs/backup.md).
+>
+> *Motivo da saída:* mesma duplicação do runbook do Syncthing.
+
+---
+
 # Google Drive via rclone
 
 Decisão (2026-09-16): Google Drive no Ubuntu via **rclone**, não GNOME Online
@@ -81,7 +92,7 @@ rclone copy ~/Documents/algum-arquivo-pequeno gdrive:backup/teste --progress
 Confere no Drive (web) que a pasta `backup/teste` apareceu. Depois disso o
 remote `gdrive:` está pronto pra qualquer uso — o caso concreto já desenhado
 hoje é o **backup da biblioteca Calibre**, com o comando exato em
-[`_hq/infra/livros-backup-sync.md`](../../_hq/infra/livros-backup-sync.md#futuro-backup-off-site-automatizado-rclone--drive--lt13).
+[`backup.md`](backup.md#rotinas).
 
 ### Passo 3 (depois que Passo 1 existir): agendar
 
