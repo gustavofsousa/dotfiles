@@ -55,7 +55,6 @@ Item feito **sai** do `config.md`. Em ordem de impacto:
 - `AC4` **Primeiro álbum de evento de verdade.** Convenção pronta (symlink em
   `Pictures/Albuns/AAAA-MM_slug/`); nenhum álbum criado ainda. Montar um com evento
   real valida o fluxo e a pegadinha do `rsync -aL`. Ver [galeria.md](docs/galeria.md).
-- `AC5`→ depende do RFD de filesystem abaixo.
 - `[pc]` **Atalhos de teclado** (Zen, GNOME, VS Code, terminal, Dolphin) — consolidar
   sem conflito, prontos pra virar declarativo.
 
