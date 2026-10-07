@@ -54,7 +54,7 @@ Documento, conta, exame, recibo: nome começa com `AAAA-MM-DD`.
 
 Por quê: o sistema de arquivos ordena cronologicamente sozinho, sem pasta por
 ano/mês. Convenção específica pra ebooks (Calibre) fica em
-[`livros-calibre.md`](livros-calibre.md#nomenclatura-para-export--envio).
+[`biblioteca.md`](biblioteca.md#saída-nomenclatura-de-exportenvio).
 
 ## Camada 1 — XDG Base Directory (config, dados, cache, estado)
 
@@ -121,80 +121,22 @@ Diretrizes:
   cópia da biblioteca do Calibre) é uma cópia de segurança deliberada, não
   "frio sem saber o que fazer" — não vira gaveta: cada item ali precisa
   justificar por que é backup e não apenas o original movido pra lá. Hoje só
-  tem `biblioteca-backup-2026-09-11/` (ver `livros-calibre.md`).
+  tem `biblioteca-backup-2026-09-11/` (ver `biblioteca.md`).
 - **Sincronização (Drive, Syncthing) é ortogonal à estrutura.** A pasta
   sincronizada mora dentro dessas pastas de topo (ex: um subdir de
   `Documents/` ou uma pasta própria como `~/Drive`), não substitui o padrão.
   A decisão de qual pasta sincronizar com o quê é da Fase 1.
 
-### `~/Pictures` — estrutura cronológica (só quando é galeria de verdade)
+### Fotos, vídeos e álbuns → [`galeria.md`](galeria.md)
 
-Nunca criar pasta por evento/pessoa (`Viagem Praia`, `Aniversário João`) —
-pasta é excludente (a foto do aniversário na praia vai em qual das duas?).
-Local e pessoas são busca/metadado, não estrutura de pasta.
+A aplicação deste padrão a foto e vídeo (estrutura cronológica `AAAA/AAAA-MM/`,
+álbuns de evento por symlink, deduplicação com Czkawka, runbook de recuperar HD
+antigo com `exiftool`) vive no one-page do tema: **[galeria.md](galeria.md)**.
 
-**A pasta `AAAA/AAAA-MM` só se paga quando existe volume real** (celular
-sincronizando, dump de HD antigo, centenas de fotos) — é o caso do runbook de
-recuperação abaixo. Pra um punhado de fotos soltas (poucas dezenas ou menos),
-a subpasta por ano é over-engineering: aplica-se a regra geral dos "3 níveis"
-normalmente — arquivo solto na raiz de `Pictures/`, nome já com a data
-(`AAAA-MM-DD_HHMMSS.ext`) fazendo o trabalho de ordenar. Só criar `AAAA/` de
-fato quando o volume justificar a pasta.
-
-Quando o volume justificar, o padrão é **Ano → Ano-Mês**, respeitando os 3
-níveis (`Pictures/AAAA/AAAA-MM/` já é o teto):
-
-```
-Pictures/
-└── 2015/
-    └── 2015-07/
-        └── 2015-07-20_091244.jpg
-```
-
-Automatizar com `exiftool` (lê a data original do EXIF e já move+renomeia;
-rodar sempre com dry-run antes — `-T` sem `-o`/execução real primeiro):
-
-```bash
-exiftool -d "%Y/%Y-%m/%Y-%m-%d_%H%M%S%%-c.%%e" "-filename<DateTimeOriginal" -r /pasta/de/fotos/brutas
-```
-
-Foto sem EXIF (prints de WhatsApp, screenshots): cair para a data de
-modificação do arquivo como plano B. `Screenshots/` pode continuar como pasta
-própria dentro de `Pictures/` (não é "foto", é utilitário transiente).
-
-### Deduplicação
-
-Antes de arquivar/organizar em massa, rodar o **Czkawka**
-(`sudo snap install czkawka` ou Flatpak) pra achar duplicatas por hash real de
-conteúdo (não por nome) — inclusive fotos similares/re-tiradas. Usar antes de
-decidir manter/apagar ou de reorganizar `Pictures/`, nunca depois (senão
-duplica o trabalho).
-
-### Runbook — recuperar fotos de vários HDs antigos
-
-Cenário clássico (`r/datacurator`, `r/photography`): vários HDs com a mesma
-foto repetida em pastas tipo "Backup 2012", "Fotos Celular Antigo". **Não
-organizar manualmente pasta por pasta** — cansa no meio e duplica trabalho.
-5 fases, nessa ordem:
-
-1. **Segurança primeiro.** HD mecânico antigo pode falhar rodando script
-   pesado de leitura/gravação. Copiar **tudo** pra um único lugar bruto num
-   disco com espaço sobrando (ex: `/dados/Fotos_Bruto_Central/`) antes de
-   qualquer processamento; guardar os HDs antigos na gaveta como backup de
-   segurança caso algo dê errado no meio do processo.
-2. **Deduplicar** com Czkawka (hash de conteúdo) na pasta bruta central —
-   elimina gigabytes de repetição antes de organizar.
-3. **Estrutura cronológica** — ver seção "`~/Pictures` — estrutura
-   cronológica" acima (`Ano/Ano-Mês`, nunca por evento/pessoa).
-4. **Automatizar com `exiftool`** — o comando da seção acima já lê EXIF e
-   move+renomeia em lote; sempre dry-run antes.
-5. **Navegar depois de pronto** — ferramentas recomendadas, não fazem parte
-   da estrutura de pastas em si:
-   - **DigiKam** — 100% offline, reconhecimento facial local pra álbuns de
-     pessoas sem mexer em pasta física, mapa por geolocalização.
-   - **Immich** — self-hosted, equivalente ao Google Fotos, app pro celular
-     Android com backup automático e busca semântica ("praia", "cachorro")
-     lendo direto a pasta do computador.
+Aqui fica só a regra geral: **nunca pasta por evento/pessoa** — pasta é excludente
+(a foto do aniversário *na praia* vai em qual das duas?). Local e pessoa são
+busca/metadado. E `Screenshots/` segue como pasta própria em `Pictures/` por não ser
+"foto", e sim utilitário transiente.
 
 ### Método P.A.R.A. (referência avaliada, **não adotado**)
 
@@ -272,16 +214,14 @@ Três estados possíveis para uma config:
   puro — ver [AGENTS.md](../AGENTS.md). A solução declarativa de segredo é
   tema da Fase 3 (ver [ROADMAP.md](../ROADMAP.md)).
 
-## Divergências conhecidas (a resolver nas Fases 1/2)
+## Onde o real ainda não bate com o padrão
 
-Estado real da home que ainda não bate com este padrão:
+As divergências conhecidas da home (`~/projects` minúsculo, dotfiles soltos que
+poderiam seguir XDG) são **pendências, não exceções ao padrão** — vivem como item
+no [ROADMAP.md](../ROADMAP.md), que é onde o que falta fazer mora.
 
-- `~/projects` está em **minúsculo**; o padrão é `~/Projects`. Renomear é
-  trabalho da Fase 2 (envolve ajustar referências, não é só `mv`).
-- `~/Media` não existe — criar só se `Pictures`/`Music`/`Videos` deixarem de
-  bastar (hoje bastam). `~/Archive` **não deve ser recriado** — decisão
-  2026-09-16 (ver Camada 2): eliminado por ter virado depósito sem curadoria.
-- Existem dotfiles/pastas de app soltos na raiz da home que poderiam seguir
-  XDG (`~/.fonts`, caches de várias linguagens, etc.). Migração caso a caso,
-  sem pressa, nas Fases 1/2 — muitos são criados por ferramentas que não
-  respeitam XDG, então nem sempre há o que fazer.
+Duas regras que são decisão fechada, não divergência:
+
+- **`~/Archive` não deve ser recriado** (decisão 2026-09-16, ver Camada 2) —
+  virou depósito sem curadoria. Backup deliberado vai em `~/Backups/`.
+- **`~/Media` só se `Pictures`/`Music`/`Videos` deixarem de bastar** — hoje bastam.
