@@ -152,7 +152,8 @@ Cada arquivo tem um papel — a tabela em [AGENTS.md](AGENTS.md) define qual.
   [galeria](docs/galeria.md) (fotos e vídeos) · [biblioteca](docs/biblioteca.md)
   (livros/Calibre) · [backup](docs/backup.md) · [sincronizacao](docs/sincronizacao.md)
   (Syncthing/rclone) · [nas](docs/nas.md) · [nix](docs/nix.md) ·
-  [notas-pkm](docs/notas-pkm.md) ·
+  [edicao-video](docs/edicao-video.md) (triagem/corte) · [notas-pkm](docs/notas-pkm.md) ·
+  [ide](docs/ide.md) (VS Code + Neovim) ·
   [vscode-multiroot-workspace](docs/vscode-multiroot-workspace.md).
 - [pesquisas/](pesquisas/) — anotações externas datadas que embasaram as decisões,
   texto original preservado.

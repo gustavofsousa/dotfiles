@@ -46,6 +46,12 @@ Item feito **sai** do `config.md`. Em ordem de impacto:
 
 ## 🟢 Next *(decidido, aguarda a vez)*
 
+- `AC10` **Fechar o fluxo de triagem de vídeo.** Instalar **só o LosslessCut**
+  (1 flatpak), aprender os atalhos `I`/`O`/`J-K-L` e testar o *detect scenes* embutido
+  num take real da Pocket. Pronto quando: um cartão real virar "3-4 clipes bons + bruto
+  apagado" sem abrir editor pesado. **Não** instalar Auto-Editor/PySceneDetect/Shutter
+  Encoder agora — gold-plating antes de existir rotina.
+  Ver [edicao-video.md](docs/edicao-video.md). Parte de `AC3`.
 - `AC4` **Primeiro álbum de evento de verdade.** Convenção pronta (symlink em
   `Pictures/Albuns/AAAA-MM_slug/`); nenhum álbum criado ainda. Montar um com evento
   real valida o fluxo e a pegadinha do `rsync -aL`. Ver [galeria.md](docs/galeria.md).
@@ -79,6 +85,11 @@ Item feito **sai** do `config.md`. Em ordem de impacto:
   [organizacao-de-arquivos.md](docs/organizacao-de-arquivos.md#ferramentas-no-sistema).
 - `[pc]` **Lista de extensões do VS Code fora do git** — `code --list-extensions`
   resolve hoje; em Nix vira declarativo (`nix-vscode-extensions`, `LT12` do `_hq`).
+- `[pc]` 🛑 **Decidir o `lazy-lock.json` do Neovim** *(achado 2026-10-06)* — está no
+  `.gitignore` desde o início, sem justificativa escrita. Versionar dá
+  reprodutibilidade (máquina nova não pega breaking change de plugin); ignorar evita
+  engessar em versão antiga. Com Neovim em `0.12.0-dev` o argumento de versionar fica
+  mais forte. Trade-off escrito em [ide.md](docs/ide.md#o-trade-off-do-lazy-lockjson).
 - `[pc]` **Home: alinhar o real ao padrão XDG.** `~/projects` está minúsculo (o padrão
   é `~/Projects`) — renomear exige ajustar referências, não é só `mv`. E há dotfiles
   soltos na raiz que poderiam seguir XDG (`~/.fonts`, caches de linguagens) — caso a
@@ -94,6 +105,12 @@ Item feito **sai** do `config.md`. Em ordem de impacto:
 - `AC9` `[explorar]` **NAS.** Immich pras fotos, Calibre-Web pros livros, backup
   redundante. Absorve `AC2` e `AC6` quando materializar; **5 RFDs** esperando
   hardware. Ver [nas.md](docs/nas.md).
+- `AC11` `[explorar]` **Exibir o acervo numa tela grande** *(desejo, 2026-10-06)* —
+  projetor ou TV com Google/Android TV: "porta-retratos gigante" com o álbum
+  `AAAA-MM Melhores` no modo ambiente, e Cast do celular pra mostrar na hora. O barato
+  **não depende do NAS** (Chromecast + Google Fotos resolve); só servir o bruto 4K
+  exige NAS (`AC9`) e reforça os requisitos de Gigabit cabeado e QuickSync. Ver
+  [nas.md](docs/nas.md#exibir-o-acervo-numa-tela-grande-desejo-não-setup).
 - `[vem-depois]` **Nix / home-manager.** Fases 0-2 maduras (✅ as três), então é só
   decidir começar. 5 RFDs abertos (NixOS vs. home-manager, flakes, migração
   incremental, segredos, futuro deste repo) + o que cada ferramenta vira:
