@@ -1,75 +1,152 @@
 <!-- FORMATO: L (Now/Next/Soon/Later) — ver ~/projects/_hq/biblioteca/roadmaps/L-now-next-soon-later.md
      Escolhido por ser infra pessoal: sem usuário externo, sem prazo, balde "frágil" central.
-     Este arquivo funde o antigo ROADMAP fase-based + o TODO num painel só. -->
+     Painel único do computador: dotfiles + acervo digital (fundidos em 2026-10-06). -->
 
-# Roadmap — dotfiles
+# Roadmap — meu computador
 
-> Plano até Nix/home-manager, em formato **Now/Next/Soon/Later** (infra pessoal, sem prazo).
-> As fases conceituais viram horizontes; as pendências técnicas viram itens. Perguntas de pesquisa
-> por fase em `specs/fase-N-*.md`; decisões em [STATE.md](STATE.md); padrão de organização em
-> [docs/organizacao-de-arquivos.md](docs/organizacao-de-arquivos.md).
->
-> **A sequência de fundo continua:** Fase 0 (preparar base: IA+padrão) → Fase 1 (decidir área por
-> área) → Fase 2 (executar + Stow limpo) → Fase 3 (migrar Nix). Fases 0/1 correm em paralelo ao
-> uso; 2 executa as decisões de 1; 3 só quando 0–2 maduras.
+> Painel único: configuração da máquina **e** acervo digital (fotos, livros, backup).
+> Sem prazo — infra pessoal. Decisões por tema nos one-pages de [`docs/`](docs/);
+> ações que dependem de mim em [config.md](config.md); pesquisas que embasaram em
+> [`pesquisas/`](pesquisas/).
 
-**Baldes:** `🔵 Now` · `🟢 Next` (decidido) · `🟡 Soon` (provável, sem data) · `⚪ Later` (`[vem-depois]` / `[explorar]`) · `✅ Feito` · `⚠️ Frágil` (funciona, não confio) · `🚫 Não-fará`
+**Objetivo do momento:** poder **gravar, fotografar e baixar livro sabendo que cai no
+lugar certo e não se perde.** Tudo em `Now`/`Next` serve a isso; refinamento vem
+depois.
+
+**Fundo de longo prazo:** Fase 0 (base: IA + padrão) → Fase 1 (decidir área por
+área) → Fase 2 (Stow limpo) → Fase 3 (Nix). 0 e 2 fechadas; 1 em andamento.
+
+**Baldes:** `🙋 Humano` (travado em mim) · `🔵 Now` · `🟢 Next` · `🟡 Soon` · `⚪ Later` · `🛑 RFD` · `✅ Feito` · `⚠️ Frágil` · `🚫 Não-fará`
 
 ---
 
-## 🔵 Now
-- **Fase 0 — fortalecer IA + padrão de organização.** `AGENTS.md`/skills revisados e o padrão de
-  "onde cada arquivo mora" escrito no STATE.md. *(Pronto quando: padrão registrado, mesmo que a
-  aplicação completa venha na Fase 1/2.)* — **em consolidação junto do HQ (`_hq`).**
+## 🙋 Travado em mim *(a IA não consegue fazer — fila em [config.md](config.md))*
 
-## 🟢 Next *(decidido, aguarda vez — fechamento da Fase 2: Stow limpo)*
-*(vazio — os itens de fechamento da Fase 2 foram concluídos, ver ✅ Feito)*
+Item feito **sai** do `config.md`. Em ordem de impacto:
 
-## 🟡 Soon *(provável — Fase 1: decidir área por área, aplicando o padrão da Fase 0)*
-- `[pc]` Revisar atalhos de teclado (Zen, GNOME, VS Code, terminal, Dolphin) — consolidar sem conflito, prontos pra virar declarativo depois.
-- `[pc]` **Google Drive — decidido: rclone** (2026-09-16), não GNOME Online
-  Accounts. rclone e Syncthing já estão instalados (apt) mas sem remote/pareamento —
-  falta ação humana (OAuth no navegador, pareamento do celular). Runbook:
-  [docs/google-drive-rclone.md](docs/google-drive-rclone.md) e
-  [docs/syncthing.md](docs/syncthing.md).
-- `[pc]` Ajustar backups do Notion.
-- `[pc→hq]` **Livros/backup/sync saíram do dotfiles** *(2026-09-11)* — o assunto migrou pro HQ (futuro NAS): [`_hq/infra/livros-backup-sync.md`](../_hq/infra/livros-backup-sync.md). Aqui fica só *onde* a biblioteca mora no disco ([docs/livros-calibre.md](docs/livros-calibre.md)); uso concreto de Syncthing (só `entrada/`, Android→PC) descrito em [docs/syncthing.md](docs/syncthing.md), backup off-site em [docs/google-drive-rclone.md](docs/google-drive-rclone.md).
+- [ ] **Plugar o HD externo e rodar o SMART** — destrava `AC1` e `AC3`. Sem isso não
+      existe lugar seguro pro bruto da câmera.
+- [ ] **OAuth do rclone** (`rclone config`) — destrava `AC2`.
+- [ ] **Parear o Syncthing** (PC + Android) — destrava a entrada de livro pelo celular.
+- [ ] **Export novo do Notion** — a única cópia tem 19 meses.
+- [ ] **Instalar** `rapid-photo-downloader` + LosslessCut (`sudo`).
+
+## 🔵 Now *(o essencial: ter onde guardar com segurança)*
+
+- `AC1` **Camada fria no HD externo.** Diagnosticar (SMART), decidir filesystem
+  (`AC5`), formatar, criar a estrutura (`01_Smartphones/`, `02_Cameras/`). É o que
+  transforma "HD vazio na gaveta" em cópia de segurança de verdade.
+  **Bloqueado em mim** (plugar + SMART). Ver [backup.md](docs/backup.md).
+- `AC2` **Backup off-site dos livros.** systemd timer rodando
+  `rclone copy biblioteca gdrive:backup/livros-biblioteca`, validado à mão primeiro.
+  **Bloqueado em mim** (OAuth). Ver [backup.md](docs/backup.md).
+- `AC3` **Ingestão do Osmo Pocket 4.** Configurar o `rapid-photo-downloader`
+  (destino no HD, padrão `AAAA/AAAA-MM/`, ignorar `.LRV`/`.THM`) e validar a poda no
+  LosslessCut. **Bloqueado em mim** (HD + instalações). Ver [galeria.md](docs/galeria.md).
+
+## 🟢 Next *(decidido, aguarda a vez)*
+
+- `AC4` **Primeiro álbum de evento de verdade.** Convenção pronta (symlink em
+  `Pictures/Albuns/AAAA-MM_slug/`); nenhum álbum criado ainda. Montar um com evento
+  real valida o fluxo e a pegadinha do `rsync -aL`. Ver [galeria.md](docs/galeria.md).
+- `AC5`→ depende do RFD de filesystem abaixo.
+- `[pc]` **Atalhos de teclado** (Zen, GNOME, VS Code, terminal, Dolphin) — consolidar
+  sem conflito, prontos pra virar declarativo.
+
+## 🛑 RFD *(decisão minha, não da IA)*
+
+- `AC5` **Filesystem do HD externo: ext4 vs. exFAT.** **Decidir antes de formatar.**
+  ext4 preserva symlink (os álbuns) e é robusto; exFAT pluga no Windows mas perde
+  symlink e permissão. A pergunta: *vou plugar esse HD num Windows algum dia?*
+  Tabela em [backup.md](docs/backup.md#rfd-em-aberto).
+- `AC8` **A foto do diário é cópia ou ponteiro?** Decide se o Obsidian embute a foto
+  ou aponta pro acervo — e se DigiKam entra. Mesmo dilema dos álbuns.
+  Ver [galeria.md](docs/galeria.md#rfds-em-aberto).
+- **Bloco técnico do export de livros** — exige criar coluna `#assunto` no Calibre +
+  segundo template. Ver [biblioteca.md](docs/biblioteca.md#rfd-em-aberto).
+
+## 🟡 Soon *(provável, sem data)*
+
+- `AC6` **Estratégia 3-2-1 completa.** Hoje não existe: livro tem cópia no mesmo
+  disco, foto tem só o Google Fotos (que é sync, não backup). Fechar as 3 camadas +
+  cadência do Google Takeout. **Pré-requisito:** `AC1`. Ver [backup.md](docs/backup.md).
+- `[pc]` **Backups do Notion** — definir cadência depois do export novo.
+- `[pc]` **Pendrives/mídia externa** — o que fica, o que vira backup frio, o que sai.
+- `[pc]` **Home: alinhar o real ao padrão XDG.** `~/projects` está minúsculo (o padrão
+  é `~/Projects`) — renomear exige ajustar referências, não é só `mv`. E há dotfiles
+  soltos na raiz que poderiam seguir XDG (`~/.fonts`, caches de linguagens) — caso a
+  caso, sem pressa, já que muitos vêm de ferramentas que não respeitam XDG. Padrão em
+  [organizacao-de-arquivos.md](docs/organizacao-de-arquivos.md).
 
 ## ⚪ Later
-- `[vem-depois]` **Fase 3 — migrar para Nix / home-manager.** Só começa com 0–2 maduras. Objetivo: aprender Nix a fundo, sistema reproduzível por config declarativa. Migração incremental — a estrutura por ferramenta e o padrão da Fase 0 seguem servindo. Spec: [specs/fase-3-migrar-nix.md](specs/fase-3-migrar-nix.md).
-- `[explorar]` Gestão de segredos quando forem necessários: `age` independente vs solução integrada ao Nix/home-manager. *(em aberto — refinar antes de comprometer)*
-- `[explorar]` Anotações: **local decidido** (guarda-chuva `~/Documents/notas-pkm/`, Logseq+Obsidian juntos — ver ✅ Feito); resta explorar **qual ferramenta serve melhor à IA** sobre as notas. *(cruza com UVW do HQ)*
-- `[explorar]` Pendrives/mídia externa: o que continua em uso, o que é descartado.
+
+- `AC7` `[explorar]` **Camada de narrativa ("biografia visual").** Sair do depósito
+  pro diário via **regra dos 5%** (de 300 fotos, 10-15 + dois parágrafos).
+  Obsidian + DigiKam é a recomendação; decidido por `AC8`.
+  Ver [galeria.md](docs/galeria.md#a-camada-que-falta-narrativa).
+- `AC9` `[explorar]` **NAS.** Immich pras fotos, Calibre-Web pros livros, backup
+  redundante. Absorve `AC2` e `AC6` quando materializar; **5 RFDs** esperando
+  hardware. Ver [nas.md](docs/nas.md).
+- `[vem-depois]` **Fase 3 — Nix / home-manager.** Só com 0-2 maduras. Spec:
+  [specs/fase-3-migrar-nix.md](specs/fase-3-migrar-nix.md).
+- `[explorar]` **Gestão de segredos** quando forem necessários: `age` vs. solução
+  integrada ao Nix.
+- `[explorar]` **Qual PKM serve melhor à IA** sobre as notas (local já decidido:
+  `~/Documents/notas-pkm/`). Cruza com `AC7`.
 
 ---
 
-## ✅ Feito
-- **VS Code multi-root workspace adotado** *(2026-09-28, = `NX5` do ROADMAP-HQ)* — `~/projects/projects.code-workspace` com os 12 folders da raiz; o hábito pegou na janela de teste (desde 2026-09-24). Arquivo fica fora do git (dado real, repo público, regenerável); doc: [docs/vscode-multiroot-workspace.md](docs/vscode-multiroot-workspace.md), decisão no [STATE.md](STATE.md).
-- **GNU Stow escolhido como gerenciador atual** *(2026-09)* — prioriza durabilidade (symlink simples, sem formato próprio) até o Nix amadurecer. Log em [STATE.md](STATE.md).
-- Pacotes Stow versionados: `sway/ waybar/ alacritty/ nvim/ xremap/ yambar/ tmux/` + `home/` (.zshrc, .tmux.conf, .gitconfig).
-- Padrão de organização de arquivos documentado (`docs/organizacao-de-arquivos.md`), com a skill `arruma-meu-not-ai` aplicando-o.
-- Pacotes inativos no GNOME (`sway`/`waybar`/`yambar`/`xremap`) arquivados em `attic/` *(2026-09-11, commit `02936fa`)* — arquivados sem perder, prontos pra futura troca de distro.
-- `tmux/plugins` (tpm, tmux-resurrect, tmux-sensible) registrados como **submodules** de verdade *(2026-09-11)* — `.gitmodules` recriado a partir dos gitlinks órfãos; máquina nova recupera com `git submodule update --init`.
-- `nvim/init.lua_bkp` removido *(2026-09-11)* — config monolítica antiga já superada pela modular (`config/` + `plugins/`); histórico preservado no git.
-- `bootstrap.sh` criado *(2026-09-11, = `NX4` do ROADMAP-HQ)* — idempotente, dry-run por padrão: checa deps, inicializa submodules do tmux e cria symlinks via Stow, abortando em conflito. Fecha o último ⚠️ Frágil (bootstrap de máquina nova).
-- **Fase 1 — PKM decidido** *(2026-09-11)* — guarda-chuva `~/Documents/notas-pkm/` com o grafo Logseq movido pra dentro; Obsidian abre a pasta-mãe (markdown compartilhado, sem cópia). Doc: [docs/notas-pkm.md](docs/notas-pkm.md), decisão no [STATE.md](STATE.md).
-- **Fase 1 — livros decididos** *(2026-09-11)* — `~/Documents/livros/{biblioteca,entrada}`; biblioteca Calibre movida, Calibre GUI + env do calibre-mcp atualizados, bug de path do MCP corrigido (validado ao vivo). Doc: [docs/livros-calibre.md](docs/livros-calibre.md).
-- **Divergência PT-BR registrada** *(2026-09-11)* — pastas de conteúdo pessoal (`notas-pkm`, `livros`) em português por escolha; inglês segue pra config/estrutura técnica. Ver [STATE.md](STATE.md).
-- **`waybar` vs `yambar` resolvido por já estarem os dois em `attic/`** *(2026-09-16)* — arquivar os dois (feito em 2026-09-11) já respondia a pergunta; confirmado que não há symlink ativo nem pasta solta na raiz pra nenhum dos dois. Item antigo do balde Soon removido por obsoleto.
-- **`fonts/` não vendoriza mais binário** *(2026-09-16)* — `install-fonts.sh` baixa JetBrainsMono + Symbols Nerd Font (releases oficiais, pinado em `v3.5.1`) em build-time, mesmo padrão do `icons/`. 232MB de `.ttf` removidos do git. Ver [STATE.md](STATE.md).
-- **Dump/restore declarativo do dconf** *(2026-09-16)* — pacote novo `gnome-shell/` (não-Stow): `interface.ini`/`shell.ini`/`wm-preferences.ini` versionados, `dump-dconf.sh` regenera, `restore-dconf.sh` aplica (`bootstrap.sh --with-gnome-shell-theme`). Escopo: tema + extensões habilitadas; atalhos de teclado ficam de fora (item separado). Ver [STATE.md](STATE.md).
-- **`zen/` decidido: guarda o tema (ZenMods)** *(2026-09-16)* — `zen/theme/` versionado + `export-theme.sh`/`apply-theme.sh` (`bootstrap.sh --with-zen-theme`). Sessão/histórico/senhas ficam de fora — Zen sincroniza isso pelo próprio login (Firefox/Zen Account), não é assunto de dotfiles nem de Syncthing. Ver [STATE.md](STATE.md).
-- **Syncthing dos livros: `para-celular/` criada (PC → Android, Send Only)** *(2026-09-16)* — segunda via além de `entrada/`, pra ler no celular livros já na biblioteca sem sincronizar a `biblioteca/` (índice vivo). Populada via Calibre "Save to disk". Runbook: [docs/syncthing.md](docs/syncthing.md), desenho completo em [`_hq/infra/livros-backup-sync.md`](../_hq/infra/livros-backup-sync.md).
+## ⚠️ Frágil *(funciona mas não confio — resolver antes de empilhar em cima)*
 
-## ⚠️ Frágil *(funciona mas não confio — resolver antes de empilhar coisa nova na mesma área)*
-*(vazio — o bootstrap de máquina nova, único item aqui, foi resolvido; ver ✅ Feito)*
+- **Fotos têm uma cópia só de verdade.** `~/Pictures` (17 GB) + Google Fotos, que é
+  sync. Apagar por engano propaga. **O ponto mais exposto hoje** — é o que `AC1`
+  resolve.
+- **Backup da biblioteca está no mesmo disco** (`~/Backups/…`, 2.6 GB) — cobre erro
+  humano, não o SSD morrer. Resolve com `AC2`.
+- **Backup do Notion tem 19 meses** (1.8 GB, março/2025) — única cópia.
+- **HD externo com saúde nunca medida** — não confiar dado nele até o SMART rodar.
+
+## ✅ Feito
+
+**Acervo (2026-10-06)** — docs reorganizados em one-pages por tema
+([galeria](docs/galeria.md), [biblioteca](docs/biblioteca.md),
+[backup](docs/backup.md), [nas](docs/nas.md)); pesquisas preservadas em
+[`pesquisas/`](pesquisas/); convenção de álbum sem duplicar decidida; `config.md`
+virou fila efêmera só de ação humana; `smartmontools` virou check no `bootstrap.sh`;
+padrão cronológico confirmado aplicado (17 GB, zero pasta por evento);
+`~/Archive`→`~/Backups` corrigido nos docs.
+
+**Fase 2 — Stow limpo (2026-09)** — `bootstrap.sh` idempotente com dry-run;
+submodules do tmux reais; `fonts/` sem binário vendorizado (baixa em build-time);
+dconf declarativo (`gnome-shell/`); `zen/` guarda o tema; pacotes inativos no
+`attic/`; `nvim/init.lua_bkp` removido.
+
+**Fase 1 — áreas decididas (2026-09-11/16)** — PKM sob `~/Documents/notas-pkm/`;
+livros em `~/Documents/livros/{biblioteca,entrada,para-celular}`; Google Drive via
+rclone (não GOA); `~/Archive` eliminado; divergência PT-BR registrada;
+`waybar`/`yambar` resolvidos por arquivamento.
+
+**Base (2026-09)** — GNU Stow escolhido; padrão de organização documentado + skill
+`arruma-meu-not-ai`; VS Code multi-root workspace; tema Tokyo Night + Monokai +
+ícones/cursor/wallpaper.
+
+> Detalhe completo de cada item com contexto e alternativas rejeitadas:
+> [`deposito/2026-10-06-state-log-setembro-outubro.md`](deposito/2026-10-06-state-log-setembro-outubro.md)
+> e as seções "Decisões" dos one-pages em [`docs/`](docs/).
 
 ## 🚫 Não-fará (por ora)
-- Nada explicitamente descartado ainda — itens que morrerem migram pra cá com o motivo.
+
+- **Pasta por evento pra foto** — excludente, quebra ordenação. Álbum é symlink/visão.
+- **Hardlink ou cópia pra álbum** — quebra silencioso / duplica bytes, duas verdades.
+- **Sincronizar `biblioteca/` do Calibre** — `metadata.db` é SQLite vivo, corrompe.
+- **RAID como cópia do 3-2-1** — redundância não é backup.
+- **NTFS no HD externo** — driver pesado no Linux, inconsistência de permissão.
 
 ---
 
 ## Nota de leitura
-Item sobe `Later → Soon → Next → Now` conforme a fase de fundo permite (não dá pra fazer Fase 2
-sem as decisões da Fase 1). O balde `⚠️ Frágil` é o que a versão original não tinha e é central em
-infra pessoal — a prioridade real aqui é "quanto eu perderia se isso quebrasse", não métrica de uso.
+
+Item sobe `Later → Soon → Next → Now`. O balde `⚠️ Frágil` é o central em infra
+pessoal: a prioridade real é **"quanto eu perderia se isso quebrasse"**, não uso.
+`🙋 Humano` existe porque a IA não pluga HD nem faz OAuth — enquanto tiver item lá,
+o `Now` não anda.
