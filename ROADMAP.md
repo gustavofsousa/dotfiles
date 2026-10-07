@@ -72,6 +72,13 @@ Item feito **sai** do `config.md`. Em ordem de impacto:
   cadência do Google Takeout. **Pré-requisito:** `AC1`. Ver [backup.md](docs/backup.md).
 - `[pc]` **Backups do Notion** — definir cadência depois do export novo.
 - `[pc]` **Pendrives/mídia externa** — o que fica, o que vira backup frio, o que sai.
+- `[pc]` **Versionar `~/.config/user-dirs.dirs`** *(achado 2026-10-06)* — é o arquivo
+  que faz as pastas de topo serem `~/Documents`/`~/Pictures` em inglês; **está fora do
+  git**, então em máquina nova elas voltam nos nomes do locale (PT-BR), contra o
+  próprio padrão. Pacote Stow de uma linha, barato. Ver
+  [organizacao-de-arquivos.md](docs/organizacao-de-arquivos.md#ferramentas-no-sistema).
+- `[pc]` **Lista de extensões do VS Code fora do git** — `code --list-extensions`
+  resolve hoje; em Nix vira declarativo (`nix-vscode-extensions`, `LT12` do `_hq`).
 - `[pc]` **Home: alinhar o real ao padrão XDG.** `~/projects` está minúsculo (o padrão
   é `~/Projects`) — renomear exige ajustar referências, não é só `mv`. E há dotfiles
   soltos na raiz que poderiam seguir XDG (`~/.fonts`, caches de linguagens) — caso a
@@ -87,8 +94,10 @@ Item feito **sai** do `config.md`. Em ordem de impacto:
 - `AC9` `[explorar]` **NAS.** Immich pras fotos, Calibre-Web pros livros, backup
   redundante. Absorve `AC2` e `AC6` quando materializar; **5 RFDs** esperando
   hardware. Ver [nas.md](docs/nas.md).
-- `[vem-depois]` **Fase 3 — Nix / home-manager.** Só com 0-2 maduras. Spec:
-  [specs/fase-3-migrar-nix.md](specs/fase-3-migrar-nix.md).
+- `[vem-depois]` **Nix / home-manager.** Fases 0-2 maduras (✅ as três), então é só
+  decidir começar. 5 RFDs abertos (NixOS vs. home-manager, flakes, migração
+  incremental, segredos, futuro deste repo) + o que cada ferramenta vira:
+  [nix.md](docs/nix.md).
 - `[explorar]` **Gestão de segredos** quando forem necessários: `age` vs. solução
   integrada ao Nix.
 - `[explorar]` **Qual PKM serve melhor à IA** sobre as notas (local já decidido:

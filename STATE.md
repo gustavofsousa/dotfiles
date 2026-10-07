@@ -74,6 +74,36 @@ ainda está em aberto. Complementa [TODO.md](TODO.md) (pendências) e
 > [organizacao-de-arquivos](docs/organizacao-de-arquivos.md).
 > Aqui ficam só as decisões **estruturais do repo** que não pertencem a um tema.
 
+### 2026-10-06 (2) — "Ferramentas no sistema" em cada one-page; `specs/` extinta
+
+- **Toda doc de tema ganhou seção "Ferramentas no sistema"** — tabela com ferramenta +
+  **versão medida**, pra quê, estado (✅/⬜) e **origem** (apt/snap/flatpak/instalador
+  oficial), mais uma tabela de personalização (o que, onde mora, versionado?).
+  *Por que a origem importa:* `apt` vs. instalador oficial vs. snap muda como se
+  declara no Nix e quem atualiza. Achados ao medir:
+  - **Calibre 8.2.100 não vem do apt** — instalador oficial em `/opt/calibre`, que
+    auto-atualiza. Decisão a tomar no Nix (manter fora do controle declarativo ou
+    aceitar o nixpkgs possivelmente atrasado).
+  - **`~/.config/user-dirs.dirs` está fora do git** — é o arquivo que faz as pastas de
+    topo serem em inglês; em máquina nova voltam no locale PT-BR, **contra o próprio
+    padrão**. Virou item do roadmap (pacote Stow de uma linha).
+  - `ffmpeg` existe duas vezes (apt 6.1.1 + snap 8.1); extensões do VS Code fora do git.
+- **Regra nova no `AGENTS.md`:** todo passo/comando CLI/ferramenta que se tornar
+  definitivo **é registrado na seção "Ferramentas no sistema" do tema**, com
+  verificação real da versão e origem antes de escrever (nunca presumir). Junto, uma
+  tabela de "qual arquivo guarda o quê" pra não voltar a espalhar a mesma informação.
+- **`specs/` extinta.** Eram 4 arquivos de setembro com *perguntas de pesquisa*:
+  - Fases 0, 1 e 2 → **todas as perguntas respondidas e as fases concluídas**;
+    arquivadas em `deposito/2026-10-06-specs-fases-0-2/` com uma tabela
+    pergunta → resposta → onde a resposta vive hoje.
+  - Fase 3 (Nix) → **promovida a [docs/nix.md](docs/nix.md)**, porque as perguntas
+    seguem abertas de verdade. Ganhou o formato dos outros one-pages (estado,
+    ferramentas, RFDs, evolução, decisões) e registra o que cada ferramenta atual vira
+    em Nix.
+  - *Por que o formato não sobreviveu:* a spec-por-fase serviu pra forçar pesquisa
+    antes de executar. Mantê-la depois virou um lugar a mais onde a mesma decisão
+    morava, competindo com o `STATE.md` e os docs de tema.
+
 ### 2026-10-06 — Docs reorganizados: one-page por tema + pesquisas + depósito
 
 - **Problema:** `STATE.md` passou de 890 linhas e o `acervo-digital.md` juntava

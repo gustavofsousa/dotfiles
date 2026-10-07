@@ -27,3 +27,4 @@ distro. Aqui é texto que não volta.
 | [2026-10-06 — STATE.md log set-out/2026](2026-10-06-state-log-setembro-outubro.md) | log cronológico de decisões que crescia sem limite (891 linhas) | decisões por tema migraram pros one-pages; STATE ficou só com estado atual |
 | [2026-10-06 — syncthing.md](2026-10-06-syncthing.md) | runbook de pareamento | passos → [`config.md`](../config.md) item 1; desenho → [sincronizacao.md](../docs/sincronizacao.md) |
 | [2026-10-06 — google-drive-rclone.md](2026-10-06-google-drive-rclone.md) | runbook de OAuth do rclone | passos → [`config.md`](../config.md) item 2; decisão "rclone ≠ GOA" → [sincronizacao.md](../docs/sincronizacao.md) |
+| [2026-10-06 — specs das Fases 0-2](2026-10-06-specs-fases-0-2/) | perguntas de pesquisa de set/2026, **todas respondidas** | tabela pergunta→resposta→doc no [README de lá](2026-10-06-specs-fases-0-2/README.md); a Fase 3 (Nix) virou [docs/nix.md](../docs/nix.md) |

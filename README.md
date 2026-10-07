@@ -138,11 +138,24 @@ ele é um symlink para o repo, a mudança já aparece no `git status` de
 
 ## Documentação
 
-- [STATE.md](STATE.md) — retrato do estado atual e log de decisões.
-- [TODO.md](TODO.md) — pendências do repo e da organização do computador.
-- [ROADMAP.md](ROADMAP.md) — decisões atuais e direção de longo prazo.
-- [docs/organizacao-de-arquivos.md](docs/organizacao-de-arquivos.md) — padrão
-  de onde cada tipo de arquivo mora no notebook (XDG + pastas do usuário).
-- [specs/](specs/) — spec por fase do roadmap, com perguntas de pesquisa e
-  sugestões.
+Cada arquivo tem um papel — a tabela em [AGENTS.md](AGENTS.md) define qual.
+
+- [ROADMAP.md](ROADMAP.md) — **painel único**: o que falta fazer (máquina + acervo
+  digital), em baldes, com os RFDs em aberto.
+- [config.md](config.md) — fila do que **só eu** posso fazer (sudo, OAuth, celular).
+  Item feito sai do arquivo.
+- [STATE.md](STATE.md) — retrato do estado atual + decisões estruturais do repo.
+- [TODO.md](TODO.md) — rascunho de pendências (o ROADMAP é a fonte da vista).
+- **[docs/](docs/)** — um one-page por tema, cada um com estado atual, ferramentas
+  instaladas, RFDs e decisões:
+  [organizacao-de-arquivos](docs/organizacao-de-arquivos.md) (XDG + pastas de topo) ·
+  [galeria](docs/galeria.md) (fotos e vídeos) · [biblioteca](docs/biblioteca.md)
+  (livros/Calibre) · [backup](docs/backup.md) · [sincronizacao](docs/sincronizacao.md)
+  (Syncthing/rclone) · [nas](docs/nas.md) · [nix](docs/nix.md) ·
+  [notas-pkm](docs/notas-pkm.md) ·
+  [vscode-multiroot-workspace](docs/vscode-multiroot-workspace.md).
+- [pesquisas/](pesquisas/) — anotações externas datadas que embasaram as decisões,
+  texto original preservado.
+- [deposito/](deposito/) — arquivo morto datado (docs e logs que cumpriram o papel).
+  Diferente de [attic/](attic/), que guarda pacote Stow de ferramenta largada.
 - [AGENTS.md](AGENTS.md) — regras para pessoas e IAs que mexerem neste repo.
