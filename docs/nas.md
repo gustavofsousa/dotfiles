@@ -6,6 +6,30 @@ decisões que fechem portas, e ter as perguntas prontas quando o hardware aparec
 **Fonte:** [pesquisas/2026-10-06-fotos-video-familia.md](../pesquisas/2026-10-06-fotos-video-familia.md).
 **Hoje:** [galeria.md](galeria.md) · [biblioteca.md](biblioteca.md) · [backup.md](backup.md).
 
+## Ferramentas no sistema
+
+**Nenhuma** — não há NAS, nem hardware, nem software de NAS instalado. Esta tabela
+existe pra registrar o que a decisão vai exigir instalar, e onde:
+
+| O que | Onde roda | Estado |
+| --- | --- | --- |
+| **Immich** (fotos) | no NAS, via Docker/Compose | ⬜ nem avaliado |
+| **Calibre-Web** ou content server (livros) | no NAS | ⬜ nem avaliado |
+| **Syncthing** always-on | no NAS (hoje seria no meu PC) | ⬜ |
+| **Restic** / **BorgBackup** | no NAS, pra camada fria | ⬜ nenhum escolhido |
+| SO do NAS (Ubuntu Server? TrueNAS? Unraid?) | o hardware | ⬜ RFD 2 abaixo |
+
+**Requisitos de hardware/rede que a decisão impõe** (ver RFDs):
+
+- **CPU Intel com QuickSync** (Core 7ª-10ª geração) se Immich entrar — sem isso o
+  transcode de 4K da Pocket derruba a máquina.
+- **Rede Gigabit cabeada** (Cat 5e/6), nunca Wi-Fi — arquivos de 10-30 GB.
+- Discos para redundância (RAID 1 / ZFS) — **que não é backup**.
+
+> A migração pro Nix ([nix.md](nix.md)) e o NAS são projetos **independentes**: o Nix
+> é sobre esta máquina de trabalho; o NAS é outra máquina, que pode nem rodar Nix.
+> Não acoplar as duas decisões.
+
 ## Qual problema o NAS resolve (e qual não)
 
 O requisito que puxa NAS é um só, e é concreto:

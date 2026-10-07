@@ -5,6 +5,26 @@
 > 2026-09-24, adotada em 2026-09-28** (o hábito pegou dentro da janela de
 > avaliação). Ver o log de decisões em [STATE.md](../STATE.md).
 
+## Ferramentas no sistema
+
+Medido em 2026-10-06.
+
+| Ferramenta | Estado | Origem |
+| --- | --- | --- |
+| **VS Code** 1.136.1 | ✅ | apt (repo oficial da Microsoft) |
+
+**Personalização a preservar:**
+
+| O que | Onde mora | Versionado? |
+| --- | --- | --- |
+| `settings.json` do usuário | `~/.config/Code/User/` | ✅ pacote Stow `vscode/` |
+| `projects.code-workspace` | `~/projects/` | ❌ **de propósito** — ver abaixo |
+| Extensões instaladas | perfil do VS Code | ⬜ **não** — reinstalar à mão em máquina nova |
+
+> Extensões fora do git é lacuna conhecida, mas não vale um pacote Stow: a lista se
+> exporta com `code --list-extensions`. Em Nix vira declarativo de verdade
+> (`nix-vscode-extensions`, já no roadmap do `_hq` como `LT12`).
+
 ## O que é
 
 O arquivo `~/projects/projects.code-workspace` declara os 12 folders da raiz

@@ -18,6 +18,29 @@ e [2026-10-06-curadoria-narrativa.md](../pesquisas/2026-10-06-curadoria-narrativ
 | HD externo | existe, **vazio**, antigo, **saúde nunca medida** |
 | Ferramentas | `exiftool`, `ffmpeg`, `rsync`, `smartctl` ✓ · falta `rapid-photo-downloader`, LosslessCut |
 
+## Ferramentas no sistema
+
+Medido em 2026-10-06. A coluna "origem" é o que a migração pro Nix
+([nix.md](nix.md)) vai ter que declarar.
+
+| Ferramenta | Pra quê | Estado | Origem |
+| --- | --- | --- | --- |
+| `exiftool` 12.76 | ler EXIF, mover+renomear em lote pro padrão cronológico | ✅ | apt (`libimage-exiftool-perl`) |
+| `ffmpeg` 6.1.1 | comprimir clipe pra nuvem (H.265) | ✅ | apt (+ snap `ffmpeg-2204` 8.1 instalado em paralelo) |
+| `rsync` 3.2.7 | copiar cartão/HD com progresso e retomada | ✅ | apt |
+| `rapid-photo-downloader` | descarregar cartão SD criando `AAAA/AAAA-MM/` | ⬜ **falta** | `sudo apt install rapid-photo-downloader` |
+| **LosslessCut** | poda sem recodificar (corta take, zero perda) | ⬜ **falta** | `flatpak install flathub no.mifi.losslesscut` |
+| **Czkawka** | deduplicar por hash de conteúdo + fotos similares | ⬜ **falta** | `sudo snap install czkawka` |
+| **DigiKam** | álbum virtual, estrelas, legenda no EXIF, rosto offline | ⬜ **falta** | depende do RFD `AC8` |
+
+**Personalização a preservar** (nada disso está versionado ainda — vira item quando
+as ferramentas existirem):
+
+- `rapid-photo-downloader`: destino no HD externo, padrão de nome
+  `AAAA/AAAA-MM/AAAA-MM-DD_HH-MM-SS.ext`, **regra de ignorar `.LRV` e `.THM`**.
+- Nenhum dotfile de galeria é pacote Stow hoje. Quando houver config que valha
+  versionar, ela entra como pacote espelhando `~/.config/<app>/`.
+
 ## O princípio: um arquivo, um lugar
 
 Tudo aqui decorre de uma regra só:

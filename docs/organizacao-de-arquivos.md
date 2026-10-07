@@ -15,6 +15,29 @@ está registrada no [STATE.md](../STATE.md).
 > convenção. Enquanto a aplicação não acontece, a realidade da home pode
 > divergir deste doc; as divergências conhecidas estão listadas no fim.
 
+## Ferramentas no sistema
+
+Medido em 2026-10-06. Este padrão é sobretudo convenção, não ferramenta — mas duas
+coisas o sustentam na prática:
+
+| Ferramenta | Pra quê | Estado | Origem |
+| --- | --- | --- | --- |
+| `stow` 2.3.1 | criar os symlinks de config (Camada 1) | ✅ | apt |
+| `xdg-user-dirs-update` | define as pastas de topo (Camada 2) | ✅ | apt (vem com o GNOME) |
+| `trash-cli` (`trash-put`) | apagar pra lixeira pelo terminal em vez de `rm` | ⬜ **falta** | `sudo apt install trash-cli` |
+
+**Personalização que *é* o padrão:**
+
+| O que | Onde mora | Versionado? |
+| --- | --- | --- |
+| Nomes das pastas de topo em inglês | `~/.config/user-dirs.dirs` | ⬜ **não, e deveria** — é o que faz `~/Documents` em vez de `~/Documentos`; candidato a pacote Stow |
+| `XDG_*_HOME` | nenhuma sobrescrita — valem os defaults | — |
+| Variáveis de ambiente (ex. `QT_QPA_PLATFORMTHEME`) | pacote `environment/` | ✅ Stow |
+
+> 💡 `user-dirs.dirs` fora do git é uma lacuna real: em máquina nova as pastas de topo
+> voltam nos nomes do locale (PT-BR), contra o padrão. Item pro roadmap, barato de
+> resolver (um pacote Stow de uma linha).
+
 ## Princípio
 
 Duas camadas, cada uma com seu padrão:

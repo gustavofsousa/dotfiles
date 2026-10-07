@@ -20,6 +20,37 @@ registrada no [STATE.md](../STATE.md).
 └── para-celular/    ← cópias soltas pra ler no celular (vazia, pronta)
 ```
 
+## Ferramentas no sistema
+
+Medido em 2026-10-06.
+
+| Ferramenta | Pra quê | Estado | Origem |
+| --- | --- | --- | --- |
+| **Calibre** 8.2.100 | biblioteca, metadados, conversão, export | ✅ | **instalador oficial em `/opt/calibre`**, não apt |
+| `calibredb` / `ebook-convert` | CLI do Calibre (export, conversão em lote) | ✅ | vem com o Calibre |
+| **calibre-mcp** | a IA consulta/edita a biblioteca | ✅ | `~/projects/04_calibre-mcp` (projeto meu) |
+| **Foliate** 3.3.0 | leitor EPUB | ✅ | Flatpak (`com.github.johnfactotum.Foliate`) |
+| **Okular** 23.08.5 | leitor PDF | ✅ | apt |
+| KOReader | leitor no e-reader | ⬜ não tenho e-reader |
+
+> ⚠️ **Calibre não vem do apt.** Veio do instalador oficial (`/opt/calibre`), que
+> auto-atualiza sozinho. Na migração pro Nix isso é uma decisão: manter o instalador
+> oficial fora do Nix (mais atual, fora do controle declarativo) ou usar o pacote do
+> nixpkgs (declarado, possivelmente atrasado). Registrado em [nix.md](nix.md).
+
+**Personalização a preservar:**
+
+| O que | Onde mora | Versionado? |
+| --- | --- | --- |
+| `library_path` da GUI | `~/.config/calibre/global.py.json` | ❌ não (dado de máquina) |
+| `CALIBRE_LIBRARY_PATH` do MCP | `~/.claude.json` | ❌ não |
+| `save_template` de export | `~/.config/calibre/global.py.json` | ❌ **não configurado** (ver RFD abaixo) |
+| Plugins (*Modify ePub*, *KFX Output*) | perfil do Calibre | ❌ não — reinstalar à mão em máquina nova |
+| Tema/atalhos de Okular e Foliate | perfil de cada app | ❌ não — item do roadmap do `_hq` |
+
+Nada de biblioteca é pacote Stow hoje. O caminho, quando valer: versionar o
+`save_template` e os atalhos dos leitores, não o `library_path` (que é path local).
+
 ## A trava crítica
 
 > ⚠️ **NUNCA sincronizar `biblioteca/` com Syncthing.** O `metadata.db` é SQLite

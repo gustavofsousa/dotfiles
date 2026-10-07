@@ -6,6 +6,38 @@ O que protege o que, e contra qual tipo de perda. Vale pro acervo todo —
 **Fonte:** [pesquisas/2026-10-06-fotos-video-familia.md](../pesquisas/2026-10-06-fotos-video-familia.md).
 **Horizonte:** [nas.md](nas.md). **Ações manuais:** [`../config.md`](../config.md).
 
+## Ferramentas no sistema
+
+Medido em 2026-10-06.
+
+| Ferramenta | Pra quê | Estado | Origem |
+| --- | --- | --- | --- |
+| `smartctl` 7.4 | diagnóstico SMART de disco | ✅ | apt (`smartmontools`) |
+| `rsync` 3.2.7 | cópia fria com `--delete`, progresso, retomada | ✅ | apt |
+| `rclone` 1.60.1 | backup off-site pro Drive | ✅ instalado, **sem remote** | apt |
+| **Restic** ou **BorgBackup** | backup incremental da camada morna pra fria | ⬜ **falta** — nenhum escolhido | decisão do NAS ([nas.md](nas.md)) |
+
+`smartctl`, `rsync` e `ffmpeg` estão registrados como **dependências recomendadas** no
+[`bootstrap.sh`](../bootstrap.sh) — avisa se faltarem, não aborta. É o que faz voltarem
+sozinhas em máquina nova e virarem pacote declarado no Nix.
+
+> O `rclone` do apt é **v1.60.1**, enquanto o upstream já vai em v1.75. Não bloqueia
+> nada no fluxo atual; só significa que provedor/flag muito recente pode faltar. Se
+> precisar: `curl https://rclone.org/install.sh | sudo bash` (substitui o do apt — e
+> aí sai do controle do apt/Nix, decisão a registrar).
+
+**Personalização a preservar:**
+
+| O que | Onde mora | Versionado? |
+| --- | --- | --- |
+| Remote `gdrive:` (token OAuth) | `~/.config/rclone/rclone.conf` | ❌ **nunca** — contém credencial |
+| Timer/service do backup | `~/.config/systemd/user/` | ⬜ não existe ainda; **candidato a pacote Stow** quando `AC2` for feito |
+| Filesystem/label do HD externo | no disco | — decisão `AC5` |
+
+> 🔒 `rclone.conf` tem token de acesso ao Drive. **Não versionar.** Se um dia a
+> config de serviços entrar no Stow/Nix, o arquivo de credencial fica fora
+> (gestão de segredos é RFD aberto em [nix.md](nix.md)).
+
 ## A distinção que resolve 90% das confusões
 
 | | Protege de | Não protege de |

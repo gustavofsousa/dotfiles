@@ -7,6 +7,34 @@ quando feitos); aqui fica o desenho e o que foi decidido.
 **Relacionado:** [backup.md](backup.md) (sync ≠ backup) ·
 [biblioteca.md](biblioteca.md) (o que é sincronizado) · [nas.md](nas.md) (onde isso vai parar).
 
+## Ferramentas no sistema
+
+Medido em 2026-10-06. **Ambas instaladas, nenhuma configurada** — o que falta é só
+ação humana ([`../config.md`](../config.md) itens 1 e 2).
+
+| Ferramenta | Estado | Origem |
+| --- | --- | --- |
+| `syncthing` 1.27.2 | ✅ instalado · serviço **`disabled`/`inactive`**, `~/.config/syncthing/` não existe | apt |
+| `rclone` 1.60.1 | ✅ instalado · **`listremotes` vazio** | apt |
+| Syncthing-Fork (Android) | ⬜ falta — F-Droid | fora desta máquina |
+
+**Unidade systemd já existe** mas nunca foi ligada:
+`/usr/lib/systemd/user/syncthing.service` (vem no pacote). Subir com
+`systemctl --user enable --now syncthing.service`.
+
+**Personalização a preservar:**
+
+| O que | Onde mora | Versionado? |
+| --- | --- | --- |
+| Device ID, pastas e peers do Syncthing | `~/.config/syncthing/config.xml` | ❌ **não** — contém chave do device e é específico da máquina |
+| Remote `gdrive:` (token OAuth) | `~/.config/rclone/rclone.conf` | ❌ **nunca** — credencial |
+| `syncthing.service` habilitado | estado do systemd `--user` | ⬜ candidato a linha no `bootstrap.sh` |
+
+> 🔒 Nenhum dos dois arquivos de config entra no git: um tem credencial, o outro tem
+> identidade de máquina. Em Nix/home-manager, o serviço é declarado
+> (`services.syncthing.enable`) mas o pareamento continua sendo ato manual — ver
+> [nix.md](nix.md).
+
 ## A regra que separa as duas
 
 | | Syncthing | rclone → Drive |

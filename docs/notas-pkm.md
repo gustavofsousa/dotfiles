@@ -4,6 +4,31 @@ Onde as anotações pessoais (PKM — *personal knowledge management*) moram.
 Decisão da **Fase 1** do roadmap. Nome de pasta em PT-BR por escolha consciente
 — ver a divergência registrada no [STATE.md](../STATE.md).
 
+## Ferramentas no sistema
+
+Medido em 2026-10-06.
+
+| Ferramenta | Pra quê | Estado | Origem |
+| --- | --- | --- | --- |
+| **Obsidian** 1.13.7 | abre a pasta-mãe; grafo/links, plugins | ✅ | Flatpak (`md.obsidian.Obsidian`) |
+| **Logseq** 0.10.15 | outline/journal diário sobre o mesmo markdown | ✅ | snap |
+
+Os dois leem o **mesmo markdown** em `~/Documents/notas-pkm/` — sem cópia, sem
+conversão. É isso que torna a escolha reversível: trocar de app não migra dado.
+
+**Personalização a preservar:**
+
+| O que | Onde mora | Versionado? |
+| --- | --- | --- |
+| Config do vault Obsidian (plugins, tema, hotkeys) | `~/Documents/notas-pkm/.obsidian/` | ❌ não — fica **dentro** do vault, que é dado privado |
+| Config do Logseq (grafo apontado, tema) | `~/.logseq/` + `.logseq/` no grafo | ❌ não |
+| As notas | `~/Documents/notas-pkm/` | ❌ **nunca** neste repo — dado pessoal |
+
+> Dois apps distintos (Flatpak + snap) com config **dentro do dado privado** é o caso
+> em que versionar config no dotfiles não compensa: arrastaria o conteúdo das notas.
+> Em máquina nova: instalar os dois, apontar pra pasta, pronto. Em Nix, os pacotes
+> entram declarados; a config do vault continua fora.
+
 ## Estrutura no disco
 
 ```

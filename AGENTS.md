@@ -12,7 +12,52 @@ computador como um todo — nem tudo em `TODO.md` vira arquivo neste git.
 
 Onde cada tipo de arquivo mora no notebook (não só neste repo) segue o padrão
 documentado em `docs/organizacao-de-arquivos.md` — consulte-o para qualquer
-decisão de pasta nas Fases 1/2 do roadmap.
+decisão de pasta.
+
+## Como a documentação é organizada
+
+Cada arquivo tem **um** papel. Antes de escrever, escolha o lugar:
+
+| Arquivo | Guarda | Não guarda |
+| --- | --- | --- |
+| `docs/<tema>.md` | o **desenho permanente** de um tema (galeria, biblioteca, backup, sincronizacao, nas, nix, notas-pkm, organizacao-de-arquivos) — estado atual, ferramentas, RFDs, caminhos de evolução, decisões | passo a passo de ação humana; lista de tarefas |
+| `config.md` | **só** o que depende estritamente do humano (sudo, OAuth, celular, hardware). **Item feito é removido**, não marcado `[x]` | trabalho que a IA faz; decisão (RFD) |
+| `ROADMAP.md` | o que falta fazer, em baldes, com IDs `AC*`; os RFDs abertos | o desenho; o passo a passo |
+| `STATE.md` | retrato do estado atual + decisões **estruturais do repo** | decisão de tema (vai pro one-page) |
+| `pesquisas/` | anotação externa datada, **texto original preservado**, com nota de confiança | conclusão minha (vai pro one-page) |
+| `deposito/` | arquivo morto datado — **nada morre sem colheita** | nada que ainda esteja em uso |
+
+## Registrar ferramenta e comando CLI definitivo
+
+**Toda vez que um passo novo, comando CLI ou ferramenta se tornar definitivo no
+fluxo, registre-o na seção "Ferramentas no sistema" do one-page do tema** — não
+deixe só no histórico da conversa nem só no commit.
+
+A seção é uma tabela com, no mínimo: **ferramenta + versão**, pra quê serve, estado
+(✅ instalado / ⬜ falta) e **origem** (`apt`, `snap`, `flatpak`, instalador oficial,
+script). Mais a tabela de **personalização**: o que foi configurado, onde o arquivo
+mora, e se está versionado.
+
+Por que isso importa:
+
+- **a migração pro Nix depende disso** — `home.packages` precisa da lista real do que
+  está instalado e de onde veio; descobrir isso depois, ferramenta por ferramenta, é
+  trabalho perdido (ver `docs/nix.md`);
+- máquina nova precisa saber o que reinstalar e o que o `bootstrap.sh` já cobre;
+- "origem" não é detalhe: pacote de `apt` versus instalador oficial versus snap muda
+  como se declara no Nix e quem atualiza.
+
+Regras práticas:
+
+- **Verifique antes de escrever.** Rode o `--version` e confira a origem
+  (`dpkg -l`, `snap list`, `flatpak list`, `readlink -f $(command -v x)`). Nunca
+  presuma versão nem gerenciador — e date a medição.
+- **Ferramenta recorrente e genérica** (diagnóstico de disco, metadados, cópia) entra
+  também como **dependência recomendada no `bootstrap.sh`** — o bloco que avisa e
+  segue, sem abortar como `git`/`stow`.
+- **Credencial e identidade de máquina nunca são versionadas** — `rclone.conf`,
+  `config.xml` do Syncthing, tokens. Registre na tabela *que existem e onde moram*,
+  marcados como não-versionados.
 
 ## Regras de comportamento
 
