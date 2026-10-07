@@ -123,7 +123,8 @@ Sharing entrega na timeline dela em minutos. **Com parcimônia**, só clipe curt
    `AAAA/AAAA-MM/AAAA-MM-DD_HH-MM-SS.ext`, **ignorando `.LRV` e `.THM`** — preview
    e miniatura da câmera, 15-25% de lixo).
 2. **Poda imediata** no LosslessCut: take de 2 min onde só 25 s prestam → corta
-   (sem recodificar, instantâneo) → **apaga o bruto**.
+   (sem recodificar, instantâneo) → **apaga o bruto**. Atalhos, detect-scenes e
+   automação: **[edicao-video.md](edicao-video.md)**.
 3. Arrasta os 3-4 melhores da semana pro Google Fotos no navegador.
 
 > ⚠️ **Não acumule dívida de triagem.** Descarregar 64 GB pensando "depois eu

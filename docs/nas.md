@@ -44,6 +44,28 @@ O que o NAS **não** resolve: não é backup por si (ver a distinção em
 [backup.md](backup.md)); RAID no NAS protege de disco morto, não do `rm` errado.
 A camada fria na gaveta continua necessária depois do NAS.
 
+## Exibir o acervo numa tela grande *(desejo, não setup)*
+
+**Não tenho projetor nem TV com Android TV** (2026-10-06) — isto é horizonte. Mas é um
+caso de uso que **puxa requisito pro NAS**, então fica registrado aqui.
+
+O que a pesquisa levantou, em ordem do que já funcionaria hoje:
+
+| Quero | Precisa de | Hoje |
+| --- | --- | --- |
+| Mandar foto/vídeo do celular pra tela | Chromecast (embutido em Google/Android TV) + Google Fotos | ⬜ falta a tela — **não depende do NAS** |
+| "Porta-retratos gigante": álbum `AAAA-MM Melhores` rodando no modo ambiente | mesma coisa | ⬜ falta a tela |
+| Ler o bruto 4K direto do disco, por controle remoto | NAS servindo SMB/NFS + app (VLC, Jellyfin) na tela | ⬜ falta tela **e** NAS |
+
+**Por que isso importa pro desenho do NAS:** se a tela virar realidade, o NAS passa a
+ter um segundo consumidor além dos celulares — e Jellyfin/VLC lendo 4K pela rede
+reforça os dois requisitos já levantados (**Gigabit cabeado** e **QuickSync** pro
+transcode). Não muda nenhuma decisão de hoje; só confirma as que já estão na mesa.
+
+> O caminho mais barato pro "porta-retratos gigante" **não passa pelo NAS**: Chromecast
+> + Google Fotos resolve com a tela e o plano que já existem. O NAS só é necessário
+> pra servir o **arquivo bruto** (que é justamente o que não cabe na nuvem).
+
 ## DAS vs. NAS
 
 | | DAS | NAS |
