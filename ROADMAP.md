@@ -27,22 +27,26 @@ Item feito **sai** do `config.md`. Em ordem de impacto:
 - [ ] **OAuth do rclone** (`rclone config`) — destrava `AC2`.
 - [ ] **Parear o Syncthing** (PC + Android) — destrava a entrada de livro pelo celular.
 - [ ] **Export novo do Notion** — a única cópia tem 19 meses.
-- [ ] **Instalar** `rapid-photo-downloader` + LosslessCut (`sudo`).
+- [ ] **Configurar o `rapid-photo-downloader`** (interface gráfica, ~5 min) e rodar o
+      1º cartão — destrava `AC3`. Passo a passo no
+      [cheatsheet](docs/edicao-video.md#cheatsheet-da-câmera-ao-cofre).
 
 ## 🔵 Now *(o essencial: ter onde guardar com segurança)*
 
 - `AC2` **Backup off-site dos livros.** systemd timer rodando
   `rclone copy biblioteca gdrive:backup/livros-biblioteca`, validado à mão primeiro.
   **Bloqueado em mim** (OAuth). Ver [backup.md](docs/backup.md).
-- `AC3` **Ingestão do Osmo Pocket 4.** Configurar o `rapid-photo-downloader`
-  (destino no HD, padrão `AAAA/AAAA-MM/`, ignorar `.LRV`/`.THM`) e validar a poda no
-  LosslessCut. O destino já existe (`BLACK/02_Cameras/Osmo_Pocket/`, `AC1`).
-  **Bloqueado em mim** (instalações). Ver [galeria.md](docs/galeria.md).
+- `AC3` **Ingestão do Osmo Pocket 4.** Ferramentas instaladas (2026-10-08, nunca
+  abertas). Entrada no SSD: `~/Media/02_Cameras/Osmo_Pocket/` (`AAAA/AAAA-MM/`); depois
+  `rsync` pro `BLACK/02_Cameras/`. Falta configurar o app e validar com um **cartão
+  real** — inclusive se a Pocket 4 grava `.LRV`, `.LRF` ou outro (o app **não** ignora
+  `.LRV` sozinho; limpeza é manual). **Bloqueado em mim** (GUI + cartão).
+  Ver [galeria.md](docs/galeria.md) e o [cheatsheet](docs/edicao-video.md#cheatsheet-da-câmera-ao-cofre).
 
 ## 🟢 Next *(decidido, aguarda a vez)*
 
-- `AC10` **Fechar o fluxo de triagem de vídeo.** Instalar **só o LosslessCut**
-  (1 flatpak), aprender os atalhos `I`/`O`/`J-K-L` e testar o *detect scenes* embutido
+- `AC10` **Fechar o fluxo de triagem de vídeo.** **Só o LosslessCut** (instalado
+  2026-10-08), aprender os atalhos `I`/`O`/`J-K-L` e testar o *detect scenes* embutido
   num take real da Pocket. Pronto quando: um cartão real virar "3-4 clipes bons + bruto
   apagado" sem abrir editor pesado. **Não** instalar Auto-Editor/PySceneDetect/Shutter
   Encoder agora — gold-plating antes de existir rotina.
@@ -55,6 +59,11 @@ Item feito **sai** do `config.md`. Em ordem de impacto:
 
 ## 🛑 RFD *(decisão minha, não da IA)*
 
+- `AC12` **`~/Media` absorve `~/Pictures` e `~/Videos`?** *(2026-10-08)* Hoje `~/Media`
+  é só a entrada da câmera. "Pasta única" para toda mídia seria mover 17 GB e mexer em
+  `user-dirs.dirs`, screenshots, wallpaper e na rotina de espelho pro BLACK. Também
+  decide o que fica no SSD depois de enviado ao BLACK (~55 GB livres; vídeo 4K enche
+  rápido). Ver [galeria.md](docs/galeria.md) (decisão de 2026-10-08).
 - `AC8` **A foto do diário é cópia ou ponteiro?** Decide se o Obsidian embute a foto
   ou aponta pro acervo — e se DigiKam entra. Mesmo dilema dos álbuns.
   Ver [galeria.md](docs/galeria.md#rfds-em-aberto).
@@ -137,6 +146,11 @@ Item feito **sai** do `config.md`. Em ordem de impacto:
 com espelho do `~/Pictures` (17 GB) e dump bruto do TRANSLUCENT (22 GB), ambos
 verificados por checksum. Premissa "HD vazio" estava errada: o TRANSLUCENT tinha dados.
 Detalhe e números em [backup.md](docs/backup.md).
+
+**Ferramentas de ingestão (2026-10-08)** — `rapid-photo-downloader` 0.9.36 (apt) e
+LosslessCut 3.69.0 (flatpak) instalados e registrados nas tabelas de ferramentas;
+`~/Media/02_Cameras/Osmo_Pocket/` criada; cheatsheet escrito (hipótese, apps nunca
+abertos).
 
 **Acervo (2026-10-06)** — docs reorganizados em one-pages por tema
 ([galeria](docs/galeria.md), [biblioteca](docs/biblioteca.md),

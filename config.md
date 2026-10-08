@@ -67,14 +67,17 @@ ler ou escrever no TRANSLUCENT enquanto roda. Confirmar o device antes (`lsblk`)
   A linha `# 1 Extended offline` do log de testes tem que dizer
   `Completed without error`.
 
-## 4. Instalar as ferramentas de ingestão (precisa de `sudo`)
+## 4. Configurar o rapid-photo-downloader e rodar o 1º cartão
 
-Só a instalação é sua; configurar e validar o fluxo é trabalho da IA (`AC3`).
+Ferramentas instaladas em 2026-10-08; falta a configuração, que é interface gráfica
+(~5 min) e o cartão da Pocket 4.
 
-- [ ] ```bash
-      sudo apt install rapid-photo-downloader
-      flatpak install flathub no.mifi.losslesscut
-      ```
+- [ ] Seguir o passo 0 do
+  [cheatsheet](docs/edicao-video.md#cheatsheet-da-câmera-ao-cofre) (destino
+  `~/Media/02_Cameras/Osmo_Pocket`, subpasta `YYYY/YYYY-MM`, nome `YYYY-MM-DD_HHMMSS`).
+- [ ] Descarregar um cartão real e me avisar **quais extensões apareceram** na pasta
+  (`find ~/Media -type f | sed 's/.*\.//' | sort | uniq -c`) — é o que confirma se a
+  limpeza de `.LRV`/`.THM` basta. Aí a IA fecha o `AC3`.
 
 ## 5. Exportar o backup novo do Notion
 
@@ -98,13 +101,14 @@ Export é manual na UI, não tem API que a IA chame aqui.
 ## Ordem
 
 ```
-4 (instalar ingestão) ──► IA assume (AC3)
+4 (configurar RPD + 1º cartão) ──► IA assume (AC3)
 1 (Syncthing)  ─── independente
 2 (rclone) ──► IA assume o timer (AC2)
 3 (reteste TRANSLUCENT, opcional), 5 (Notion), 6 (Google Fotos) ─── independentes
 ```
 
-**Se for fazer uma coisa só: item 4.** Destrava a ingestão do Pocket 4 (`AC3`).
+**Se for fazer uma coisa só: item 4.** Destrava a ingestão do Pocket 4 (`AC3`) — e é
+o que mais valida o `~/Media` e o cheatsheet na prática.
 
 Contexto e porquê: [docs/galeria.md](docs/galeria.md).
 O que falta, em ordem: [ROADMAP.md](ROADMAP.md).
