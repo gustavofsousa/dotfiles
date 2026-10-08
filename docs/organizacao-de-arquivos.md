@@ -107,7 +107,7 @@ Diretrizes:
 ## Camada 2 — Arquivos do usuário (pastas de topo)
 
 Nomes em inglês, alinhados ao `xdg-user-dirs` (`~/.config/user-dirs.dirs`),
-mais uma pasta própria para o que o XDG não cobre (`Projects`).
+mais pastas próprias para o que o XDG não cobre (`Projects`, `Media`).
 
 | Pasta          | XDG user-dir?      | O que mora                                        |
 | -------------- | ------------------ | ------------------------------------------------- |
@@ -120,6 +120,7 @@ mais uma pasta própria para o que o XDG não cobre (`Projects`).
 | `~/Public`     | sim                | Compartilhamento — usar só se houver necessidade. |
 | `~/Templates`  | sim                | Modelos de documento.                             |
 | `~/Projects`   | não (próprio)      | Código e projetos pessoais.                       |
+| `~/Media`      | não (próprio)      | Entrada da câmera: bruto antes de ir pro BLACK. Repete o layout do BLACK (`02_Cameras/…`), então passa dos 3 níveis de propósito — a regra vale para `Documents`. Ver [galeria.md](galeria.md). |
 
 Diretrizes:
 
@@ -247,4 +248,7 @@ Duas regras que são decisão fechada, não divergência:
 
 - **`~/Archive` não deve ser recriado** (decisão 2026-09-16, ver Camada 2) —
   virou depósito sem curadoria. Backup deliberado vai em `~/Backups/`.
-- **`~/Media` só se `Pictures`/`Music`/`Videos` deixarem de bastar** — hoje bastam.
+- **`~/Media` existe desde 2026-10-08** como entrada da câmera (substitui a regra
+  antiga "só se `Pictures`/`Music`/`Videos` deixarem de bastar"). Se ela também
+  absorve `Pictures` e `Videos` é decisão aberta (`AC12` no
+  [ROADMAP.md](../ROADMAP.md)) — mexe em `user-dirs.dirs`, screenshots e wallpaper.

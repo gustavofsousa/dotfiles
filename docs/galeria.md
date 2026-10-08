@@ -20,24 +20,33 @@ e [2026-10-06-curadoria-narrativa.md](../pesquisas/2026-10-06-curadoria-narrativ
 
 ## Ferramentas no sistema
 
-Medido em 2026-10-06. A coluna "origem" é o que a migração pro Nix
-([nix.md](nix.md)) vai ter que declarar.
+Medido em 2026-10-06; `rapid-photo-downloader` e LosslessCut medidos em 2026-10-08.
+A coluna "origem" é o que a migração pro Nix ([nix.md](nix.md)) vai ter que declarar.
 
 | Ferramenta | Pra quê | Estado | Origem |
 | --- | --- | --- | --- |
 | `exiftool` 12.76 | ler EXIF, mover+renomear em lote pro padrão cronológico | ✅ | apt (`libimage-exiftool-perl`) |
 | `ffmpeg` 6.1.1 | comprimir clipe pra nuvem (H.265) | ✅ | apt (+ snap `ffmpeg-2204` 8.1 instalado em paralelo) |
 | `rsync` 3.2.7 | copiar cartão/HD com progresso e retomada | ✅ | apt |
-| `rapid-photo-downloader` | descarregar cartão SD criando `AAAA/AAAA-MM/` | ⬜ **falta** | `sudo apt install rapid-photo-downloader` |
-| **LosslessCut** | poda sem recodificar (corta take, zero perda) | ⬜ **falta** | `flatpak install flathub no.mifi.losslesscut` |
+| `rapid-photo-downloader` 0.9.36-0ubuntu3 | descarregar cartão SD criando `AAAA/AAAA-MM/` | ✅ instalado, **nunca aberto** (sem config) | apt (`rapid-photo-downloader`, repositório Ubuntu) |
+| **LosslessCut** 3.69.0 | poda sem recodificar (corta take, zero perda) — uso em [edicao-video.md](edicao-video.md) | ✅ instalado, **nunca aberto** (sem config) | flatpak, remote `flathub`, instalação `system` (`no.mifi.losslesscut`) |
 | **Czkawka** | deduplicar por hash de conteúdo + fotos similares | ⬜ **falta** | `sudo snap install czkawka` |
 | **DigiKam** | álbum virtual, estrelas, legenda no EXIF, rosto offline | ⬜ **falta** | depende do RFD `AC8` |
 
 **Personalização a preservar** (nada disso está versionado ainda — vira item quando
 as ferramentas existirem):
 
-- `rapid-photo-downloader`: destino no HD externo, padrão de nome
-  `AAAA/AAAA-MM/AAAA-MM-DD_HH-MM-SS.ext`, **regra de ignorar `.LRV` e `.THM`**.
+- `rapid-photo-downloader`: destino `~/Media/02_Cameras/Osmo_Pocket/`, subpasta
+  `AAAA/AAAA-MM/`, nome `AAAA-MM-DD_HHMMSS.ext` (o mesmo do `~/Pictures` real). Config
+  ainda **não existe** — o app nunca foi aberto; ela nascerá em
+  `~/.config/Rapid Photo Downloader/` e o passo a passo está no
+  [cheatsheet](edicao-video.md#cheatsheet-da-câmera-ao-cofre).
+- ⚠️ **`.LRV` não é ignorado por padrão — o contrário.** Medido no código instalado
+  (`raphodo/metadata/fileformats.py`): `lrv` está em `VIDEO_EXTENSIONS` (importa como
+  vídeo) e `thm` é a miniatura que acompanha o vídeo. A preferência *Ignored Paths* do
+  app filtra **pastas**, não extensão (`scan.py`), então não resolve. Caminho que vale:
+  importar e rodar a limpeza do `find` abaixo. Se a Pocket 4 grava `.LRF` em vez de
+  `.LRV`, o app nem o enxerga — conferir no primeiro cartão real (não testado).
 - Nenhum dotfile de galeria é pacote Stow hoje. Quando houver config que valha
   versionar, ela entra como pacote espelhando `~/.config/<app>/`.
 
@@ -76,6 +85,18 @@ No HD externo (BLACK, exFAT), mesma lógica, com a origem separada:
 ```
 
 Não há `03_Albuns/`: exFAT perde symlink (decisão `AC5`, 2026-10-08).
+
+No SSD, a entrada da câmera mora em **`~/Media`** (decisão 2026-10-08) e repete o
+caminho do BLACK, de modo que enviar vira um `rsync` de uma linha:
+
+```
+~/Media/
+└── 02_Cameras/Osmo_Pocket/     ← destino do rapid-photo-downloader (AAAA/AAAA-MM/ dentro)
+```
+
+`~/Media` é o lugar de **entrada e trânsito**: descarrega, poda no LosslessCut, envia
+pro BLACK e confere. O que fica no SSD depois de enviado é decisão em aberto — o SSD
+tem ~55 GB livres e vídeo 4K enche rápido (`AC12` no [ROADMAP.md](../ROADMAP.md)).
 
 ## Álbum de evento sem duplicar
 
@@ -122,13 +143,15 @@ Daí a divisão:
 Sharing entrega na timeline dela em minutos. **Com parcimônia**, só clipe curto.
 
 *Consolidado, no fim de semana* —
-1. MicroSD no PC → `rapid-photo-downloader` descarrega pro HD (padrão
-   `AAAA/AAAA-MM/AAAA-MM-DD_HH-MM-SS.ext`, **ignorando `.LRV` e `.THM`** — preview
-   e miniatura da câmera, 15-25% de lixo).
+1. MicroSD no PC → `rapid-photo-downloader` descarrega pra
+   `~/Media/02_Cameras/Osmo_Pocket/` (padrão `AAAA/AAAA-MM/AAAA-MM-DD_HHMMSS.ext`).
+   Depois, apagar `.LRV`/`.THM` (preview e miniatura da câmera, 15-25% de lixo) com o
+   `find` abaixo — o app não os pula sozinho, ver "Personalização a preservar".
 2. **Poda imediata** no LosslessCut: take de 2 min onde só 25 s prestam → corta
    (sem recodificar, instantâneo) → **apaga o bruto**. Atalhos, detect-scenes e
    automação: **[edicao-video.md](edicao-video.md)**.
-3. Arrasta os 3-4 melhores da semana pro Google Fotos no navegador.
+3. **Envia pro BLACK** (`rsync`, comando no cheatsheet).
+4. Arrasta os 3-4 melhores da semana pro Google Fotos no navegador.
 
 > ⚠️ **Não acumule dívida de triagem.** Descarregar 64 GB pensando "depois eu
 > edito" = pagar terabytes pra guardar vídeo de sapato e tampa de lente.
@@ -253,3 +276,17 @@ ferramenta serve, e ela não é urgente — nada se perde esperando.
 
 **2026-10-06 — `~/Pictures` confirmado em dia.** 17 GB em `AAAA/AAAA-MM/`, zero
 pasta por evento. O padrão não é teoria; a convenção de álbuns encaixa sem migração.
+
+**2026-10-08 — `~/Media` nasce como entrada da câmera, espelhando o BLACK.**
+Pergunta: onde caem foto e vídeo da câmera antes de ir pro cofre? *Decisão:*
+`~/Media/02_Cameras/Osmo_Pocket/`, o mesmo caminho relativo do BLACK, então enviar é
+`rsync ~/Media/02_Cameras/ /media/gustavo/BLACK/02_Cameras/`. *Por que não `~/Pictures`
+ou `~/Videos`:* misturariam bruto de câmera (GB por minuto) com o acervo já curado e com
+screenshots/wallpaper. *Consequência:* revoga a regra "`~/Media` só se `Pictures`/
+`Videos` deixarem de bastar" de [organizacao-de-arquivos.md](organizacao-de-arquivos.md);
+se `~/Media` também absorve o `~/Pictures` é decisão separada (`AC12`).
+
+**2026-10-08 — Corrigido: `.LRV` não é ignorado pelo rapid-photo-downloader.**
+A nota anterior dizia "regra de ignorar `.LRV` e `.THM`" como se fosse configuração do
+app. No código instalado (0.9.36) `lrv` é extensão de vídeo importável e *Ignored Paths*
+só filtra pastas. *Consequência:* a limpeza é um passo manual pós-importação.

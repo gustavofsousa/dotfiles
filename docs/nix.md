@@ -66,8 +66,10 @@ casos que não se declaram igual:
 - **Calibre 8.2.100** — instalador oficial em `/opt/calibre`, auto-atualiza. Manter
   fora do Nix (mais atual, fora do controle) ou usar o nixpkgs (declarado, pode
   atrasar)?
-- **Flatpaks** (Obsidian, Foliate, Zen) e **snaps** (Logseq) — `nix-flatpak` declara os
-  primeiros; snap não tem equivalente limpo.
+- **Flatpaks** (Obsidian, Foliate, Zen, **LosslessCut 3.69.0** — instalação `system`,
+  remote `flathub`) e **snaps** (Logseq) — `nix-flatpak` declara os primeiros; snap não
+  tem equivalente limpo. O `rapid-photo-downloader` 0.9.36 veio de `apt`, não de
+  flatpak (medido em 2026-10-08, ver [galeria.md](galeria.md#ferramentas-no-sistema)).
 - `ffmpeg` está instalado **duas vezes** (apt 6.1.1 + snap 8.1) — a migração é chance
   de resolver a duplicação.
 
