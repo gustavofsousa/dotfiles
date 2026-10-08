@@ -15,7 +15,7 @@ e [2026-10-06-curadoria-narrativa.md](../pesquisas/2026-10-06-curadoria-narrativ
 | Nuvem viva | Google Fotos, Google One **200 GB**, compartilhado só com a noiva |
 | Acervo local | `~/Pictures` — **17 GB** em `AAAA/AAAA-MM/` (2015, 2019-2025) |
 | Câmera | **Osmo Pocket 4** (sem GoPro) |
-| HD externo | existe, **vazio**, antigo, **saúde nunca medida** |
+| HD externo | **BLACK** (exFAT, aprovado no SMART em 2026-10-08) é o cofre frio e já tem o espelho do `~/Pictures`; **TRANSLUCENT** (antigo, 22 GB de dados) sem veredito — ver [backup.md](backup.md) |
 | Ferramentas | `exiftool`, `ffmpeg`, `rsync`, `smartctl` ✓ · falta `rapid-photo-downloader`, LosslessCut |
 
 ## Ferramentas no sistema
@@ -65,14 +65,17 @@ Por isso nunca há pasta por evento: pasta é excludente, e a foto do aniversár
 └── wallpaper/
 ```
 
-No HD externo, mesma lógica, com a origem separada:
+No HD externo (BLACK, exFAT), mesma lógica, com a origem separada:
 
 ```
-[HD_EXTERNO]
-├── 01_Smartphones/      ← dumps do Google Takeout
-├── 02_Cameras/Osmo_Pocket/2026/2026-07/
-└── 03_Albuns/           ← symlinks (só se o FS preservar — ver RFD abaixo)
+[BLACK]
+├── Pictures/                ← espelho do ~/Pictures (rotina em backup.md)
+├── 00_legado-translucid/    ← dump bruto do HD antigo, como veio
+├── 01_Smartphones/          ← dumps do Google Takeout
+└── 02_Cameras/Osmo_Pocket/2026/2026-07/
 ```
+
+Não há `03_Albuns/`: exFAT perde symlink (decisão `AC5`, 2026-10-08).
 
 ## Álbum de evento sem duplicar
 
@@ -213,8 +216,8 @@ resolvem igual com lock-in — só se o caminho aberto provar atrito alto.
 Provável resposta: ponteiro + regra de nunca mover o cronológico, igual aos álbuns.
 Decide também se DigiKam entra.
 
-**`AC5` (em [backup.md](backup.md)) — filesystem do HD externo.** ext4 preserva os
-symlinks dos álbuns; exFAT não. Decide se `03_Albuns/` existe no HD.
+*(`AC5` — filesystem do HD externo — foi decidido em 2026-10-08: exFAT, sem
+`03_Albuns/`. Ver [backup.md](backup.md#decisões).)*
 
 ## Caminhos de evolução
 
@@ -235,7 +238,8 @@ Isso é o que permite trocar de ferramenta sem migrar dado.
 Pasta por evento é excludente e quebra ordenação. Álbum vira symlink
 (`Pictures/Albuns/AAAA-MM_slug/`). *Rejeitados:* hardlink (frágil, não cruza FS) e
 cópia (duplica bytes, duas verdades). *Consequência:* o filesystem do HD passa a
-importar (RFD `AC5`), e levar álbum pra fora exige `rsync -aL`.
+importar (`AC5`, decidido: exFAT, então o álbum vive só no SSD), e levar álbum pra
+fora exige `rsync -aL`.
 
 **2026-10-06 — Arquivo mestre local vs. acesso social na nuvem.**
 Vídeo 4K a 600 MB-1 GB/min torna impossível subir bruto nos 200 GB. Bruto fica no
