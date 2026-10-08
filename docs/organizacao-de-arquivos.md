@@ -30,7 +30,7 @@ coisas o sustentam na prática:
 
 | O que | Onde mora | Versionado? |
 | --- | --- | --- |
-| Nomes das pastas de topo em inglês | `~/.config/user-dirs.dirs` | ⬜ **não, e deveria** — é o que faz `~/Documents` em vez de `~/Documentos`; candidato a pacote Stow |
+| Nomes das pastas de topo em inglês | `~/.config/user-dirs.dirs` | ⬜ **não, e deveria** — é o que faz `~/Documents` em vez de `~/Documentos` **e, desde 2026-10-08, aponta `PICTURES`/`VIDEOS` pra `~/Media/…`** (valor que máquina nova não reproduz); candidato a pacote Stow |
 | `XDG_*_HOME` | nenhuma sobrescrita — valem os defaults | — |
 | Variáveis de ambiente (ex. `QT_QPA_PLATFORMTHEME`) | pacote `environment/` | ✅ Stow |
 
@@ -113,14 +113,14 @@ mais pastas próprias para o que o XDG não cobre (`Projects`, `Media`).
 | -------------- | ------------------ | ------------------------------------------------- |
 | `~/Documents`  | sim                | Documentos "vivos" (em uso, editáveis).           |
 | `~/Downloads`  | sim                | Zona de entrada — temporário, some/some vira lixo.|
-| `~/Pictures`   | sim                | Fotos e imagens.                                  |
+| `~/Pictures`   | sim, **→ `~/Media/Pictures`** | Fotos e imagens — o `user-dirs.dirs` aponta pra dentro de `~/Media`. |
 | `~/Music`      | sim                | Música.                                           |
-| `~/Videos`     | sim                | Vídeos.                                           |
+| `~/Videos`     | sim, **→ `~/Media/Videos`**   | Vídeos — idem. |
 | `~/Desktop`    | sim                | Área de trabalho — manter vazia/mínima.           |
 | `~/Public`     | sim                | Compartilhamento — usar só se houver necessidade. |
 | `~/Templates`  | sim                | Modelos de documento.                             |
 | `~/Projects`   | não (próprio)      | Código e projetos pessoais.                       |
-| `~/Media`      | não (próprio)      | Entrada da câmera: bruto antes de ir pro BLACK. Repete o layout do BLACK (`02_Cameras/…`), então passa dos 3 níveis de propósito — a regra vale para `Documents`. Ver [galeria.md](galeria.md). |
+| `~/Media`      | não (próprio)      | **Pasta única de mídia** (2026-10-08): `Pictures/`, `Videos/` e `02_Cameras/` (entrada da câmera). Repete o layout do BLACK, então passa dos 3 níveis de propósito — a regra vale para `Documents`. Ver [galeria.md](galeria.md). |
 
 Diretrizes:
 
@@ -248,7 +248,8 @@ Duas regras que são decisão fechada, não divergência:
 
 - **`~/Archive` não deve ser recriado** (decisão 2026-09-16, ver Camada 2) —
   virou depósito sem curadoria. Backup deliberado vai em `~/Backups/`.
-- **`~/Media` existe desde 2026-10-08** como entrada da câmera (substitui a regra
-  antiga "só se `Pictures`/`Music`/`Videos` deixarem de bastar"). Se ela também
-  absorve `Pictures` e `Videos` é decisão aberta (`AC12` no
-  [ROADMAP.md](../ROADMAP.md)) — mexe em `user-dirs.dirs`, screenshots e wallpaper.
+- **`~/Media` é a pasta única de mídia desde 2026-10-08** (`AC12`, opção B): contém
+  `Pictures/`, `Videos/` e `02_Cameras/`. Substitui a regra antiga "só se `Pictures`/
+  `Music`/`Videos` deixarem de bastar". `~/Pictures` e `~/Videos` **não existem mais**;
+  o `user-dirs.dirs` aponta pra dentro de `~/Media`, então GNOME/Dolphin e as capturas de
+  tela seguem o caminho novo. `~/Music` ficou de fora (não foi pedido).

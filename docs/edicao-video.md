@@ -90,7 +90,7 @@ Abrir o app com o cartão plugado → *Preferences*. A config nasce em
 | --- | --- |
 | Destino de fotos **e** de vídeos | `~/Media/02_Cameras/Osmo_Pocket` |
 | Subpastas (*Custom*) | nível 1: `YYYY` · nível 2: `YYYY` + texto `-` + `MM` → `2026/2026-07` |
-| Nome do arquivo (*Custom*) | `YYYY-MM-DD` + texto `_` + `HHMMSS` → `2026-07-20_091244.mp4` (igual ao `~/Pictures`) |
+| Nome do arquivo (*Custom*) | `YYYY-MM-DD` + texto `_` + `HHMMSS` → `2026-07-20_091244.mp4` (igual ao `~/Media/Pictures`) |
 | Backup / Job code | desligados |
 
 > *Ignored Paths* **não** serve para pular `.LRV`: filtra pastas, não extensão

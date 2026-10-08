@@ -52,18 +52,13 @@ Item feito **sai** do `config.md`. Em ordem de impacto:
   Encoder agora — gold-plating antes de existir rotina.
   Ver [edicao-video.md](docs/edicao-video.md). Parte de `AC3`.
 - `AC4` **Primeiro álbum de evento de verdade.** Convenção pronta (symlink em
-  `Pictures/Albuns/AAAA-MM_slug/`); nenhum álbum criado ainda. Montar um com evento
+  `Media/Pictures/Albuns/AAAA-MM_slug/`); nenhum álbum criado ainda. Montar um com evento
   real valida o fluxo e a pegadinha do `rsync -aL`. Ver [galeria.md](docs/galeria.md).
 - `[pc]` **Atalhos de teclado** (Zen, GNOME, VS Code, terminal, Dolphin) — consolidar
   sem conflito, prontos pra virar declarativo.
 
 ## 🛑 RFD *(decisão minha, não da IA)*
 
-- `AC12` **`~/Media` absorve `~/Pictures` e `~/Videos`?** *(2026-10-08)* Hoje `~/Media`
-  é só a entrada da câmera. "Pasta única" para toda mídia seria mover 17 GB e mexer em
-  `user-dirs.dirs`, screenshots, wallpaper e na rotina de espelho pro BLACK. Também
-  decide o que fica no SSD depois de enviado ao BLACK (~55 GB livres; vídeo 4K enche
-  rápido). Ver [galeria.md](docs/galeria.md) (decisão de 2026-10-08).
 - `AC8` **A foto do diário é cópia ou ponteiro?** Decide se o Obsidian embute a foto
   ou aponta pro acervo — e se DigiKam entra. Mesmo dilema dos álbuns.
   Ver [galeria.md](docs/galeria.md#rfds-em-aberto).
@@ -78,15 +73,19 @@ Item feito **sai** do `config.md`. Em ordem de impacto:
   de atualizar o espelho do BLACK. Ver [backup.md](docs/backup.md).
 - `[pc]` **Destino do TRANSLUCENT.** Reteste do SMART (passo em
   [config.md](config.md)) decide se vira 2ª cópia fria ou se é reformatado/aposentado.
+- `[pc]` **O que fica no SSD depois de enviar ao BLACK?** *(2026-10-08)* Bruto podado de
+  `~/Media/02_Cameras/` some depois do `rsync` verificado, ou fica como cópia quente? SSD
+  com ~55 GB livres; vídeo 4K enche rápido. Decidir com o 1º cartão real (`AC3`).
 - `[pc]` **Revisar os 14 arquivos soltos em `~/Downloads/`** *(2026-10-08)* — vieram da
   raiz do TRANSLUCENT (zips, PDFs, 2 vídeos, 2 zips do Notion de mar/2025); cada um
   vai para o lugar certo ou é descartado. Cópia deles segue em `BLACK/00_legado-translucid/`.
 - `[pc]` **Backups do Notion** — definir cadência depois do export novo.
 - `[pc]` **Pendrives/mídia externa** — o que fica, o que vira backup frio, o que sai.
-- `[pc]` **Versionar `~/.config/user-dirs.dirs`** *(achado 2026-10-06)* — é o arquivo
-  que faz as pastas de topo serem `~/Documents`/`~/Pictures` em inglês; **está fora do
-  git**, então em máquina nova elas voltam nos nomes do locale (PT-BR), contra o
-  próprio padrão. Pacote Stow de uma linha, barato. Ver
+- `[pc]` **Versionar `~/.config/user-dirs.dirs`** *(achado 2026-10-06, mais urgente
+  desde 2026-10-08)* — é o arquivo que faz as pastas de topo serem `~/Documents` em
+  inglês **e agora aponta `PICTURES`/`VIDEOS` pra `~/Media/…`**; **está fora do git**, então
+  em máquina nova as pastas voltam nos nomes do locale (PT-BR) e o `~/Media` fica órfão.
+  Pacote Stow de uma linha, barato. Ver
   [organizacao-de-arquivos.md](docs/organizacao-de-arquivos.md#ferramentas-no-sistema).
 - `[pc]` **Lista de extensões do VS Code fora do git** — `code --list-extensions`
   resolve hoje; em Nix vira declarativo (`nix-vscode-extensions`, `LT12` do `_hq`).
@@ -129,7 +128,7 @@ Item feito **sai** do `config.md`. Em ordem de impacto:
 
 ## ⚠️ Frágil *(funciona mas não confio — resolver antes de empilhar em cima)*
 
-- **Cofre frio é espelho manual.** `~/Pictures` (17 GB) tem cópia no BLACK desde
+- **Cofre frio é espelho manual.** `~/Media/Pictures` (17 GB) tem cópia no BLACK desde
   2026-10-08, mas só até a próxima foto nova: nada atualiza o espelho sozinho. Rotina
   em [backup.md](docs/backup.md); automatizar é parte de `AC6`.
 - **Backup da biblioteca está no mesmo disco** (`~/Backups/…`, 2.6 GB) — cobre erro
@@ -146,6 +145,10 @@ Item feito **sai** do `config.md`. Em ordem de impacto:
 com espelho do `~/Pictures` (17 GB) e dump bruto do TRANSLUCENT (22 GB), ambos
 verificados por checksum. Premissa "HD vazio" estava errada: o TRANSLUCENT tinha dados.
 Detalhe e números em [backup.md](docs/backup.md).
+
+**`AC12` — pasta única `~/Media` (2026-10-08)** — `~/Pictures` e `~/Videos` viraram
+`~/Media/Pictures` e `~/Media/Videos` (`mv`, contagem idêntica); `user-dirs.dirs` e
+favoritos repontados; BLACK intocado. Ver [galeria.md](docs/galeria.md).
 
 **Ferramentas de ingestão (2026-10-08)** — `rapid-photo-downloader` 0.9.36 (apt) e
 LosslessCut 3.69.0 (flatpak) instalados e registrados nas tabelas de ferramentas;

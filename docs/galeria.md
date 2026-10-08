@@ -13,9 +13,9 @@ e [2026-10-06-curadoria-narrativa.md](../pesquisas/2026-10-06-curadoria-narrativ
 | | |
 | --- | --- |
 | Nuvem viva | Google Fotos, Google One **200 GB**, compartilhado só com a noiva |
-| Acervo local | `~/Pictures` — **17 GB** em `AAAA/AAAA-MM/` (2015, 2019-2025) |
+| Acervo local | `~/Media/Pictures` — **17 GB** em `AAAA/AAAA-MM/` (2015, 2019-2025) |
 | Câmera | **Osmo Pocket 4** (sem GoPro) |
-| HD externo | **BLACK** (exFAT, aprovado no SMART em 2026-10-08) é o cofre frio e já tem o espelho do `~/Pictures`; **TRANSLUCENT** (antigo, 22 GB de dados) sem veredito — ver [backup.md](backup.md) |
+| HD externo | **BLACK** (exFAT, aprovado no SMART em 2026-10-08) é o cofre frio e já tem o espelho do `~/Media/Pictures`; **TRANSLUCENT** (antigo, 22 GB de dados) sem veredito — ver [backup.md](backup.md) |
 | Ferramentas | `exiftool`, `ffmpeg`, `rsync`, `smartctl` ✓ · falta `rapid-photo-downloader`, LosslessCut |
 
 ## Ferramentas no sistema
@@ -37,7 +37,7 @@ A coluna "origem" é o que a migração pro Nix ([nix.md](nix.md)) vai ter que d
 as ferramentas existirem):
 
 - `rapid-photo-downloader`: destino `~/Media/02_Cameras/Osmo_Pocket/`, subpasta
-  `AAAA/AAAA-MM/`, nome `AAAA-MM-DD_HHMMSS.ext` (o mesmo do `~/Pictures` real). Config
+  `AAAA/AAAA-MM/`, nome `AAAA-MM-DD_HHMMSS.ext` (o mesmo do `~/Media/Pictures` real). Config
   ainda **não existe** — o app nunca foi aberto; ela nascerá em
   `~/.config/Rapid Photo Downloader/` e o passo a passo está no
   [cheatsheet](edicao-video.md#cheatsheet-da-câmera-ao-cofre).
@@ -63,7 +63,7 @@ Por isso nunca há pasta por evento: pasta é excludente, e a foto do aniversár
 ## Onde cada coisa mora
 
 ```
-~/Pictures/
+~/Media/Pictures/
 ├── 2026/
 │   └── 2026-07/
 │       └── 2026-07-20_091244.jpg     ← o arquivo real, único
@@ -78,7 +78,7 @@ No HD externo (BLACK, exFAT), mesma lógica, com a origem separada:
 
 ```
 [BLACK]
-├── Pictures/                ← espelho do ~/Pictures (rotina em backup.md)
+├── Pictures/                ← espelho do ~/Media/Pictures (rotina em backup.md)
 ├── 00_legado-translucid/    ← dump bruto do HD antigo, como veio
 ├── 01_Smartphones/          ← dumps do Google Takeout
 └── 02_Cameras/Osmo_Pocket/2026/2026-07/
@@ -86,17 +86,19 @@ No HD externo (BLACK, exFAT), mesma lógica, com a origem separada:
 
 Não há `03_Albuns/`: exFAT perde symlink (decisão `AC5`, 2026-10-08).
 
-No SSD, a entrada da câmera mora em **`~/Media`** (decisão 2026-10-08) e repete o
-caminho do BLACK, de modo que enviar vira um `rsync` de uma linha:
+No SSD, toda a mídia mora em **`~/Media`** (decisão 2026-10-08) e repete os nomes do
+BLACK, de modo que enviar vira um `rsync` de uma linha por pasta:
 
 ```
 ~/Media/
+├── Pictures/                   ← o bloco de cima (ex-~/Pictures)
+├── Videos/                     ← ex-~/Videos
 └── 02_Cameras/Osmo_Pocket/     ← destino do rapid-photo-downloader (AAAA/AAAA-MM/ dentro)
 ```
 
-`~/Media` é o lugar de **entrada e trânsito**: descarrega, poda no LosslessCut, envia
-pro BLACK e confere. O que fica no SSD depois de enviado é decisão em aberto — o SSD
-tem ~55 GB livres e vídeo 4K enche rápido (`AC12` no [ROADMAP.md](../ROADMAP.md)).
+`02_Cameras/` é **entrada e trânsito**: descarrega, poda no LosslessCut, envia pro BLACK
+e confere. O que fica no SSD depois de enviado é decisão em aberto — o SSD tem ~55 GB
+livres e vídeo 4K enche rápido.
 
 ## Álbum de evento sem duplicar
 
@@ -105,8 +107,8 @@ Três formas, em ordem de preferência. A primeira funciona hoje, sem instalar n
 **1. Symlink.** Álbum é pasta de ponteiros; apagar o álbum não toca nas fotos.
 
 ```bash
-mkdir -p ~/Pictures/Albuns/2026-07_viagem-chile
-ln -s ~/Pictures/2026/2026-07/2026-07-2*.jpg ~/Pictures/Albuns/2026-07_viagem-chile/
+mkdir -p ~/Media/Pictures/Albuns/2026-07_viagem-chile
+ln -s ~/Media/Pictures/2026/2026-07/2026-07-2*.jpg ~/Media/Pictures/Albuns/2026-07_viagem-chile/
 ```
 
 Nome começa com `AAAA-MM` (ordena sozinho) + slug do evento.
@@ -284,9 +286,21 @@ Pergunta: onde caem foto e vídeo da câmera antes de ir pro cofre? *Decisão:*
 ou `~/Videos`:* misturariam bruto de câmera (GB por minuto) com o acervo já curado e com
 screenshots/wallpaper. *Consequência:* revoga a regra "`~/Media` só se `Pictures`/
 `Videos` deixarem de bastar" de [organizacao-de-arquivos.md](organizacao-de-arquivos.md);
-se `~/Media` também absorve o `~/Pictures` é decisão separada (`AC12`).
+se `~/Media` também absorve o `~/Pictures` foi decidido logo depois (ver abaixo).
 
 **2026-10-08 — Corrigido: `.LRV` não é ignorado pelo rapid-photo-downloader.**
 A nota anterior dizia "regra de ignorar `.LRV` e `.THM`" como se fosse configuração do
 app. No código instalado (0.9.36) `lrv` é extensão de vídeo importável e *Ignored Paths*
 só filtra pastas. *Consequência:* a limpeza é um passo manual pós-importação.
+
+**2026-10-08 (2) — `~/Media` é a pasta única de mídia (`AC12`, opção B).**
+`~/Pictures` (17 GB, 1.819 arquivos) e `~/Videos` viraram `~/Media/Pictures` e
+`~/Media/Videos` com um `mv` no mesmo filesystem (instantâneo, contagem de arquivos e
+bytes idêntica antes e depois). O `user-dirs.dirs` e os favoritos do GNOME/Dolphin foram
+repontados, então screenshots e diálogos de arquivo seguem o caminho novo. *Supera em
+parte* a decisão acima: o bruto da câmera não mistura com o acervo curado porque mora em
+`02_Cameras/`, não por estar numa pasta de topo à parte. *Rejeitado:* manter `~/Pictures`
+como symlink pra `~/Media/Pictures` — duas portas pro mesmo lugar contradiz "pasta
+única". *Consequência:* o BLACK **não foi tocado** — o espelho de 2026-10-08 continua
+valendo como foto daquele dia; a rotina de espelho agora parte de `~/Media/Pictures/`.
+

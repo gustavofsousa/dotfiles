@@ -58,7 +58,7 @@ sozinhas em máquina nova e virarem pacote declarado no Nix.
 └── notion-backup-2025-03/          1.8 GB   ⚠️ 19 meses de idade
 
 BLACK  (HD externo, exFAT, 466 GB, 38 GB usados)
-├── Pictures/                 17 GB   espelho de ~/Pictures em 2026-10-08
+├── Pictures/                 17 GB   espelho de 2026-10-08 (origem hoje: ~/Media/Pictures)
 ├── 00_legado-translucid/     22 GB   dump bruto do HD antigo, como veio
 ├── 01_Smartphones/                   vazio — dumps do Google Takeout
 └── 02_Cameras/Osmo_Pocket/           vazio — ingestão da câmera
@@ -71,7 +71,7 @@ Traduzindo o risco real:
 - **Notion:** última versão é de **março/2025**; tudo que entrou depois não tem
   backup. Dois zips do mesmo mês também estão em `BLACK/00_legado-translucid/`
   (provavelmente o mesmo export — não comparei).
-- **Fotos:** `~/Pictures` agora tem cópia fria no BLACK (**espelho manual**, verificado
+- **Fotos:** `~/Media/Pictures` (ex-`~/Pictures`) tem cópia fria no BLACK (**espelho manual**, verificado
   por checksum em 2026-10-08) além do Google Fotos (sync, não backup). Cada foto nova
   fica sem cópia fria até alguém rodar a rotina de espelho.
 - **BLACK:** aprovado no SMART, ver [Diagnóstico medido](#diagnóstico-medido-2026-10-08).
@@ -115,10 +115,10 @@ rsync -a --delete ~/Documents/livros/biblioteca/ <DESTINO>/livros-biblioteca/
 ```bash
 # exFAT não guarda dono nem permissão: -rt, sem -a. Sem --delete de propósito —
 # foto apagada por engano no SSD não deve sumir do cofre; limpar o cofre é manual.
-rsync -rt --no-perms --no-owner --no-group ~/Pictures/ /media/gustavo/BLACK/Pictures/
+rsync -rt --no-perms --no-owner --no-group ~/Media/Pictures/ /media/gustavo/BLACK/Pictures/
 # conferir: lista vazia = idêntico
 rsync -rc -n -i --no-perms --no-owner --no-group --modify-window=2 \
-  ~/Pictures/ /media/gustavo/BLACK/Pictures/
+  ~/Media/Pictures/ /media/gustavo/BLACK/Pictures/
 ```
 
 **Off-site automatizado** (`AC2`, falta o OAuth do rclone):
