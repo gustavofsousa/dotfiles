@@ -24,8 +24,6 @@ depois.
 
 Item feito **sai** do `config.md`. Em ordem de impacto:
 
-- [ ] **Plugar o HD externo e rodar o SMART** — destrava `AC1` e `AC3`. Sem isso não
-      existe lugar seguro pro bruto da câmera.
 - [ ] **OAuth do rclone** (`rclone config`) — destrava `AC2`.
 - [ ] **Parear o Syncthing** (PC + Android) — destrava a entrada de livro pelo celular.
 - [ ] **Export novo do Notion** — a única cópia tem 19 meses.
@@ -33,16 +31,13 @@ Item feito **sai** do `config.md`. Em ordem de impacto:
 
 ## 🔵 Now *(o essencial: ter onde guardar com segurança)*
 
-- `AC1` **Camada fria no HD externo.** Diagnosticar (SMART), decidir filesystem
-  (`AC5`), formatar, criar a estrutura (`01_Smartphones/`, `02_Cameras/`). É o que
-  transforma "HD vazio na gaveta" em cópia de segurança de verdade.
-  **Bloqueado em mim** (plugar + SMART). Ver [backup.md](docs/backup.md).
 - `AC2` **Backup off-site dos livros.** systemd timer rodando
   `rclone copy biblioteca gdrive:backup/livros-biblioteca`, validado à mão primeiro.
   **Bloqueado em mim** (OAuth). Ver [backup.md](docs/backup.md).
 - `AC3` **Ingestão do Osmo Pocket 4.** Configurar o `rapid-photo-downloader`
   (destino no HD, padrão `AAAA/AAAA-MM/`, ignorar `.LRV`/`.THM`) e validar a poda no
-  LosslessCut. **Bloqueado em mim** (HD + instalações). Ver [galeria.md](docs/galeria.md).
+  LosslessCut. O destino já existe (`BLACK/02_Cameras/Osmo_Pocket/`, `AC1`).
+  **Bloqueado em mim** (instalações). Ver [galeria.md](docs/galeria.md).
 
 ## 🟢 Next *(decidido, aguarda a vez)*
 
@@ -60,10 +55,6 @@ Item feito **sai** do `config.md`. Em ordem de impacto:
 
 ## 🛑 RFD *(decisão minha, não da IA)*
 
-- `AC5` **Filesystem do HD externo: ext4 vs. exFAT.** **Decidir antes de formatar.**
-  ext4 preserva symlink (os álbuns) e é robusto; exFAT pluga no Windows mas perde
-  symlink e permissão. A pergunta: *vou plugar esse HD num Windows algum dia?*
-  Tabela em [backup.md](docs/backup.md#rfd-em-aberto).
 - `AC8` **A foto do diário é cópia ou ponteiro?** Decide se o Obsidian embute a foto
   ou aponta pro acervo — e se DigiKam entra. Mesmo dilema dos álbuns.
   Ver [galeria.md](docs/galeria.md#rfds-em-aberto).
@@ -74,7 +65,11 @@ Item feito **sai** do `config.md`. Em ordem de impacto:
 
 - `AC6` **Estratégia 3-2-1 completa.** Hoje não existe: livro tem cópia no mesmo
   disco, foto tem só o Google Fotos (que é sync, não backup). Fechar as 3 camadas +
-  cadência do Google Takeout. **Pré-requisito:** `AC1`. Ver [backup.md](docs/backup.md).
+  cadência do Google Takeout. Pré-requisito `AC1` cumprido (2026-10-08); falta rotina
+  de atualizar o espelho do BLACK. Ver [backup.md](docs/backup.md).
+- `[pc]` **Destino do TRANSLUCENT e da pasta provisória no SSD.** Reteste do SMART
+  (passo em [config.md](config.md)) decide se vira 2ª cópia fria; depois, com
+  confirmação, apagar `~/media/backup-translucid/` (22 GB no SSD, já duplicada no BLACK).
 - `[pc]` **Backups do Notion** — definir cadência depois do export novo.
 - `[pc]` **Pendrives/mídia externa** — o que fica, o que vira backup frio, o que sai.
 - `[pc]` **Versionar `~/.config/user-dirs.dirs`** *(achado 2026-10-06)* — é o arquivo
@@ -123,15 +118,23 @@ Item feito **sai** do `config.md`. Em ordem de impacto:
 
 ## ⚠️ Frágil *(funciona mas não confio — resolver antes de empilhar em cima)*
 
-- **Fotos têm uma cópia só de verdade.** `~/Pictures` (17 GB) + Google Fotos, que é
-  sync. Apagar por engano propaga. **O ponto mais exposto hoje** — é o que `AC1`
-  resolve.
+- **Cofre frio é espelho manual.** `~/Pictures` (17 GB) tem cópia no BLACK desde
+  2026-10-08, mas só até a próxima foto nova: nada atualiza o espelho sozinho. Rotina
+  em [backup.md](docs/backup.md); automatizar é parte de `AC6`.
 - **Backup da biblioteca está no mesmo disco** (`~/Backups/…`, 2.6 GB) — cobre erro
   humano, não o SSD morrer. Resolve com `AC2`.
 - **Backup do Notion tem 19 meses** (1.8 GB, março/2025) — única cópia.
-- **HD externo com saúde nunca medida** — não confiar dado nele até o SMART rodar.
+- **TRANSLUCENT sem veredito de superfície** — SMART de atributos limpo, mas o teste
+  longo foi abortado (~10% lido). Não confiar nele como cópia única. O BLACK está
+  aprovado.
 
 ## ✅ Feito
+
+**`AC1` + `AC5` — camada fria (2026-10-08)** — dois HDs externos diagnosticados
+(SMART); **BLACK** aprovado e virou o cofre (exFAT, abre no Windows, sem `03_Albuns/`),
+com espelho do `~/Pictures` (17 GB) e dump bruto do TRANSLUCENT (22 GB), ambos
+verificados por checksum. Premissa "HD vazio" estava errada: o TRANSLUCENT tinha dados.
+Detalhe e números em [backup.md](docs/backup.md).
 
 **Acervo (2026-10-06)** — docs reorganizados em one-pages por tema
 ([galeria](docs/galeria.md), [biblioteca](docs/biblioteca.md),

@@ -51,33 +51,21 @@ Passo a passo: [docs/sincronizacao.md](docs/sincronizacao.md).
 > Depois disso a IA assume: criar o systemd timer do backup é trabalho dela
 > (`AC2` no [ROADMAP.md](ROADMAP.md)), não seu.
 
-## 3. Plugar o HD externo e rodar o SMART
+## 3. Reteste do SMART do TRANSLUCENT *(opcional)*
 
-`smartmontools 7.4` já instalado ✓. Falta **plugar o HD** — ele não estava
-conectado em 2026-10-06, então nada foi medido. **~20 min** (+ horas do teste
-longo, que roda sozinho).
+O teste longo dele foi abortado em 2026-10-08 (~10% lido). Só vale se for usá-lo como
+2ª cópia fria; o BLACK já está aprovado. **~110 min, disco em silêncio** — nada pode
+ler ou escrever no TRANSLUCENT enquanto roda. Confirmar o device antes (`lsblk`):
 
-- [ ] Plugar o HD e descobrir o device:
+- [ ] ```bash
+      sudo smartctl -t long -d sat /dev/sda
+      ```
+- [ ] Horas depois, e me avisar para eu ler:
   ```bash
-  lsblk -o NAME,SIZE,TYPE,FSTYPE,MOUNTPOINT,MODEL,TRAN
+  sudo smartctl -a -d sat /dev/sda
   ```
-- [ ] Ler a saúde e **me mandar a saída** (a IA interpreta os números):
-  ```bash
-  sudo smartctl -a /dev/sdX   # trocar X
-  ```
-  O que decide: `overall-health` = **PASSED**; `Reallocated_Sector_Ct`,
-  `Current_Pending_Sector` e `Offline_Uncorrectable` = **0** (qualquer valor > 0
-  nos dois últimos = não confie nele como cópia única); `Power_On_Hours` acima de
-  ~30-40 mil = fim de vida mesmo com PASSED.
-- [ ] Rodar o teste longo (lê a superfície inteira, roda em background):
-  ```bash
-  sudo smartctl -t long /dev/sdX
-  sudo smartctl -l selftest /dev/sdX   # consultar horas depois
-  ```
-- [ ] Formatar depois que o filesystem for decidido (é RFD — `AC5`): **ext4**
-  (só Linux) vs **exFAT** (plugar no Windows).
-
-> Isto destrava a ingestão do Pocket 4 (`AC3`) e o desenho do 3-2-1 (`AC6`).
+  A linha `# 1 Extended offline` do log de testes tem que dizer
+  `Completed without error`.
 
 ## 4. Instalar as ferramentas de ingestão (precisa de `sudo`)
 
@@ -110,15 +98,13 @@ Export é manual na UI, não tem API que a IA chame aqui.
 ## Ordem
 
 ```
-3 (plugar HD + SMART) ──► 4 (instalar ingestão) ──► IA assume (AC3)
-                     └──► destrava o 3-2-1 (AC6)
+4 (instalar ingestão) ──► IA assume (AC3)
 1 (Syncthing)  ─── independente
 2 (rclone) ──► IA assume o timer (AC2)
-5 (Notion), 6 (Google Fotos) ─── independentes
+3 (reteste TRANSLUCENT, opcional), 5 (Notion), 6 (Google Fotos) ─── independentes
 ```
 
-**Se for fazer uma coisa só: item 3.** Destrava os outros dois e responde "esse
-HD antigo presta?".
+**Se for fazer uma coisa só: item 4.** Destrava a ingestão do Pocket 4 (`AC3`).
 
 Contexto e porquê: [docs/galeria.md](docs/galeria.md).
 O que falta, em ordem: [ROADMAP.md](ROADMAP.md).
