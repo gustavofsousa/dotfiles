@@ -67,9 +67,11 @@ Item feito **sai** do `config.md`. Em ordem de impacto:
   disco, foto tem só o Google Fotos (que é sync, não backup). Fechar as 3 camadas +
   cadência do Google Takeout. Pré-requisito `AC1` cumprido (2026-10-08); falta rotina
   de atualizar o espelho do BLACK. Ver [backup.md](docs/backup.md).
-- `[pc]` **Destino do TRANSLUCENT e da pasta provisória no SSD.** Reteste do SMART
-  (passo em [config.md](config.md)) decide se vira 2ª cópia fria; depois, com
-  confirmação, apagar `~/media/backup-translucid/` (22 GB no SSD, já duplicada no BLACK).
+- `[pc]` **Destino do TRANSLUCENT.** Reteste do SMART (passo em
+  [config.md](config.md)) decide se vira 2ª cópia fria ou se é reformatado/aposentado.
+- `[pc]` **Revisar os 14 arquivos soltos em `~/Downloads/`** *(2026-10-08)* — vieram da
+  raiz do TRANSLUCENT (zips, PDFs, 2 vídeos, 2 zips do Notion de mar/2025); cada um
+  vai para o lugar certo ou é descartado. Cópia deles segue em `BLACK/00_legado-translucid/`.
 - `[pc]` **Backups do Notion** — definir cadência depois do export novo.
 - `[pc]` **Pendrives/mídia externa** — o que fica, o que vira backup frio, o que sai.
 - `[pc]` **Versionar `~/.config/user-dirs.dirs`** *(achado 2026-10-06)* — é o arquivo

@@ -57,8 +57,6 @@ sozinhas em máquina nova e virarem pacote declarado no Nix.
 ├── biblioteca-backup-2026-09-11/   2.6 GB   ⚠️ mesmo disco
 └── notion-backup-2025-03/          1.8 GB   ⚠️ 19 meses de idade
 
-~/media/backup-translucid/          22 GB    ⚠️ provisório, no SSD (ver abaixo)
-
 BLACK  (HD externo, exFAT, 466 GB, 38 GB usados)
 ├── Pictures/                 17 GB   espelho de ~/Pictures em 2026-10-08
 ├── 00_legado-translucid/     22 GB   dump bruto do HD antigo, como veio
@@ -79,9 +77,11 @@ Traduzindo o risco real:
 - **BLACK:** aprovado no SMART, ver [Diagnóstico medido](#diagnóstico-medido-2026-10-08).
 - **TRANSLUCENT** (o HD antigo de onde veio o legado): 22 GB de dados do Gustavo,
   **sem veredito de superfície**. Não faz parte do 3-2-1.
-- **`~/media/backup-translucid/` é provisório.** O dump existe em três lugares
-  (TRANSLUCENT, esta pasta no SSD, `BLACK/00_legado-translucid/`) e o SSD é a camada
-  "zero apego". Apagar a pasta do SSD recupera 22 GB; só com confirmação explícita.
+- **Dump do TRANSLUCENT:** vive no próprio TRANSLUCENT e em
+  `BLACK/00_legado-translucid/` (checksum idêntico). A cópia intermediária no SSD
+  (`~/media/backup-translucid/`) foi apagada em 2026-10-08; os 14 arquivos soltos da
+  raiz dela (3,2 GB: zips, PDFs, 2 vídeos, `IMG_*`, os 2 zips do Notion) foram para
+  `~/Downloads/` aguardando revisão — as cópias deles continuam no legado do BLACK.
 
 `~/Archive` foi **eliminado em 2026-09-16**; o tier de backup deliberado é
 `~/Backups/`.
