@@ -134,9 +134,10 @@ Item feito **sai** do `config.md`. Em ordem de impacto:
 - **Backup da biblioteca está no mesmo disco** (`~/Backups/…`, 2.6 GB) — cobre erro
   humano, não o SSD morrer. Resolve com `AC2`.
 - **Backup do Notion tem 19 meses** (1.8 GB, março/2025) — única cópia.
-- **TRANSLUCENT sem veredito de superfície** — SMART de atributos limpo, mas o teste
-  longo foi abortado (~10% lido). Não confiar nele como cópia única. O BLACK está
-  aprovado.
+- **TRANSLUCENT sem veredito de superfície** — SMART de atributos limpo (22:48 de
+  2026-10-08), mas o teste longo foi abortado **duas vezes** nos primeiros 10% e o
+  `Power_On_Hours` não sobe (idade real desconhecida). Não confiar nele como cópia única.
+  O BLACK está aprovado.
 
 ## ✅ Feito
 

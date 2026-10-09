@@ -150,11 +150,14 @@ sudo smartctl -a -d sat /dev/sdX    # horas depois: o log de testes vem junto
 ```
 
 > ⚠️ **Teste longo exige disco quieto.** Em 2026-10-08 o do TRANSLUCENT foi
-> `Aborted by host` com ~10% lido, depois de uma cópia e um checksum lendo o mesmo
-> disco (causa provável, não confirmada). O "PASSED" atrás de ponte USB vem de checagem
+> `Aborted by host` **duas vezes**, as duas nos primeiros 10%: a 1ª com uma cópia e um
+> checksum lendo o disco; a 2ª com o disco montado quando o teste começou e desmontado
+> poucos minutos depois (o `udisksctl unmount` do próprio fluxo pode ter sido o gatilho).
+> O mesmo modelo no BLACK, que ninguém tocou, completou. Hipótese, não confirmada: nesse
+> firmware qualquer comando de fora aborta o teste. O "PASSED" atrás de ponte USB vem de checagem
 > de atributos (`SMART Status not supported`) — serve, mas só o teste longo lê a
 > superfície inteira e acha setor ruim latente. Leitura da coluna final do log:
-> `Remaining` é o que **faltava**, não o que foi lido (`90%` = parou cedo).
+> `Remaining` é o que **faltava**, em passos de 10% (`90%` = menos de 10% feito).
 
 **Os 4 números que decidem:**
 
@@ -178,13 +181,20 @@ Dois Seagate/Samsung SpinPoint M8 `ST500LM012` (2,5", 5400 rpm, 500 GB), mesmo m
 | `Load_Cycle_Count` (nota normalizada) | 16.370 (99/100) | 152.965 (85/100) |
 | `G-Sense_Error_Rate` (choques) | 72 | 290 |
 | Temperatura máxima já registrada | 58 °C | 53 °C |
-| **Teste longo** | ✅ `Completed without error` | ⚠️ `Aborted by host`, ~10% lido |
+| **Teste longo** | ✅ `Completed without error` | ⚠️ `Aborted by host` ×2, <10% lido em cada |
 | **Veredito** | **aprovado como cofre frio** | **sem veredito de superfície** |
 
 `Raw_Read_Error_Rate` e `Multi_Zone_Error_Rate` têm raw alto no TRANSLUCENT (1993 e
 122.479) com nota normalizada 100/100 — nesse modelo o raw é específico do fabricante;
-não tratei como alarme (confiança média). Para dar veredito ao TRANSLUCENT: repetir o
-teste longo (~110 min) **sem ler o disco** durante ele.
+não tratei como alarme (confiança média).
+
+**`Power_On_Hours` do TRANSLUCENT está parado:** 9.987 às 11:30, 15:19 e 22:48 de
+2026-10-08, com o disco ligado o tempo todo; o do BLACK subiu 4 h no mesmo intervalo. Já
+`Start_Stop_Count` foi de 6.211 para 6.215 e `Load_Cycle_Count` de 152.964 para 152.971,
+então o disco girou e estacionou. Hipótese (não confirmada): esse firmware só conta hora
+com o motor girando, e o disco passa quase o tempo todo parado. *Consequência:* **as
+9.987 h não são idade confiável** — pode ter bem mais uso real. Atributos de erro seguem
+todos em 0 (22:48). Sem veredito de superfície: ver o passo opcional no `config.md`.
 
 ## Ergonomia do HD externo
 

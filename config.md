@@ -53,19 +53,29 @@ Passo a passo: [docs/sincronizacao.md](docs/sincronizacao.md).
 
 ## 3. Reteste do SMART do TRANSLUCENT *(opcional)*
 
-O teste longo dele foi abortado em 2026-10-08 (~10% lido). Só vale se for usá-lo como
-2ª cópia fria; o BLACK já está aprovado. **~110 min, disco em silêncio** — nada pode
-ler ou escrever no TRANSLUCENT enquanto roda. Confirmar o device antes (`lsblk`):
+O teste longo dele foi abortado **duas vezes** em 2026-10-08 (<10% lido cada). Só vale
+repetir se for usá-lo como 2ª cópia fria; o BLACK já está aprovado. **~110 min, disco
+em silêncio:** nada pode falar com o TRANSLUCENT depois do início — nem `smartctl`, nem
+montar, nem desmontar. Ordem importa: **desmontar antes de iniciar**, não depois.
 
-- [ ] ```bash
-      sudo smartctl -t long -d sat /dev/sda
-      ```
-- [ ] Horas depois, e me avisar para eu ler:
+- [ ] Confirmar o device (`lsblk`, que não toca o disco), desmontar e calar o `smartd`
+  (ele consulta SMART a cada ~30 min e pode abortar o teste):
   ```bash
-  sudo smartctl -a -d sat /dev/sda
+  udisksctl unmount -b /dev/sda1
+  sudo systemctl stop smartmontools
   ```
-  A linha `# 1 Extended offline` do log de testes tem que dizer
-  `Completed without error`.
+- [ ] Iniciar e **largar o disco em paz**:
+  ```bash
+  sudo smartctl -t long -d sat /dev/sda
+  ```
+- [ ] Depois de 110 min, uma única leitura, e religar o `smartd`:
+  ```bash
+  sudo smartctl -a -d sat /dev/sda > /tmp/claude-1000/-home-gustavo-projects--hq/ca357f24-2216-4b81-b410-451421528cd3/scratchpad/smart4-translucent.txt
+  sudo systemctl start smartmontools
+  ```
+  A linha `# 1 Extended offline` do log tem que dizer `Completed without error`. Se
+  abortar de novo, a leitura completa por `sudo badblocks -sv -b 4096 /dev/sda` (~2 h,
+  só leitura) dá o veredito de superfície sem depender do teste do disco.
 
 ## 4. Configurar o rapid-photo-downloader e rodar o 1º cartão
 
