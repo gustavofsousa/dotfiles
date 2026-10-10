@@ -66,12 +66,15 @@ casos que não se declaram igual:
 - **Calibre 8.2.100** — instalador oficial em `/opt/calibre`, auto-atualiza. Manter
   fora do Nix (mais atual, fora do controle) ou usar o nixpkgs (declarado, pode
   atrasar)?
-- **Flatpaks** (Obsidian, Foliate, Zen, **LosslessCut 3.69.0** — instalação `system`,
-  remote `flathub`) e **snaps** (Logseq) — `nix-flatpak` declara os primeiros; snap não
-  tem equivalente limpo. O `rapid-photo-downloader` 0.9.36 veio de `apt`, não de
-  flatpak (medido em 2026-10-08, ver [galeria.md](galeria.md#ferramentas-no-sistema)).
-  **Exceção fácil:** o **OnlyOffice** veio por snap mas tem pacote nativo no nixpkgs
-  (`pkgs.onlyoffice-desktopeditors`) — o snap sai limpo (ver [escritorio.md](escritorio.md)).
+- **Flatpaks** (Obsidian, Foliate, Zen, **LosslessCut 3.69.0**, **Loupe**, **Amberol**,
+  **Parabolic** — instalação `system`, remote `flathub`) e **snaps** (Logseq, **VLC**) —
+  `nix-flatpak` declara os primeiros; snap não tem equivalente limpo. O
+  `rapid-photo-downloader` 0.9.36 veio de `apt`, não de flatpak (medido em 2026-10-08,
+  ver [galeria.md](galeria.md#ferramentas-no-sistema)).
+  **Exceção fácil:** **OnlyOffice** e **VLC** vieram por snap mas têm pacote nativo no
+  nixpkgs (`pkgs.onlyoffice-desktopeditors`, `pkgs.vlc`) — o snap sai limpo pros dois
+  (ver [escritorio.md](escritorio.md), [multimidia.md](multimidia.md)). **Parabolic**
+  ainda não tem pacote nativo — fica no `nix-flatpak` até checar de novo.
 - `ffmpeg` está instalado **duas vezes** (apt 6.1.1 + snap 8.1) — a migração é chance
   de resolver a duplicação.
 
