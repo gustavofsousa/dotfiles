@@ -48,13 +48,22 @@ os `.ttf` de uma instalação Windows/Office — decisão de licença, não defa
 
 | O que | Onde mora | Versionado? |
 | --- | --- | --- |
-| Estado da janela do OnlyOffice (maximizado, titlebar) | `~/snap/onlyoffice-desktopeditors/current/.config/onlyoffice/DesktopEditors.conf` | ❌ não — vive em `~/snap/` (caminho com número de revisão, muda a cada update) |
-| fontconfig interno do snap | `~/snap/onlyoffice-desktopeditors/current/.config/fontconfig/fonts.conf` | ❌ não — gerado pelo snap |
+| `DesktopEditors.conf` (tema, janela, titlebar) | `~/snap/onlyoffice-desktopeditors/current/.config/onlyoffice/` | ✅ **sim** — cópia canônica em `onlyoffice/DesktopEditors.conf` do repo |
+| fontconfig interno do snap | `~/snap/.../current/.config/fontconfig/fonts.conf` | ❌ não — gerado pelo snap |
 
-> **NOTE:** a config do OnlyOffice não é pacote Stow. O snap grava sob `~/snap/.../<rev>/`,
-> onde `<rev>` muda a cada atualização e `current` é symlink. Versionar isso com Stow não
-> compensa — a personalização aqui é mínima (estado de janela). Se um dia valer, versionar
-> só o `DesktopEditors.conf` via caminho `current`, não o diretório inteiro.
+**Como é versionada** — pasta `onlyoffice/` do repo (não é pacote Stow, mesmo padrão do `gnome-shell/`):
+
+- `onlyoffice/DesktopEditors.conf` — a cópia canônica. `UITheme=theme-system` (segue o
+  claro/escuro do sistema, casa com o `theme-sync/`), `maximized=true`, `titlebar=custom`.
+- `onlyoffice/apply-config.sh` — aplica a cópia no snap. **Feche o OnlyOffice antes** (ele
+  reescreve a config ao fechar). Faz backup `.bak` do atual.
+- `onlyoffice/dump-config.sh` — recaptura do snap pro repo depois de mudar algo na GUI;
+  remove a linha `position=` (presa à resolução, não portável).
+- Entra no `bootstrap.sh` como passo opcional: `./bootstrap.sh --apply --with-onlyoffice-config`.
+
+> **NOTE:** por que script e não Stow — o snap grava sob `~/snap/.../<rev>/`, onde `<rev>`
+> muda a cada atualização e `current` é symlink do snapd. Stow apontando pra dentro de
+> `current` colidiria com esse symlink. Copiar por script é o caminho limpo.
 
 ## O que isso vira no Nix
 
@@ -83,3 +92,8 @@ por isso entraram juntos o `mscorefonts` e os substitutos Carlito/Caladea (Calib
 **2026-10-10 — Fontes MS instaladas no host, não no snap.** O snap confinado enxerga as
 fontes do sistema pelos plugs `home`/`desktop`. *Por quê:* instalar no host serve o
 OnlyOffice **e** qualquer outro app (navegador, visualizador), sem duplicar por sandbox.
+
+**2026-10-10 — Config do OnlyOffice versionada por script, não por Stow.** A pasta
+`onlyoffice/` guarda o `DesktopEditors.conf` canônico + `apply/dump`. *Por quê:* o snap grava
+num caminho com número de revisão e `current` é symlink do snapd — Stow colidiria. Tema
+`theme-system` pra seguir o claro/escuro do `theme-sync/`.
