@@ -1,0 +1,9 @@
+# vlcrc.overrides — chaves intencionais aplicadas por apply-config.sh sobre o
+# vlcrc do VLC. NÃO é um vlcrc completo: o vlcrc real tem ~5300 linhas (quase
+# tudo default comentado, gerado pelo próprio VLC). Versionar o arquivo inteiro
+# capturaria estado de máquina (volume salvo, geometria de janela, histórico)
+# junto da customização real — por isso só as chaves abaixo.
+#
+# qt-max-volume: sobe o teto do slider de volume de 125% (default) pra 200%,
+# útil em notebook com caixa de som fraca.
+qt-max-volume=200
