@@ -70,6 +70,8 @@ casos que não se declaram igual:
   remote `flathub`) e **snaps** (Logseq) — `nix-flatpak` declara os primeiros; snap não
   tem equivalente limpo. O `rapid-photo-downloader` 0.9.36 veio de `apt`, não de
   flatpak (medido em 2026-10-08, ver [galeria.md](galeria.md#ferramentas-no-sistema)).
+  **Exceção fácil:** o **OnlyOffice** veio por snap mas tem pacote nativo no nixpkgs
+  (`pkgs.onlyoffice-desktopeditors`) — o snap sai limpo (ver [escritorio.md](escritorio.md)).
 - `ffmpeg` está instalado **duas vezes** (apt 6.1.1 + snap 8.1) — a migração é chance
   de resolver a duplicação.
 
