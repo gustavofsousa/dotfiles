@@ -13,8 +13,7 @@ ele está configurado**.
 - **Loupe** é o visualizador de imagem padrão (substituiu o visualizador antigo do GNOME).
 - **VLC** é o player de vídeo/áudio — amplificação de volume subida pra 200%.
 - **Amberol** tocando música solta em loop (pasta de fundo, sem biblioteca).
-- **Parabolic** baixa áudio/vídeo do YouTube com metadado e capa embutidos
-  (instalação iniciada em 2026-10-10, baixando a runtime do GNOME).
+- **Parabolic** baixa áudio/vídeo do YouTube com metadado e capa embutidos.
 
 ## Como e quando usar cada um
 
@@ -71,7 +70,7 @@ Medido em 2026-10-10 (`flatpak list`, `snap list`, `vlc --longhelp`).
 | **VLC** 3.0.24-rc1 (rev 4472) | player de vídeo/áudio, lê arquivo corrompido, converte, transmite | ✅ | snap (`vlc`, canal `latest/stable`) |
 | **VLsub** | baixa legenda de dentro do VLC (`Exibir → VLsub`) | ✅ **já embutido no snap**, nada a instalar | vem com o VLC |
 | **Amberol** 2026.1 | toca pasta de música solta, sem biblioteca, mínimo de RAM | ✅ | Flatpak (`io.bassi.Amberol`, flathub) |
-| **Parabolic** (ex-Tube Converter) | baixa áudio/vídeo do YouTube com tag/capa | ⏳ instalando | Flatpak (`org.nickvision.tubeconverter`, flathub) |
+| **Parabolic** 2026.5.0 (ex-Tube Converter) | baixa áudio/vídeo do YouTube com tag/capa | ✅ | Flatpak (`org.nickvision.tubeconverter`, flathub) |
 
 > **NOTE:** nenhum `yt-dlp` (CLI) estava instalado antes do Parabolic — ele não duplica
 > ferramenta existente, preenche lacuna real. Caso diferente do Amberol, ver *Decisões*.
