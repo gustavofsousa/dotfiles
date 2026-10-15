@@ -3,6 +3,23 @@
 Instruções pra qualquer IA (Claude Code ou outra) que for mexer neste repo.
 Lido como `CLAUDE.md` via symlink.
 
+## Constitution
+
+```yaml
+type: pessoal             # my own machine config; named by the owner on 2026-10-14
+open-source: false
+rigor:                      # off | designed | enforced; types, defaults and events: _hq/ia/catalogs/project-types.md
+  auth: designed
+  privacy: off
+  tests: designed
+  ci: off
+  observability: off
+  scale: off
+```
+
+- **Promotion is an event the owner names.** Never change `type` or raise an axis on your own.
+  Types, defaults and events: `_hq/ia/catalogs/project-types.md`.
+
 ## O que é este repo
 
 Dotfiles pessoais do Gustavo, gerenciados com **GNU Stow** (ver `README.md`
