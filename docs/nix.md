@@ -33,19 +33,22 @@ sh <(curl -L https://nixos.org/nix/install) --daemon
 > ⚠️ Nix instala em `/nix` e cria usuários de build — é mudança de sistema, não de
 > config de usuário. Rodar com o `timeshift` já configurado (item do roadmap do `_hq`).
 
-**Personalização a preservar na migração:** tudo que hoje vive nos pacotes Stow
-(`alacritty`, `nvim`, `tmux`, `home`, `vscode`, `environment`, `theme-sync`) + os
-temas aplicados por script (Tokyo Night GTK/Shell, Fluent-purple, Qogir cursor,
-wallpaper). O `theme-sync/` é o caso mais delicado: hoje é um watcher systemd que
-sincroniza tema claro/escuro — no Nix isso provavelmente vira
-[Stylix](https://github.com/danth/stylix) (já no roadmap do `_hq` como `LT12`).
+**Personalização a preservar na migração:**
+
+- Tudo que hoje vive nos pacotes Stow: `alacritty`, `nvim`, `tmux`, `home`, `vscode`, `environment`,
+  `theme-sync`.
+- Os temas aplicados por script: Tokyo Night GTK/Shell, Fluent-purple, Qogir cursor, wallpaper.
+
+O `theme-sync/` é o caso mais delicado. Hoje ele é um watcher systemd que sincroniza o tema claro ou
+escuro. No Nix, a hipótese é que ele vire [Stylix](https://github.com/danth/stylix) (já no roadmap do
+`_hq` como `LT12`).
 
 ## Perguntas abertas (RFDs quando chegar a vez)
 
 **1. NixOS completo ou Nix + home-manager sobre Ubuntu?**
-💡 Nix + home-manager sobre o Ubuntu atual é a migração menos arriscada: reproduz
-configs e pacotes de usuário sem trocar o SO inteiro de uma vez. NixOS é o passo
-natural depois, se fizer sentido.
+💡 Nix + home-manager sobre o Ubuntu atual é a migração menos arriscada. Ela reproduz configs e
+pacotes de usuário sem trocar o SO inteiro de uma vez. Se fizer sentido, o NixOS é o passo natural
+depois.
 
 **2. Flakes ou configuração clássica (channels)?**
 💡 Flakes é o caminho mais usado hoje e tem melhor reprodutibilidade (lockfile

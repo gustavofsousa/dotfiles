@@ -57,10 +57,10 @@ O que a pesquisa levantou, em ordem do que já funcionaria hoje:
 | "Porta-retratos gigante": álbum `AAAA-MM Melhores` rodando no modo ambiente | mesma coisa | ⬜ falta a tela |
 | Ler o bruto 4K direto do disco, por controle remoto | NAS servindo SMB/NFS + app (VLC, Jellyfin) na tela | ⬜ falta tela **e** NAS |
 
-**Por que isso importa pro desenho do NAS:** se a tela virar realidade, o NAS passa a
-ter um segundo consumidor além dos celulares — e Jellyfin/VLC lendo 4K pela rede
-reforça os dois requisitos já levantados (**Gigabit cabeado** e **QuickSync** pro
-transcode). Não muda nenhuma decisão de hoje; só confirma as que já estão na mesa.
+**Por que isso importa para o desenho do NAS:** se a tela virar realidade, o NAS ganha um segundo
+consumidor além dos celulares. Jellyfin ou VLC lendo 4K pela rede reforçam os dois requisitos já
+levantados: **Gigabit cabeado** e **QuickSync** para o transcode. Isso não muda nenhuma decisão de
+hoje. Só confirma as que já estão na mesa.
 
 > O caminho mais barato pro "porta-retratos gigante" **não passa pelo NAS**: Chromecast
 > + Google Fotos resolve com a tela e o plano que já existem. O NAS só é necessário

@@ -28,9 +28,9 @@ Medido em 2026-10-06.
 ## O que é
 
 O arquivo `~/projects/projects.code-workspace` declara os 12 folders da raiz
-(`_hq` + os 11 projetos numerados) num só workspace. Abrir esse arquivo no VS
-Code monta todos os repos lado a lado, cada um com seu próprio `.git`, e aplica
-`settings`/`extensions` comuns a todos de uma vez — sem precisar reabrir pasta
+(`_hq` + os 11 projetos numerados) num só workspace. Ao abrir esse arquivo, o VS Code monta todos
+os repos lado a lado, cada um com seu próprio `.git`. Ele aplica `settings`/`extensions` comuns a
+todos de uma vez — sem precisar reabrir pasta
 a cada troca de projeto.
 
 ## Por que não é pacote Stow (nem é versionado aqui)
@@ -50,10 +50,9 @@ arquivo contém e por quê, no mesmo espírito do snapshot dconf em
 
 ## Como recriar numa máquina nova
 
-1. `code ~/projects/projects.code-workspace` — se não existir, criar com esta
-   forma: um array `folders` com um `{ "name", "path" }` por pasta de
-   `~/projects/` (`_hq` primeiro, depois os numerados `01_`…`11_`), mais os
-   blocos `settings` e `extensions` comuns.
+1. Rode `code ~/projects/projects.code-workspace`. Se o arquivo não existir, crie-o com esta forma:
+   um array `folders` com um `{ "name", "path" }` por pasta de `~/projects/` (`_hq` primeiro, depois
+   os numerados `01_`…`11_`), mais os blocos `settings` e `extensions` comuns.
 2. Os `settings` do workspace excluem artefatos de build da árvore e da busca
    (`node_modules`, `.next`, `out`, `dist`, `.turbo`, `src/generated`,
    `.vercel`), ligam `explorer.excludeGitIgnore` e o file-nesting de

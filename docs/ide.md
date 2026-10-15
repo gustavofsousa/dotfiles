@@ -44,8 +44,8 @@ Medido em 2026-10-06.
 | `nvim/` | `init.lua` + `lua/config/` (keymaps, options) + `lua/plugins/` (8 plugins) | `~/.config/nvim/` |
 | `vscode/` | `settings.json` do usuário | `~/.config/Code/User/` |
 
-**Plugins do Neovim** — um arquivo por plugin em `lua/plugins/`, gerenciados por
-**lazy.nvim** (que se auto-instala, então máquina nova só precisa abrir o `nvim`):
+**Plugins do Neovim** — um arquivo por plugin em `lua/plugins/`. O **lazy.nvim** gerencia os plugins
+e se instala sozinho. Numa máquina nova, basta abrir o `nvim`. Plugins:
 `barbar` (abas), `cheatsheet`, `colorscheme` (Monokai), `comment`, `lazygit`, `lsp`,
 `telescope` (busca), `treesitter` (sintaxe).
 

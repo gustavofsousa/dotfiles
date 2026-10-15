@@ -130,32 +130,28 @@ Diretrizes:
   de triagem atrasada, não "arquivo que mora lá".
 - **`Downloads/` é transiente.** Nada mora ali em definitivo — ou vira lixo,
   ou é movido para o lugar "certo" (`Documents/`, `Projects/`…).
-- **`Projects/` é o lar do código.** Convém, mas não é obrigatório, um esquema
-  de prefixo numérico para ordenar (padrão já em uso hoje: `01_...`, `02_...`).
-- **Sem tier de "frio" (decisão 2026-09-16): não existe `~/Archive`.** Todo
-  arquivo é ou vivo num lugar categorizado (`Documents/<assunto>/`,
-  `Projects/`) ou é lixo — apagado. Nada de guardar "porque não sei se um dia
-  preciso": sem categoria clara e sem uso, a resposta é apagar, não uma gaveta
-  de esquecimento. Motivo: `~/Archive` virou depósito sem curadoria
-  (fotos, livros-fonte já importados, backup, vault vazio, tudo misturado) e
-  dava a falsa sensação de "resolvido" só por ter tirado da frente do
-  Downloads.
-- **`~/Backups` é diferente: tier estreito, só pra backup de verdade.**
-  Snapshot manual de algo que já tem categoria clara em outro lugar (ex:
-  cópia da biblioteca do Calibre) é uma cópia de segurança deliberada, não
-  "frio sem saber o que fazer" — não vira gaveta: cada item ali precisa
-  justificar por que é backup e não apenas o original movido pra lá. Hoje só
-  tem `biblioteca-backup-2026-09-11/` (ver `biblioteca.md`).
-- **Sincronização (Drive, Syncthing) é ortogonal à estrutura.** A pasta
-  sincronizada mora dentro dessas pastas de topo (ex: um subdir de
-  `Documents/` ou uma pasta própria como `~/Drive`), não substitui o padrão.
-  A decisão de qual pasta sincronizar com o quê é da Fase 1.
+- **`Projects/` é o lar do código.** Um prefixo numérico para ordenar é opcional (padrão já em uso
+  hoje: `01_...`, `02_...`).
+- **Sem tier de "frio" (decisão 2026-09-16): não existe `~/Archive`.** Todo arquivo está vivo num
+  lugar categorizado (`Documents/<assunto>/`, `Projects/`) ou é lixo e vai embora. Nunca guarde algo
+  "porque não sei se um dia preciso". Sem categoria clara e sem uso, a resposta é apagar, não uma
+  gaveta de esquecimento. Motivo: o `~/Archive` virou depósito sem curadoria (fotos, livros-fonte já
+  importados, backup, vault vazio, tudo misturado). Ele dava a falsa sensação de "resolvido" só por
+  tirar as coisas da frente do Downloads.
+- **`~/Backups` é diferente: tier estreito, só para backup de verdade.** Um snapshot manual de algo
+  com categoria clara em outro lugar (por exemplo, a cópia da biblioteca do Calibre) é uma cópia de
+  segurança deliberada. Não é "frio sem saber o que fazer", e não vira gaveta. Cada item ali deve
+  justificar por que é backup, e não só o original movido para lá. Hoje só tem
+  `biblioteca-backup-2026-09-11/` (`biblioteca.md`).
+- **Sincronização (Drive, Syncthing) é ortogonal à estrutura.** A pasta sincronizada mora dentro
+  dessas pastas de topo (por exemplo, um subdir de `Documents/` ou uma pasta própria como `~/Drive`).
+  Ela não substitui o padrão. A Fase 1 decide qual pasta sincroniza com o quê.
 
 ### Fotos, vídeos e álbuns → [`galeria.md`](galeria.md)
 
-A aplicação deste padrão a foto e vídeo (estrutura cronológica `AAAA/AAAA-MM/`,
-álbuns de evento por symlink, deduplicação com Czkawka, runbook de recuperar HD
-antigo com `exiftool`) vive no one-page do tema: **[galeria.md](galeria.md)**.
+A aplicação deste padrão a foto e vídeo vive no one-page do tema: **[galeria.md](galeria.md)**. Ele
+cobre a estrutura cronológica `AAAA/AAAA-MM/`, os álbuns de evento por symlink, a deduplicação com
+Czkawka e o runbook para recuperar HD antigo com `exiftool`.
 
 Aqui fica só a regra geral: **nunca pasta por evento/pessoa** — pasta é excludente
 (a foto do aniversário *na praia* vai em qual das duas?). Local e pessoa são
@@ -221,28 +217,26 @@ Três estados possíveis para uma config:
   mais symlink), mas continua no git — recuperável e **portátil** se um dia
   voltar a essa ferramenta ou mudar de distro. É o "guardar sem poluir o
   fluxo ativo".
-- **Por que no repo e não solto na home:** config é o que este repo existe pra
-  versionar. Deixar solto fora do git perderia o histórico e a portabilidade —
-  e a home não tem mais um tier de "frio" pra dados nem pra config (ver
-  Camada 2 acima).
-- **Preserva o estilo entre distros:** manter as configs antigas arquivadas
-  (não deletadas) é o que garante que seu "jeito de usar" sobrevive a uma troca
-  de distro — e é base pronta pra Fase 3 (Nix/home-manager), que vai declarar
-  esse estilo de forma reproduzível.
+- **Por que no repo e não solto na home:** este repo existe para versionar config. Solta fora do
+  git, a config perde o histórico e a portabilidade. E a home não tem mais um tier de "frio" para
+  dados nem para config (Camada 2 acima).
+- **Preserva o estilo entre distros:** as configs antigas ficam arquivadas, não apagadas. Assim o seu
+  "jeito de usar" sobrevive a uma troca de distro. Elas também são a base pronta para a Fase 3
+  (Nix/home-manager), que vai declarar esse estilo de forma reproduzível.
 
 ## Dados privados vs. git
 
 - **Só configuração entra neste repo.** Dados de usuário (Camada 2), dados de
   app (`.local/share`), cache, estado e segredos ficam **fora do git**.
-- **Segredos** (tokens, chaves, credenciais) nunca vão para o repo em texto
-  puro — ver [AGENTS.md](../AGENTS.md). A solução declarativa de segredo é
-  tema da Fase 3 (ver [ROADMAP.md](../ROADMAP.md)).
+- **Segredos** (tokens, chaves, credenciais) nunca vão para o repo em texto puro
+  ([AGENTS.md](../AGENTS.md)). A solução declarativa de segredo é tema da Fase 3
+  ([ROADMAP.md](../ROADMAP.md)).
 
 ## Onde o real ainda não bate com o padrão
 
-As divergências conhecidas da home (`~/projects` minúsculo, dotfiles soltos que
-poderiam seguir XDG) são **pendências, não exceções ao padrão** — vivem como item
-no [ROADMAP.md](../ROADMAP.md), que é onde o que falta fazer mora.
+As divergências conhecidas da home (`~/projects` minúsculo, dotfiles soltos que podem ir para XDG)
+são **pendências, não exceções ao padrão**. Elas vivem como item no [ROADMAP.md](../ROADMAP.md), onde
+mora o que falta fazer.
 
 Duas regras que são decisão fechada, não divergência:
 

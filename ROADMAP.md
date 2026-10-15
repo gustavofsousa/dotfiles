@@ -94,10 +94,10 @@ Item feito **sai** do `config.md`. Em ordem de impacto:
   reprodutibilidade (máquina nova não pega breaking change de plugin); ignorar evita
   engessar em versão antiga. Com Neovim em `0.12.0-dev` o argumento de versionar fica
   mais forte. Trade-off escrito em [ide.md](docs/ide.md#o-trade-off-do-lazy-lockjson).
-- `[pc]` **Home: alinhar o real ao padrão XDG.** `~/projects` está minúsculo (o padrão
-  é `~/Projects`) — renomear exige ajustar referências, não é só `mv`. E há dotfiles
-  soltos na raiz que poderiam seguir XDG (`~/.fonts`, caches de linguagens) — caso a
-  caso, sem pressa, já que muitos vêm de ferramentas que não respeitam XDG. Padrão em
+- `[pc]` **Home: alinhar o real ao padrão XDG.** `~/projects` está minúsculo (o padrão é
+  `~/Projects`). Renomear exige ajustar referências: não é só `mv`. Há também dotfiles soltos na
+  raiz que podem ir para XDG (`~/.fonts`, caches de linguagens). Trate caso a caso, sem pressa:
+  muitos vêm de ferramentas que não respeitam XDG. Padrão em
   [organizacao-de-arquivos.md](docs/organizacao-de-arquivos.md).
 
 ## ⚪ Later
@@ -115,10 +115,9 @@ Item feito **sai** do `config.md`. Em ordem de impacto:
   **não depende do NAS** (Chromecast + Google Fotos resolve); só servir o bruto 4K
   exige NAS (`AC9`) e reforça os requisitos de Gigabit cabeado e QuickSync. Ver
   [nas.md](docs/nas.md#exibir-o-acervo-numa-tela-grande-desejo-não-setup).
-- `[vem-depois]` **Nix / home-manager.** Fases 0-2 maduras (✅ as três), então é só
-  decidir começar. 5 RFDs abertos (NixOS vs. home-manager, flakes, migração
-  incremental, segredos, futuro deste repo) + o que cada ferramenta vira:
-  [nix.md](docs/nix.md).
+- `[vem-depois]` **Nix / home-manager.** As fases 0-2 estão maduras (✅ as três). Falta só decidir
+  começar. Há 5 RFDs abertos: NixOS vs. home-manager, flakes, migração incremental, segredos e o
+  futuro deste repo. O que cada ferramenta vira está em [nix.md](docs/nix.md).
 - `[explorar]` **Gestão de segredos** quando forem necessários: `age` vs. solução
   integrada ao Nix.
 - `[explorar]` **Qual PKM serve melhor à IA** sobre as notas (local já decidido:

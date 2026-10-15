@@ -176,10 +176,10 @@ exiftool -d "%Y/%Y-%m/%Y-%m-%d_%H%M%S%%-c.%%e" "-filename<DateTimeOriginal" -r /
 
 Foto sem EXIF (print de WhatsApp): cair pra data de modificação como plano B.
 
-**Deduplicar antes de organizar, nunca depois** (senão duplica o trabalho):
-**Czkawka** (`sudo snap install czkawka`) compara **hash de conteúdo**, não nome —
-acha `IMG_001.jpg` e `foto_praia.jpg` idênticas, e tem detecção de fotos similares
-(mesma cena re-tirada, resoluções diferentes).
+**Deduplique antes de organizar, nunca depois.** Na ordem inversa, o trabalho duplica. O
+**Czkawka** (`sudo snap install czkawka`) compara o **hash de conteúdo**, não o nome. Ele acha
+`IMG_001.jpg` e `foto_praia.jpg` idênticas. Ele também detecta fotos similares (a mesma cena tirada
+de novo, em resoluções diferentes).
 
 **Runbook — vários HDs antigos** (cenário clássico de `r/datacurator`: a mesma foto
 repetida em "Backup 2012", "Fotos Celular Antigo"). **Não organizar manualmente pasta

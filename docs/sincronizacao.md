@@ -67,9 +67,9 @@ Passos em [`../config.md`](../config.md) item 1 (~25-35 min, pareamento manual).
 
 ## rclone → Google Drive
 
-**Por que rclone e não GNOME Online Accounts:** GOA só monta o Drive como pasta
-virtual no Nautilus/GVFS — bom pra *ver e navegar*, ruim pra *backup*: não agenda,
-não sincroniza pasta local↔nuvem sozinho, e a montagem cai se a sessão gráfica cair.
+**Por que rclone e não GNOME Online Accounts:** o GOA só monta o Drive como pasta virtual no
+Nautilus/GVFS. Isso é bom para *ver e navegar* e ruim para *backup*. O GOA não agenda, não
+sincroniza pasta local↔nuvem sozinho, e a montagem cai se a sessão gráfica cair.
 O rclone roda sem sessão gráfica, agenda por systemd timer/cron, e serve tanto pra
 "copiar pasta" quanto pra "sincronizar de verdade". GOA fica útil só pro uso passivo
 (ver o Drive no Nautilus).
